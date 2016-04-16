@@ -7,7 +7,7 @@ var myCodeMirror = CodeMirror(codeContainer, {
 });
 
 var worldMap = [];
-$.get({
+$.ajax({
 	url: '/services/task/getMap?id=1',
 	async: false
 }).done(function (data) {
@@ -75,7 +75,7 @@ for (var line in worldMap) {
 		var terrainChar = worldMap[line][column],
 			imagePath = getPathByTerrainChar(terrainChar);
 		renderObjectToMap(imagePath, column, line, container);
-		if (terrainChar === 's') {
+		if (terrainChar === 'S') {
 			startPosition.x = column;
 			startPosition.y = line;
 		}
@@ -191,9 +191,9 @@ function dieDieDieMyDarling(object) {
 }
 
 $('.js-start').click(function () {
-	$.get({
+	$.ajax({
 		url: '/services/task/submit/',
-		data: "man.moveRight();\nman.moveDown(); \n"
+		data: { code: "  man.moveUp(); ", id: 1 }
 	}).done(function (data) {
 		var commands = data.split(';');
 		for(var command in commands) {
