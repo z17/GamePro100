@@ -20,16 +20,16 @@ public class Hero {
     }
 
     public void moveUp() {
-        move(Test.UP);
+        move(Direction.UP);
     }
     public void moveDown() {
-        move(Test.DOWN);
+        move(Direction.DOWN);
     }
     public void moveLeft() {
-        move(Test.LEFT);
+        move(Direction.LEFT);
     }
     public void moveRight() {
-        move(Test.RIGHT);
+        move(Direction.RIGHT);
     }
 
     public String getPath() {
@@ -39,7 +39,7 @@ public class Hero {
     private void readFile() {
         map = new ArrayList<>();
         try {
-            BufferedReader br = new BufferedReader(new FileReader("D:\\java\\LessonExample\\src\\task1\\map"));
+            BufferedReader br = new BufferedReader(new FileReader("D:\\GamePro100\\lessons\\Lesson1\\src\\task1\\map"));
 
             String sCurrentLine;
             while ((sCurrentLine = br.readLine()) != null) {
@@ -52,7 +52,7 @@ public class Hero {
                     y = map.size();
                 }
                 if (posEnd >= 0) {
-                    xEnd = posStart;
+                    xEnd = posEnd;
                     yEnd = map.size();
                 }
             }
@@ -61,23 +61,23 @@ public class Hero {
         }
     }
 
-    private enum Test {
+    private enum Direction {
         UP,
         DOWN,
         LEFT,
         RIGHT
     }
 
-    private void move(Test test) {
+    private void move(Direction direction) {
         if (!active) {
             return;
         }
-        switch (test) {
+        switch (direction) {
             case UP:
-                y++;
+                y--;
                 break;
             case DOWN:
-                y--;
+                y++;
                 break;
             case LEFT:
                 x--;
@@ -86,11 +86,17 @@ public class Hero {
                 x++;
                 break;
         }
-        if (x < 0 || y < 0 || x > 10 || y > 10){
+        if (map.get(x).charAt(y) == '*'){
             commands.add("ERROR");
             active = false;
-        } else {
-            commands.add(test.toString());
+        } else if(xEnd == x && yEnd == y) {
+            commands.add("FINISH");
+            active = false;
         }
+        else {
+            commands.add(direction.toString());
+        }
+
+
     }
 }
