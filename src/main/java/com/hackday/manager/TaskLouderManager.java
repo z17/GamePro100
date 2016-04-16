@@ -1,6 +1,6 @@
-package com.devcolibri.common.manager;
+package com.hackday.manager;
 
-import com.devcolibri.common.constants.Constants;
+import com.hackday.constants.Constants;
 import org.springframework.stereotype.Service;
 
 import java.io.*;

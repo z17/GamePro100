@@ -1,4 +1,4 @@
-package com.devcolibri.common.constants;
+package com.hackday.constants;
 
 
 final public class Constants {
