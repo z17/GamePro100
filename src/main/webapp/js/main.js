@@ -5,22 +5,18 @@ var myCodeMirror = CodeMirror(codeContainer, {
 	matchBrackets: true,
 	mode: "text/x-java"
 });
-myCodeMirror.setOption("theme", 'icecoder');
-myCodeMirror.setSize($(codeContainer).width(), $(codeContainer).height() );
 
-
-
-var WORLD_MAP = [
-	[' ',' ',' ','B',' ','t'],
-	[' ','W','W','W',' ',' '],
-	[' ',' ',' ',' ',' ','B'],
-	[' ',' ','B','B','s',' '],
-	[' ','B',' ',' ','D',' ']
-];
+var worldMap = [];
+$.get({
+	url: '/services/task/getMap?id=1',
+	async: false
+}).done(function (data) {
+	worldMap = data;
+});
 
 var TILE_SIZE = 50,
-	MAP_WIDTH = WORLD_MAP[0].length,
-	MAP_HEIGHT = WORLD_MAP.length;
+	MAP_WIDTH = worldMap[0].length,
+	MAP_HEIGHT = worldMap.length;
 
 function renderObjectToMap(imagePath, coordX, coordY, container) {
 	var objectImage = PIXI.Texture.fromImage(imagePath);
@@ -38,14 +34,14 @@ function renderObjectToMap(imagePath, coordX, coordY, container) {
 function getPathByTerrainChar(terrainChar) {
 	var path = 'assets/';
 	switch (terrainChar) {
-		case ' ':
+		case '.':
 			path +=  'tile.png';
 			break;
 		case 'W': //wall
 			path +=  'wall.png';
 			break;
 		case 'B': //block
-			path +=  'stop.png';
+			path +=  'sTOP.png';
 			break;
 		case 't': //finish
 			path +=  'target.png';
@@ -74,9 +70,9 @@ var startPosition = {
 	y: 0
 };
 
-for (var line in WORLD_MAP) {
-	for (var column in WORLD_MAP[line]) {
-		var terrainChar = WORLD_MAP[line][column],
+for (var line in worldMap) {
+	for (var column in worldMap[line]) {
+		var terrainChar = worldMap[line][column],
 			imagePath = getPathByTerrainChar(terrainChar);
 		renderObjectToMap(imagePath, column, line, container);
 		if (terrainChar === 's') {
@@ -119,16 +115,16 @@ function moveObject(object, direction) {
 	var targetPosition = 0;
 
 	switch (direction) {
-		case 'right':
+		case 'RIGHT':
 			var targetPosition = object.position.x + TILE_SIZE;
 			break;
-		case 'left':
+		case 'LEFT':
 			var targetPosition = object.position.x - TILE_SIZE;
 			break;
-		case 'bottom':
+		case 'LEFT':
 			var targetPosition = object.position.y + TILE_SIZE;
 			break;
-		case 'top':
+		case 'TOP':
 			var targetPosition = object.position.y - TILE_SIZE;
 			break;
 	}
@@ -137,16 +133,16 @@ function moveObject(object, direction) {
 	function animateObject() {
 
 		switch (direction) {
-			case 'right':
+			case 'RIGHT':
 				object.position.x = object.position.x + 1;
 				break;
-			case 'left':
+			case 'LEFT':
 				object.position.x = object.position.x - 1;
 				break;
-			case 'bottom':
+			case 'LEFT':
 				object.position.y = object.position.y + 1;
 				break;
-			case 'top':
+			case 'TOP':
 				object.position.y = object.position.y - 1;
 				break;
 		}
@@ -154,10 +150,10 @@ function moveObject(object, direction) {
 		var animationID = requestAnimationFrame(animateObject);
 		renderer.render(stage);
 
-		if (direction === 'right' && human.position.x >= targetPosition ||
-			direction === 'left' && human.position.x <= targetPosition ||
-			direction === 'bottom' && human.position.y >= targetPosition ||
-			direction === 'top' && human.position.y <= targetPosition) {
+		if (direction === 'RIGHT' && human.position.x >= targetPosition ||
+			direction === 'LEFT' && human.position.x <= targetPosition ||
+			direction === 'LEFT' && human.position.y >= targetPosition ||
+			direction === 'TOP' && human.position.y <= targetPosition) {
 			cancelAnimationFrame(animationID);
 		}
 	}
@@ -193,3 +189,19 @@ function dieDieDieMyDarling(object) {
 
 	}
 }
+
+$('.js-start').click(function () {
+	$.get({
+		url: '/services/task/submit/',
+		data: "man.moveRight();\nman.moveDown(); \n"
+	}).done(function (data) {
+		var commands = data.split(';');
+		for(var command in commands) {
+			if(command === 'ERROR') {
+				dieDieDieMyDarling(human);
+			} else {
+				moveObject(human, command);
+			}
+		}
+	});
+});
