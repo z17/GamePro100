@@ -1,6 +1,6 @@
 package com.devcolibri.common.manager;
 
-import com.devcolibri.common.constanse.Constanse;
+import com.devcolibri.common.constants.Constants;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -8,22 +8,20 @@ import java.io.*;
 @Service
 public class TaskLouderManager {
 
-    public String getPathToMainFile(final String userCode) throws IOException {
-        File file = createTmpFile();
+    public String getPathToMainFile(final String userCode, final String fileName) throws IOException {
+        File file = createTmpFile(fileName);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
-            writer.write(Constanse.FILE_HEADER);
+            writer.write(Constants.FILE_HEADER);
             writer.write(userCode);
-            writer.write(Constanse.FILE_FLOR);
+            writer.write(Constants.FILE_FLOR);
         }
-        return (file.getAbsolutePath());
+        return (file.getParent());
+
     }
 
 
-    private File createTmpFile() throws IOException {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(System.currentTimeMillis()).append("tmp-name");
-        File temp = File.createTempFile(stringBuilder.toString(), ".java");
-        return temp;
+    private File createTmpFile(final String fileName) throws IOException {
+        return new File(Constants.TASKS_FOLDER, fileName + ".java");
     }
 
 }
