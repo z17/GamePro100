@@ -350,51 +350,63 @@ th {
 html, body {
   width: 100%;
   height: 100%;
-  padding: 0; }
+  padding: 0;
+  min-width: 1024px;
+  min-height: 700px;
+  font-family: Helvetica Neue, Helvetica, Arial; }
 
 .header {
   height: 4rem;
   padding: 1rem;
-  background-color: #2980B9;
+  background-color: #3AAA35;
   color: #ECF0F1; }
 
 .logo {
   font-size: 2em; }
 
 .dashboard {
-  background-color: #ECF0F1;
-  height: calc(100% - 5rem); }
+  height: calc(100% - 4rem); }
   .dashboard__left {
+    position: relative;
     height: 100%;
     width: 50%;
-    float: left;
-    padding: .5rem; }
+    float: left; }
   .dashboard__right {
     height: 100%;
     width: 50%;
-    float: right;
-    padding: .5rem; }
-
-.sidebar,
-.code_editor,
-.game_app {
-  padding: .5rem; }
+    float: right; }
 
 .sidebar {
-  color: #ECF0F1; }
+  background-color: #EDEDED; }
 
 .sidebar,
 .game_app {
   height: 50%; }
 
 .code_editor {
-  height: 100%;
-  padding: .5rem; }
+  height: 100%; }
   .code_editor__editor {
-    height: 95%;
-    width: 95%; }
+    height: 100%;
+    width: 100%; }
 
 .box {
-  background-color: #2C3E50;
-  border-radius: .5rem;
-  height: 100%; }
+  height: 100%;
+  padding: 1rem; }
+
+.send_code {
+  background: #FF5252;
+  border: none;
+  display: block;
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  padding: .5rem 1rem;
+  text-transform: uppercase;
+  color: #ECF0F1;
+  font-weight: bold; }
+
+.game_app {
+  text-align: center; }
+
+.game_container {
+  display: inline-block; }

@@ -1,6 +1,65 @@
-var editor = ace.edit("ace_editor");
+var codeContainer = document.getElementById('code_editor');
+var myCodeMirror = CodeMirror(codeContainer, {
+	value: "World world = new World();\nworld.init();\n",
+	lineNumbers: true,
+	matchBrackets: true,
+	mode: "text/x-java"
+});
+myCodeMirror.setOption("theme", 'icecoder');
+myCodeMirror.setSize($(codeContainer).width(), $(codeContainer).height() );
 
-var renderer = PIXI.autoDetectRenderer(200, 200,{backgroundColor : 0x246784});
+
+
+var WORLD_MAP = [
+	[' ',' ',' ','B',' ','t'],
+	[' ','W','W','W',' ',' '],
+	[' ',' ',' ',' ',' ','B'],
+	[' ',' ','B','B','s',' '],
+	[' ','B',' ',' ','D',' ']
+];
+
+var TILE_SIZE = 50,
+	MAP_WIDTH = WORLD_MAP[0].length,
+	MAP_HEIGHT = WORLD_MAP.length;
+
+function renderObjectToMap(imagePath, coordX, coordY, container) {
+	var objectImage = PIXI.Texture.fromImage(imagePath);
+
+// create a new Sprite using the texture
+	var object = new PIXI.Sprite(objectImage);
+
+// move the sprite to the center of the screen
+	object.position.x = TILE_SIZE * coordX;
+	object.position.y = TILE_SIZE * coordY;
+
+	container.addChild(object);
+}
+
+function getPathByTerrainChar(terrainChar) {
+	var path = 'assets/';
+	switch (terrainChar) {
+		case ' ':
+			path +=  'tile.png';
+			break;
+		case 'W': //wall
+			path +=  'wall.png';
+			break;
+		case 'B': //block
+			path +=  'stop.png';
+			break;
+		case 't': //finish
+			path +=  'target.png';
+			break;
+		case 's': //start
+			path +=  'tile.png';
+			break;
+		default :
+			path +=  'tile.png';
+			break;
+	}
+	return path;
+}
+var renderer = PIXI.autoDetectRenderer(TILE_SIZE * MAP_WIDTH, TILE_SIZE * MAP_HEIGHT, {backgroundColor : 0xECF0F1});
 document.getElementById('game_container').appendChild(renderer.view);
 
 // create the root of the scene graph
@@ -10,40 +69,37 @@ var container = new PIXI.Container();
 
 stage.addChild(container);
 
-for (var j = 0; j < 5; j++) {
-
-	for (var i = 0; i < 5; i++) {
-		var tile = PIXI.Sprite.fromImage('assets/tile.jpg');
-		tile.x = 40 * i;
-		tile.y = 40 * j;
-		container.addChild(tile);
-	};
+var startPosition = {
+	x: 0,
+	y: 0
 };
-var humanImage = PIXI.Texture.fromImage('assets/human.jpg');
+
+for (var line in WORLD_MAP) {
+	for (var column in WORLD_MAP[line]) {
+		var terrainChar = WORLD_MAP[line][column],
+			imagePath = getPathByTerrainChar(terrainChar);
+		renderObjectToMap(imagePath, column, line, container);
+		if (terrainChar === 's') {
+			startPosition.x = column;
+			startPosition.y = line;
+		}
+	}
+}
+
+
+var humanImage = PIXI.Texture.fromImage('assets/jenya.png');
 
 // create a new Sprite using the texture
 var human = new PIXI.Sprite(humanImage);
 
-// center the sprite's anchor point
-human.anchor.x = 0.5;
-human.anchor.y = 0.5;
-
+human.anchor.y = 0.3;
 // move the sprite to the center of the screen
-human.position.x = 100;
-human.position.y = 100;
+human.position.x = TILE_SIZE * startPosition.x;
+human.position.y = TILE_SIZE * startPosition.y;
 
 stage.addChild(human);
 
-var doorImage = PIXI.Texture.fromImage('assets/door.jpg');
 
-// create a new Sprite using the texture
-var door = new PIXI.Sprite(doorImage);
-
-// move the sprite to the center of the screen
-door.position.x = 120;
-door.position.y = 40;
-
-stage.addChild(door);
 
 container.x = 0;
 container.y = 0;
@@ -52,17 +108,88 @@ container.y = 0;
 animate();
 
 function animate() {
-
-	if(human.position.x <= 220) {
-		human.position.x = human.position.x + 1;
-		human.position.y = human.position.y + 1;
-	} else {
-		human.position.x = -20;
-		human.position.y = -20;
-	}
-
 	requestAnimationFrame(animate);
 
 	// render the root container
 	renderer.render(stage);
+}
+
+function moveObject(object, direction) {
+
+	var targetPosition = 0;
+
+	switch (direction) {
+		case 'right':
+			var targetPosition = object.position.x + TILE_SIZE;
+			break;
+		case 'left':
+			var targetPosition = object.position.x - TILE_SIZE;
+			break;
+		case 'bottom':
+			var targetPosition = object.position.y + TILE_SIZE;
+			break;
+		case 'top':
+			var targetPosition = object.position.y - TILE_SIZE;
+			break;
+	}
+	animateObject();
+
+	function animateObject() {
+
+		switch (direction) {
+			case 'right':
+				object.position.x = object.position.x + 1;
+				break;
+			case 'left':
+				object.position.x = object.position.x - 1;
+				break;
+			case 'bottom':
+				object.position.y = object.position.y + 1;
+				break;
+			case 'top':
+				object.position.y = object.position.y - 1;
+				break;
+		}
+
+		var animationID = requestAnimationFrame(animateObject);
+		renderer.render(stage);
+
+		if (direction === 'right' && human.position.x >= targetPosition ||
+			direction === 'left' && human.position.x <= targetPosition ||
+			direction === 'bottom' && human.position.y >= targetPosition ||
+			direction === 'top' && human.position.y <= targetPosition) {
+			cancelAnimationFrame(animationID);
+		}
+	}
+}
+
+function dieDieDieMyDarling(object) {
+	object.anchor.y = 0.5;
+	object.anchor.y = 0.5;
+
+	var timer = 200;
+
+	animateObject();
+
+	function animateObject() {
+		timer--;
+		var animationID = requestAnimationFrame(animateObject);
+		if(timer > 150) {
+			object.position.y -= 2;
+			object.rotation -= 0.1;
+		} else if (timer > 100) {
+			object.rotation -= 0.5;
+			object.position.y -= 2;
+			object.position.x -= 0.5;
+		} else if (timer > 50) {
+			object.rotation -= 0.5;
+			object.position.y += 2;
+		} else if (timer > 0) {
+			object.position.y += 2;
+		} else {
+			cancelAnimationFrame(animationID);
+		}
+
+
+	}
 }
