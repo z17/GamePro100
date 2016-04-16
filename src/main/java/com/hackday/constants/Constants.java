@@ -1,4 +1,4 @@
-package com.devcolibri.common.constants;
+package com.hackday.constants;
 
 
 final public class Constants {
@@ -14,4 +14,6 @@ final public class Constants {
             "}\n";
 
     public static final String TASKS_FOLDER = "D:\\GamePro100\\tasks\\";
+
+    public static final String MAP_TASK_1 = "D:\\GamePro100\\lessons\\Lesson1\\src\\task1\\map";
 }
