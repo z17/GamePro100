@@ -17,7 +17,13 @@ public class TaskController {
     private TaskService service;
 
     @RequestMapping(value = "/submit", method = RequestMethod.GET)
-    public String submit(@RequestParam(value = "code") final String code) throws IOException {
-        return service.submit(code, 1);
+    public String submit(@RequestParam(value = "code") final String code,
+                         @RequestParam(value = "task") final int taskID ) throws IOException {
+        return service.submit(code, taskID);
+    }
+
+    @RequestMapping(value = "/getMap", method = RequestMethod.GET)
+    public String getMap(@RequestParam(value = "id") final int taskID) throws IOException {
+        return service.getMap(taskID);
     }
 }
