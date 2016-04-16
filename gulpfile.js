@@ -14,7 +14,7 @@ gulp.task('server', ['sass'], function () {
 		notify: false,
 		port: 9000,
 		server: {
-			baseDir: 'web'
+			baseDir: 'src/main/webapp'
 		}
 	});	
 });
@@ -24,7 +24,7 @@ gulp.task('server', ['sass'], function () {
 gulp.task('watch', function () {
 	gulp.watch('src/sass/**/*.scss', ['sass']);
 	gulp.watch([
-		'web/js/**/*.js'
+		'/src/main/webapp/**/*.js'
 	]).on('change', reload);
 });
 
@@ -35,6 +35,6 @@ gulp.task('sass', function () {
 		.pipe(autoprefixer({
 			browsers: ['> 1%']
 		}))
-		.pipe(gulp.dest('./web/css/'))
+		.pipe(gulp.dest('./src/main/webapp/css/'))
 		.pipe(reload({stream: true}));
 });
