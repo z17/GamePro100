@@ -5,16 +5,16 @@ public class Main
     public static void main(String ... args) {
         Hero man = new Hero();
 
-        man.moveDown();
-        man.moveDown();
-        man.moveDown();
+        man.moveUp();
+        man.moveUp();
+        man.moveUp();
+        man.moveUp();
+        man.moveUp();
         man.moveRight();
         man.moveRight();
-        man.moveDown();
-        man.moveDown();
-        man.moveDown();
-        man.moveDown();
-        man.moveDown();
+        man.moveRight();
+        man.moveRight();
+        man.moveRight();
 
         System.out.println(man.getPath());
     }
