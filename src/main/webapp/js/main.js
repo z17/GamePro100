@@ -37,16 +37,16 @@ function getPathByTerrainChar(terrainChar) {
 		case '.':
 			path +=  'tile.png';
 			break;
-		case 'W': //wall
+		case '*': //wall
 			path +=  'wall.png';
 			break;
 		case 'B': //block
 			path +=  'sTOP.png';
 			break;
-		case 't': //finish
+		case 'E': //finish
 			path +=  'target.png';
 			break;
-		case 's': //start
+		case 'S': //start
 			path +=  'tile.png';
 			break;
 		default :
