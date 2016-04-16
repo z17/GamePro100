@@ -1,0 +1,58 @@
+.header {
+	height: 4rem;
+	padding: 1rem;
+	background-color: $color-blue;
+	color: $color-white;
+}
+.logo {
+	font-size: 2em;
+}
+.dashboard {
+	background-color: $color-white;
+	height: calc(100% - 5rem);
+
+
+	&__left {
+		height: 100%;
+		width: 50%;
+		float: left;
+		padding: .5rem;
+	}
+
+	&__right {
+		height: 100%;
+		width: 50%;
+		float: right;
+		padding: .5rem;
+	}
+}
+
+.sidebar,
+.code_editor,
+.game_app {
+	padding: .5rem;
+}
+
+.sidebar {
+	color: $color-white;
+}
+
+.sidebar,
+.game_app {
+	height: 50%;
+}
+
+.code_editor {
+	height: 100%;
+	padding: .5rem;
+
+	&__editor {
+		height: 95%;
+		width: 95%;
+	}
+}
+.box {
+	background-color: $color-dark;
+	border-radius: .5rem;
+	height: 100%;
+}
