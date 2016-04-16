@@ -30,9 +30,11 @@
 	background-color: #EDEDED;
 }
 
-.sidebar,
+.sidebar {
+	height: 40%;
+}
 .game_app {
-	height: 50%;
+	height: 60%;
 }
 
 .code_editor {
@@ -63,6 +65,7 @@
 
 .game_app {
 	text-align: center;
+	padding-top: 1rem;
 }
 
 .game_container {

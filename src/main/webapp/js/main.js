@@ -1,10 +1,12 @@
 var codeContainer = document.getElementById('code_editor');
 var myCodeMirror = CodeMirror(codeContainer, {
-	value: "World world = new World();\nworld.init();\n",
+	value: "man.moveRight();\nman.moveDown(); \n",
 	lineNumbers: true,
 	matchBrackets: true,
 	mode: "text/x-java"
 });
+myCodeMirror.setOption("theme", 'icecoder');
+myCodeMirror.setSize($(codeContainer).width(), $(codeContainer).height() );
 
 var worldMap = [];
 $.ajax({
@@ -41,7 +43,7 @@ function getPathByTerrainChar(terrainChar) {
 			path +=  'wall.png';
 			break;
 		case 'B': //block
-			path +=  'sTOP.png';
+			path +=  'stop.png';
 			break;
 		case 'E': //finish
 			path +=  'target.png';
@@ -116,18 +118,22 @@ function moveObject(object, direction) {
 
 	switch (direction) {
 		case 'RIGHT':
-			var targetPosition = object.position.x + TILE_SIZE;
+			targetPosition = object.position.x + TILE_SIZE;
 			break;
 		case 'LEFT':
-			var targetPosition = object.position.x - TILE_SIZE;
+			targetPosition = object.position.x - TILE_SIZE;
 			break;
-		case 'LEFT':
-			var targetPosition = object.position.y + TILE_SIZE;
+		case 'DOWN':
+			targetPosition = object.position.y + TILE_SIZE;
 			break;
-		case 'TOP':
-			var targetPosition = object.position.y - TILE_SIZE;
+		case 'UP':
+			targetPosition = object.position.y - TILE_SIZE;
 			break;
+		default :
+			console.log("ERROR MOVE " + direction);
+			return;
 	}
+
 	animateObject();
 
 	function animateObject() {
@@ -139,12 +145,14 @@ function moveObject(object, direction) {
 			case 'LEFT':
 				object.position.x = object.position.x - 1;
 				break;
-			case 'LEFT':
+			case 'DOWN':
 				object.position.y = object.position.y + 1;
 				break;
-			case 'TOP':
+			case 'UP':
 				object.position.y = object.position.y - 1;
 				break;
+			default :
+				console.log("ERROR MOVE " + direction);
 		}
 
 		var animationID = requestAnimationFrame(animateObject);
@@ -152,9 +160,10 @@ function moveObject(object, direction) {
 
 		if (direction === 'RIGHT' && human.position.x >= targetPosition ||
 			direction === 'LEFT' && human.position.x <= targetPosition ||
-			direction === 'LEFT' && human.position.y >= targetPosition ||
-			direction === 'TOP' && human.position.y <= targetPosition) {
+			direction === 'DOWN' && human.position.y >= targetPosition ||
+			direction === 'UP' && human.position.y <= targetPosition) {
 			cancelAnimationFrame(animationID);
+			$('.js-start').trigger('animationEnd');
 		}
 	}
 }
@@ -193,15 +202,26 @@ function dieDieDieMyDarling(object) {
 $('.js-start').click(function () {
 	$.ajax({
 		url: '/services/task/submit/',
-		data: { code: "  man.moveUp(); ", id: 1 }
+		data: { code: myCodeMirror.getValue(), id: 1 }
 	}).done(function (data) {
 		var commands = data.split(';');
-		for(var command in commands) {
-			if(command === 'ERROR') {
-				dieDieDieMyDarling(human);
-			} else {
-				moveObject(human, command);
-			}
+		var firstCommand = commands.shift();
+		if(firstCommand == 'ERROR') {
+			dieDieDieMyDarling(human);
+			$(this).unbind('animationEnd');
+		} else {
+			moveObject(human, firstCommand);
+
+			$(this).on('animationEnd', function () {
+				var command = commands.shift();
+				if (command == 'ERROR') {
+					dieDieDieMyDarling(human);
+					$(this).unbind('animationEnd');
+				} else if (command) {
+					moveObject(human, command);
+				}
+			});
 		}
 	});
+
 });
