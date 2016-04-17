@@ -204,23 +204,32 @@ $('.js-start').click(function () {
 		url: '/services/task/submit/',
 		data: { code: myCodeMirror.getValue(), id: 1 }
 	}).done(function (data) {
-		var commands = data.split(';');
-		var firstCommand = commands.shift();
-		if(firstCommand == 'ERROR') {
-			dieDieDieMyDarling(human);
-			$(this).unbind('animationEnd');
-		} else {
-			moveObject(human, firstCommand);
+		var dataObject = JSON.parse(data);
+		if(dataObject.status === 'SUCCESS') {
+			var commands = data.text.split(';');
+			var firstCommand = commands.shift();
+			if(firstCommand === 'ERROR') {
+				dieDieDieMyDarling(human);
+				$(this).unbind('animationEnd');
+			} else {
+				moveObject(human, firstCommand);
 
-			$(this).on('animationEnd', function () {
-				var command = commands.shift();
-				if (command == 'ERROR') {
-					dieDieDieMyDarling(human);
-					$(this).unbind('animationEnd');
-				} else if (command) {
-					moveObject(human, command);
-				}
-			});
+				$(this).on('animationEnd', function () {
+					var command = commands.shift();
+					if (command === 'ERROR') {
+						dieDieDieMyDarling(human);
+						$(this).unbind('animationEnd');
+					} else if (command === 'FAIL') {
+						var popup = new $.Popup({content: $('<h3>Вы не выполнили предначертанное =(</h3>')});
+						popup.open();
+					} else if (command) {
+						moveObject(human, command);
+					}
+				});
+			}
+		} else {
+			var popup = new $.Popup({content: $('<h3>Ошибка исполнения кода:</h3><pre>' + dataObject.text + '</pre>')});
+			popup.open();
 		}
 	});
 
