@@ -1,17 +1,21 @@
 package com.hackday.cmd;
 
 
+import com.hackday.results.TaskResult;
+
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class ExecTask {
 
-    public static String execTask(final String path, final String name) {
+    public static TaskResult execTask(final String path, final String name) {
+        TaskResult result = new TaskResult();
         try {
-            StringBuilder result = new StringBuilder();
+            StringBuilder buffer = new StringBuilder();
             List<String> commands = new ArrayList<String>() {{
                 add("D:");
                 add("cd " + path);
@@ -20,25 +24,40 @@ public final class ExecTask {
             }};
             Process p = Runtime.getRuntime().exec("cmd /c " + String.join(" & ", commands));
             p.waitFor();
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(p.getInputStream())
-            );
-            String line;
-            while ((line = reader.readLine()) != null) {
-                result.append(line);
+
+            result.text = getFromStream(p.getInputStream());
+
+            result.status = TaskResult.Status.COMPLETED;
+
+            boolean error = false;
+            String stringError = getFromStream(p.getErrorStream());
+            if (stringError.length() > 0) {
+                error = true;
             }
 
-            BufferedReader readerErrors = new BufferedReader(
-                    new InputStreamReader(p.getErrorStream())
-            );
-            String lineError;
-            while ((lineError = readerErrors.readLine()) != null) {
-                result.append(lineError + "\\n");
+            if (error) {
+                result.text = buffer.toString();
+                result.status = TaskResult.Status.ERROR;
             }
             p.destroy();
-            return result.toString();
         } catch (IOException | InterruptedException ignored) {
-            return "ERROR";
         }
+        return result;
+    }
+
+
+    private static String getFromStream(InputStream inputStream) throws IOException {
+
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(inputStream)
+        );
+
+        StringBuilder buffer = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            buffer.append(line);
+        }
+
+        return buffer.toString();
     }
 }

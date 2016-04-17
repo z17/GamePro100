@@ -10,14 +10,9 @@ public class Main
         man.moveUp();
         man.moveUp();
         man.moveUp();
-        man.moveUp();
-        man.moveUp();
-        man.moveRight();
-        man.moveRight();
-        man.moveRight();
         man.moveRight();
         man.moveRight();
 
-        System.out.println(man.getPath());
+        System.out.print(man.getPath());
     }
 }

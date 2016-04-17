@@ -204,8 +204,8 @@ $('.js-start').click(function () {
 		url: '/services/task/submit/',
 		data: { code: myCodeMirror.getValue(), id: 1 }
 	}).done(function (data) {
-		var dataObject = JSON.parse(data);
-		if(dataObject.status === 'SUCCESS') {
+		var dataObject = data;
+		if(dataObject.status === 'COMPLETED') {
 			var commands = data.text.split(';');
 			var firstCommand = commands.shift();
 			if(firstCommand === 'ERROR') {

@@ -3,6 +3,7 @@ package com.hackday.services;
 import com.hackday.cmd.ExecTask;
 import com.hackday.constants.Constants;
 import com.hackday.manager.TaskLouderManager;
+import com.hackday.results.TaskResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class TaskService {
     @Autowired
     TaskLouderManager taskLouderManager;
 
-    public final String submit(final String code, final int taskID) throws IOException {
+    public final TaskResult submit(final String code, final int taskID) throws IOException {
         String fileName = "Main";
         String result = taskLouderManager.getPathToTaskFolder(code, fileName, taskID);
         return ExecTask.execTask(result, fileName);

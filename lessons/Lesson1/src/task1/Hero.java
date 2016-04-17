@@ -33,6 +33,9 @@ public class Hero {
     }
 
     public String getPath() {
+        if (active) {
+            commands.add("FAIL");
+        }
         return commands.getCommands();
     }
 
@@ -49,11 +52,11 @@ public class Hero {
                 int posEnd = sCurrentLine.indexOf("E");
                 if (posStart >= 0) {
                     x = posStart;
-                    y = map.size();
+                    y = map.size()- 1;
                 }
                 if (posEnd >= 0) {
                     xEnd = posEnd;
-                    yEnd = map.size();
+                    yEnd = map.size()- 1;
                 }
             }
         } catch (IOException e) {
@@ -69,6 +72,7 @@ public class Hero {
     }
 
     private void move(Direction direction) {
+        char currentSymbol = map.get(y).charAt(x);
         if (!active) {
             return;
         }
@@ -86,7 +90,7 @@ public class Hero {
                 x++;
                 break;
         }
-        if (map.get(x).charAt(y) == '*'){
+        if (map.get(y).charAt(x) == '*'){
             commands.add("ERROR");
             active = false;
         } else if(xEnd == x && yEnd == y) {
@@ -96,7 +100,5 @@ public class Hero {
         else {
             commands.add(direction.toString());
         }
-
-
     }
 }
