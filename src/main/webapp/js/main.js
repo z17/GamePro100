@@ -214,22 +214,25 @@ $('.js-start').click(function () {
 			} else {
 				moveObject(human, firstCommand);
 
-				$(this).on('animationEnd', function () {
+				$('.js-start').on('animationEnd', function () {
 					var command = commands.shift();
 					if (command === 'ERROR') {
 						dieDieDieMyDarling(human);
 						$(this).unbind('animationEnd');
 					} else if (command === 'FAIL') {
-						var popup = new $.Popup({content: $('<h3>Вы не выполнили предначертанное =(</h3>')});
-						popup.open();
+						var popup = new $.Popup();
+						popup.open('<h3>Вы не выполнили предначертанное =(</h3>', 'html');
+					} else if (command === 'FINISH') {
+						var popup = new $.Popup();
+						popup.open('<h3>Это успех!</h3>', 'html');
 					} else if (command) {
 						moveObject(human, command);
 					}
 				});
 			}
 		} else {
-			var popup = new $.Popup({content: $('<h3>Ошибка исполнения кода:</h3><pre>' + dataObject.text + '</pre>')});
-			popup.open();
+			var popup = new $.Popup();
+			popup.open('<h3>Ошибка исполнения кода:</h3><pre>' + dataObject.text + '</pre>', 'html');
 		}
 	});
 
