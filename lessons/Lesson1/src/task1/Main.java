@@ -28,13 +28,24 @@ public class Main
         flag = true;
         while(flag) {
             if (man.checkRight() == Hero.Type.empty) {
+                if (man.checkRight() == Hero.Type.finish) {
+                    flag = false;
+                }
                 man.moveRight();
-            } else if (man.checkLeft() == Hero.Type.empty){
-                man.moveLeft();
+            } else if (man.checkDown() == Hero.Type.empty) {
+                if (man.checkDown() == Hero.Type.finish) {
+                    flag = false;
+                }
+                man.moveDown();
+                while(man.checkLeft() == Hero.Type.empty) {
+                    man.moveLeft();
+                }
+
             } else {
                 flag = false;
             }
         }
+
         System.out.println(man.getPath());
     }
 }
