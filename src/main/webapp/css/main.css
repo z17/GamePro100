@@ -377,23 +377,26 @@ html, body {
     float: right; }
 
 .sidebar {
-  background-color: #EDEDED; }
+  background-color: #EDEDED;
+  padding: 1rem;
+  min-height: 40%; }
 
-.sidebar {
-  height: 40%; }
+.task_text h1, .task_text h2, .task_text h3, .task_text h4, .task_text h5, .task_text h6 {
+  margin-top: 0; }
+
+.task_text td {
+  border: 2px solid #6A6A6A;
+  padding: .3rem;
+  text-align: center; }
 
 .game_app {
-  height: 60%; }
+  min-height: 60%; }
 
 .code_editor {
   height: 100%; }
   .code_editor__editor {
     height: 100%;
     width: 100%; }
-
-.box {
-  height: 100%;
-  padding: 1rem; }
 
 .send_code {
   position: absolute;

@@ -23,6 +23,7 @@ function initLevel() {
 	}).done(function (data) {
 		worldMap = data;
 	});
+	worldMap = ["***************","*.......E.....*","*.............*","*.............*","*.....S.......*","***************"];
 
 	var MAP_WIDTH = worldMap[0].length,
 		MAP_HEIGHT = worldMap.length;
@@ -69,6 +70,7 @@ function initLevel() {
 
 
 
+	human.rotation = 0;
 	human.anchor.y = 0.3;
 // move the sprite to the center of the screen
 	human.position.x = TILE_SIZE * startPosition.x;
@@ -177,25 +179,26 @@ function dieDieDieMyDarling(object) {
 	object.anchor.y = 0.5;
 	object.anchor.y = 0.5;
 
-	var timer = 200;
+	var timer = 100;
 
 	animateObject();
 
 	function animateObject() {
 		timer--;
 		var animationID = requestAnimationFrame(animateObject);
-		if(timer > 150) {
-			object.position.y -= 2;
+		if(timer > 80) {
+			object.position.y -= .5;
 			object.rotation -= 0.1;
-		} else if (timer > 100) {
-			object.rotation -= 0.5;
-			object.position.y -= 2;
-			object.position.x -= 0.5;
 		} else if (timer > 50) {
 			object.rotation -= 0.5;
-			object.position.y += 2;
+			object.position.y += 1.5;
+			object.position.x -= 0.5;
+		} else if (timer > 10) {
+			object.rotation -= 0.7;
 		} else if (timer > 0) {
-			object.position.y += 2;
+			object.rotation -= 0.5;
+			object.position.y += .5;
+			object.position.y += 3;
 		} else {
 			cancelAnimationFrame(animationID);
 		}
@@ -210,15 +213,20 @@ $('body').on('click', '.js-start', function () {
 	$.ajax({
 		url: '/services/task/submit/',
 		data: { code: myCodeMirror.getValue(), id: 1 }
-	}).done(function (data) {
-		var dataObject = data;
+	}).always(function (data) {
+		var dataObject = {"status":"COMPLETED","text":"UP;UP;UP;RIGHT;ERROR"};
 		if(dataObject.status === 'COMPLETED') {
 			var commands = dataObject.text.split(';');
 			var firstCommand = commands.shift();
+
 			if(firstCommand === 'ERROR') {
 				dieDieDieMyDarling(human);
-				$(this).unbind('animationEnd');
-			} else {
+				popup.open('<h3>Вы метрвы =(</h3><button class="button js-restart">Перезагрузить</button>', 'html');
+			} else if (firstCommand === 'FAIL') {
+				popup.open('<h3>Вы не выполнили предначертанное =(</h3><button class="button js-restart">Перезагрузить</button>', 'html');
+			} else if (firstCommand === 'FINISH') {
+				popup.open('<h3>Это успех!</h3><button class="button js-restart">Перезагрузить</button>', 'html');
+			} else if (firstCommand) {
 				moveObject(human, firstCommand);
 
 				$('.js-start').on('animationEnd', function () {
