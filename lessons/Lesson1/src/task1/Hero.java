@@ -106,7 +106,7 @@ public class Hero {
                 xCheck++;
                 break;
         }
-        if (map.get(yCheck).charAt(xCheck) == '*'){
+        if (map.get(yCheck).charAt(xCheck) == '*' || map.get(yCheck).charAt(xCheck) == 'B'){
             return Type.wall;
         } else if(xEnd == x && yEnd == y) {
             return Type.finish;
@@ -133,7 +133,7 @@ public class Hero {
                 x++;
                 break;
         }
-        if (map.get(y).charAt(x) == '*'){
+        if (map.get(y).charAt(x) == '*'  || map.get(y).charAt(x) == 'B'){
             commands.add(direction.toString());
             commands.add("ERROR");
             active = false;
