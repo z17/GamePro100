@@ -29,7 +29,7 @@ public final class ExecTask {
 
             result.status = TaskResult.Status.COMPLETED;
 
-            String stringError = getFromStream(p.getErrorStream());
+            String stringError = getErrorsFromStream(p.getErrorStream());
             if (stringError.length() > 0) {
                 result.text = stringError;
                 result.status = TaskResult.Status.ERROR;
@@ -52,9 +52,21 @@ public final class ExecTask {
         String line;
         while ((line = reader.readLine()) != null) {
             buffer.append(line);
+        }
+        return buffer.toString();
+    }
+
+    private static String getErrorsFromStream(InputStream inputStream) throws IOException {
+
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(inputStream)
+        );
+        StringBuilder buffer = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            buffer.append(line);
             buffer.append("\n");
         }
-
         return buffer.toString();
     }
 }

@@ -7,7 +7,7 @@ public class Main
     public static void main(String ... args) {
         Hero man = new Hero();
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 13; i++) {
             man.moveUp();
         }
         man.moveRight();

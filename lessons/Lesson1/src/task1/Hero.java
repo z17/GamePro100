@@ -91,13 +91,14 @@ public class Hero {
                 break;
         }
         if (map.get(y).charAt(x) == '*'){
+            commands.add(direction.toString());
             commands.add("ERROR");
             active = false;
         } else if(xEnd == x && yEnd == y) {
+            commands.add(direction.toString());
             commands.add("FINISH");
             active = false;
-        }
-        else {
+        } else {
             commands.add(direction.toString());
         }
     }
