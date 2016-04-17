@@ -206,7 +206,7 @@ $('.js-start').click(function () {
 	}).done(function (data) {
 		var dataObject = data;
 		if(dataObject.status === 'COMPLETED') {
-			var commands = data.text.split(';');
+			var commands = dataObject.text.split(';');
 			var firstCommand = commands.shift();
 			if(firstCommand === 'ERROR') {
 				dieDieDieMyDarling(human);
