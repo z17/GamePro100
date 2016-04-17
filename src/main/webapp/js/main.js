@@ -213,7 +213,7 @@ $('body').on('click', '.js-start', function () {
 		url: '/services/task/submit/',
 		data: { code: myCodeMirror.getValue(), id: 1 }
 	}).done(function (data) {
-		var dataObject = done;
+		var dataObject = data;
 		if(dataObject.status === 'COMPLETED') {
 			var commands = dataObject.text.split(';');
 			var firstCommand = commands.shift();
