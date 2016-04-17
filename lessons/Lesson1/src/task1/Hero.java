@@ -31,6 +31,18 @@ public class Hero {
     public void moveRight() {
         move(Direction.RIGHT);
     }
+    public Type checkUp() {
+        return check(Direction.UP);
+    }
+    public Type checkDown() {
+        return check(Direction.DOWN);
+    }
+    public Type checkLeft() {
+        return check(Direction.LEFT);
+    }
+    public Type checkRight() {
+        return check(Direction.RIGHT);
+    }
 
     public String getPath() {
         if (active) {
@@ -71,6 +83,37 @@ public class Hero {
         RIGHT
     }
 
+    public enum Type {
+        empty,
+        finish,
+        wall,
+    }
+
+    private Type check(Direction direction) {
+        int xCheck = x;
+        int yCheck = y;
+        switch (direction) {
+            case UP:
+                yCheck--;
+                break;
+            case DOWN:
+                yCheck++;
+                break;
+            case LEFT:
+                xCheck--;
+                break;
+            case RIGHT:
+                xCheck++;
+                break;
+        }
+        if (map.get(yCheck).charAt(xCheck) == '*'){
+            return Type.wall;
+        } else if(xEnd == x && yEnd == y) {
+            return Type.finish;
+        } else {
+            return Type.empty;
+        }
+    }
     private void move(Direction direction) {
         char currentSymbol = map.get(y).charAt(x);
         if (!active) {
@@ -102,4 +145,5 @@ public class Hero {
             commands.add(direction.toString());
         }
     }
+
 }
