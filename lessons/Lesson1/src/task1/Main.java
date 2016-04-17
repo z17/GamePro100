@@ -7,9 +7,9 @@ public class Main
     public static void main(String ... args) {
         Hero man = new Hero();
 
-        man.moveUp();
-        man.moveUp();
-        man.moveUp();
+        for (int i = 0; i < 3; i++) {
+            man.moveUp();
+        }
         man.moveRight();
         man.moveRight();
 

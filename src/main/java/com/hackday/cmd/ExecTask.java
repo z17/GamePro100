@@ -29,16 +29,12 @@ public final class ExecTask {
 
             result.status = TaskResult.Status.COMPLETED;
 
-            boolean error = false;
             String stringError = getFromStream(p.getErrorStream());
             if (stringError.length() > 0) {
-                error = true;
-            }
-
-            if (error) {
-                result.text = buffer.toString();
+                result.text = stringError;
                 result.status = TaskResult.Status.ERROR;
             }
+
             p.destroy();
         } catch (IOException | InterruptedException ignored) {
         }
@@ -56,6 +52,7 @@ public final class ExecTask {
         String line;
         while ((line = reader.readLine()) != null) {
             buffer.append(line);
+            buffer.append("\n");
         }
 
         return buffer.toString();
