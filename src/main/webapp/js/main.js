@@ -1,6 +1,6 @@
 var codeContainer = document.getElementById('code_editor');
 var myCodeMirror = CodeMirror(codeContainer, {
-	value: "man.moveRight();\nman.moveDown(); \n",
+	value: "",
 	lineNumbers: true,
 	matchBrackets: true,
 	mode: "text/x-java"
@@ -23,7 +23,6 @@ function initLevel() {
 	}).done(function (data) {
 		worldMap = data;
 	});
-	worldMap = ["***************","*.......E.....*","*.............*","*.............*","*.....S.......*","***************"];
 
 	var MAP_WIDTH = worldMap[0].length,
 		MAP_HEIGHT = worldMap.length;
@@ -213,8 +212,8 @@ $('body').on('click', '.js-start', function () {
 	$.ajax({
 		url: '/services/task/submit/',
 		data: { code: myCodeMirror.getValue(), id: 1 }
-	}).always(function (data) {
-		var dataObject = {"status":"COMPLETED","text":"UP;UP;UP;RIGHT;ERROR"};
+	}).done(function (data) {
+		var dataObject = done;
 		if(dataObject.status === 'COMPLETED') {
 			var commands = dataObject.text.split(';');
 			var firstCommand = commands.shift();
