@@ -22,5 +22,4 @@ public class TaskLouderManager {
     private File createTmpFile(final String fileName, final int taskID) throws IOException {
         return new File(Constants.TASKS_FOLDER + "/" + taskID, fileName + ".java");
     }
-
 }

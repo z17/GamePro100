@@ -2,20 +2,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.devcolibri.common</groupId>
-	<artifactId>SpringMVC</artifactId>
+	<artifactId>GamePro100</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
 
 	<properties>
 		<spring.version>4.2.5.RELEASE</spring.version>
         <javax.servlet>3.0.1</javax.servlet>
-
 		<jackson.version>1.9.10</jackson.version>
 	</properties>
 
 	<dependencies>
-
-
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
@@ -40,7 +37,14 @@
 			<version>${spring.version}</version>
 		</dependency>
 
-        <dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${javax.servlet}</version>
@@ -58,20 +62,23 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.5.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>${spring.version}</version>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>LATEST</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
 	<build>
-		<finalName>SpringMVC</finalName>
+		<finalName>GamePro100</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>

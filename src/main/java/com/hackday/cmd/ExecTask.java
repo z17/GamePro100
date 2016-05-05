@@ -17,7 +17,6 @@ public final class ExecTask {
         try {
             StringBuilder buffer = new StringBuilder();
             List<String> commands = new ArrayList<String>() {{
-                add("D:");
                 add("cd " + path);
                 add("javac -cp . "+name+".java");
                 add("java -cp "+path+". "+name );
