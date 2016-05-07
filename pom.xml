@@ -8,8 +8,10 @@
 
 	<properties>
 		<spring.version>4.2.5.RELEASE</spring.version>
+		<hibernate.version>4.3.6.Final</hibernate.version>
         <javax.servlet>3.0.1</javax.servlet>
 		<jackson.version>1.9.10</jackson.version>
+		<mysql.connector.version>5.1.31</mysql.connector.version>
 	</properties>
 
 	<dependencies>
@@ -98,6 +100,25 @@
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
 			<version>LATEST</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- Hibernate -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.connector.version}</version>
 		</dependency>
 	</dependencies>
 

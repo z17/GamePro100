@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 // todo: configure LOG4J2 and use it
 public final class LoggingUtility {
 
-    private static final Logger LOG = LogManager.getLogger(LoggingUtility.class);
+//    private static final Logger LOG = LogManager.getLogger(LoggingUtility.class);
 
     public static void i(Object o) {
         System.out.println(o);

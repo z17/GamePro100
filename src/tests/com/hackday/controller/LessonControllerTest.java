@@ -40,4 +40,10 @@ public class LessonControllerTest {
         this.mockMvc.perform(get("/services/lesson/getList").accept("application/json"))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    public void testCreate() throws Exception {
+        this.mockMvc.perform(get("/services/lesson/create").accept("application/json"))
+                .andExpect(status().isOk());
+    }
 }

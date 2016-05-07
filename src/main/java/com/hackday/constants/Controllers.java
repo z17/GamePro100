@@ -15,9 +15,11 @@ public final class Controllers {
     // Other
     public final static String GET = "/get";
     public final static String GET_LIST = "/getList";
+    public final static String CREATE = "/create";
 
     // params
     public final static String PARAM_CODE = "code";
     public final static String PARAM_ID = "id";
     public final static String PARAM_LESSON_ID = "lessonID";
+    public final static String NAME = "name";
 }
