@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="task")
-public class Task {
+public class TaskEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,7 +12,7 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "lesson_id", nullable = false)
-    private Lesson lesson;
+    private LessonEntity lessonEntity;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -21,8 +21,8 @@ public class Task {
         this.name = name;
     }
 
-    public void setLesson(Lesson lesson) {
-        this.lesson = lesson;
+    public void setLessonEntity(LessonEntity lessonEntity) {
+        this.lessonEntity = lessonEntity;
     }
 
     public Long getId() {
@@ -33,15 +33,15 @@ public class Task {
         return name;
     }
 
-    public Lesson getLesson() {
-        return lesson;
+    public LessonEntity getLessonEntity() {
+        return lessonEntity;
     }
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "TaskEntity{" +
                 "id=" + id +
-                ", lesson=" + lesson +
+                ", lessonEntity=" + lessonEntity +
                 ", name='" + name + '\'' +
                 '}';
     }

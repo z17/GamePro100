@@ -3,7 +3,7 @@ package com.hackday.services;
 import java.util.List;
 
 import com.hackday.dao.LessonDao;
-import com.hackday.entity.Lesson;
+import com.hackday.entity.LessonEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +16,11 @@ public class LessonService {
     @Autowired
     private LessonDao dao;
 
-    public void saveLesson(Lesson lesson) {
-        dao.saveLesson(lesson);
+    public void saveLesson(LessonEntity lessonEntity) {
+        dao.saveLesson(lessonEntity);
     }
 
-    public List<Lesson> findAllLesson() {
+    public List<LessonEntity> findAllLesson() {
         return dao.findAllLessons();
     }
 
@@ -28,11 +28,11 @@ public class LessonService {
         dao.deleteLessonByID(id);
     }
 
-    public Lesson findByID(Long id) {
+    public LessonEntity findByID(Long id) {
         return dao.findByID(id);
     }
 
-    public void updateLesson(Lesson lesson){
-        dao.updateLesson(lesson);
+    public void updateLesson(LessonEntity lessonEntity){
+        dao.updateLesson(lessonEntity);
     }
 }

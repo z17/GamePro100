@@ -1,7 +1,7 @@
 package com.hackday.controller;
 
 import com.hackday.constants.Controllers;
-import com.hackday.entity.Task;
+import com.hackday.entity.TaskEntity;
 import com.hackday.results.TaskResult;
 import com.hackday.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +18,17 @@ import java.util.List;
 @RestController
 @RequestMapping(Controllers.BASE_PATH + Controllers.TASK)
 public class TaskController {
+
     @Autowired
     private TaskService service;
 
-
     @RequestMapping(value = Controllers.GET, method = RequestMethod.GET)
-    public Task get(@RequestParam(value = Controllers.PARAM_ID) final Long id) throws IOException {
-        return new Task();
+    public TaskEntity get(@RequestParam(value = Controllers.PARAM_ID) final Long id) throws IOException {
+        return new TaskEntity();
     }
 
     @RequestMapping(value = Controllers.GET_LIST, method = RequestMethod.GET)
-    public List<Task> getList(@RequestParam(value = Controllers.PARAM_LESSON_ID) final Long lessonID) throws IOException {
+    public List<TaskEntity> getList(@RequestParam(value = Controllers.PARAM_LESSON_ID) final Long lessonID) throws IOException {
         return new ArrayList<>();
     }
 

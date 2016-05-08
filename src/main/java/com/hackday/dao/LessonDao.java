@@ -1,7 +1,7 @@
 package com.hackday.dao;
 
 
-import com.hackday.entity.Lesson;
+import com.hackday.entity.LessonEntity;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
@@ -12,14 +12,14 @@ import java.util.List;
 @Repository("lessonDao")
 public class LessonDao extends AbstractDao {
 
-    public void saveLesson(Lesson lesson) {
-        persist(lesson);
+    public void saveLesson(LessonEntity lessonEntity) {
+        persist(lessonEntity);
     }
 
     @SuppressWarnings("unchecked")
-    public List<Lesson> findAllLessons() {
-        Criteria criteria = getSession().createCriteria(Lesson.class);
-        return (List<Lesson>) criteria.list();
+    public List<LessonEntity> findAllLessons() {
+        Criteria criteria = getSession().createCriteria(LessonEntity.class);
+        return (List<LessonEntity>) criteria.list();
     }
 
     public void deleteLessonByID(Long id) {
@@ -29,14 +29,14 @@ public class LessonDao extends AbstractDao {
     }
 
 
-    public Lesson findByID(Long id){
-        Criteria criteria = getSession().createCriteria(Lesson.class);
+    public LessonEntity findByID(Long id){
+        Criteria criteria = getSession().createCriteria(LessonEntity.class);
         criteria.add(Restrictions.eq("id",id));
-        return (Lesson) criteria.uniqueResult();
+        return (LessonEntity) criteria.uniqueResult();
     }
 
-    public void updateLesson(Lesson Lesson){
-        getSession().update(Lesson);
+    public void updateLesson(LessonEntity LessonEntity){
+        getSession().update(LessonEntity);
     }
 
 }
