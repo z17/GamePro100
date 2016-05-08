@@ -7,12 +7,18 @@
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <http auto-config="true" use-expressions="true">
-        <intercept-url pattern="/services/**" access="hasRole('ROLE_USER')" />
-        <http-basic />
+    <http auto-config="true" use-expressions="false">
+        <!--<intercept-url pattern="/services/**" access='IS_AUTHENTICATED_ANONYMOUSLY' />-->
+        <intercept-url pattern="/services/task/**" access="ROLE_USER" />
+        <form-login
+                login-page='/services/user/login'
+                password-parameter="password"
+                username-parameter="login"
+        />
+
     </http>
 
-    <authentication-manager>
+    <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="myUserDetailsService" >
         </authentication-provider>
     </authentication-manager>
