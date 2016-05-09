@@ -2,6 +2,8 @@ package com.hackday.controller;
 
 import com.hackday.constants.Controllers;
 import com.hackday.entity.UserEntity;
+import com.hackday.requests.UserArguments;
+import com.hackday.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,10 +12,7 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -23,11 +22,14 @@ public class UserController {
 
     @Autowired
     @Qualifier("authenticationManager")
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
-    @RequestMapping(value = Controllers.LOGIN, method = RequestMethod.GET)
+    @Autowired
+    private UserService userService;
+
+    @RequestMapping(value = Controllers.LOGIN, method = RequestMethod.POST)
     public boolean login(@RequestParam(value = Controllers.PARAM_LOGIN) final String login,
-                    @RequestParam(value = Controllers.PARAM_PASSWORD) final String password) throws IOException {
+                         @RequestParam(value = Controllers.PARAM_PASSWORD) final String password) throws IOException {
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login, password);
         UserEntity details = new UserEntity();
@@ -43,8 +45,14 @@ public class UserController {
         }
     }
 
-//    @RequestMapping(value = Controllers.LOGOUT, method = RequestMethod.GET)
-//    public Boolean logout() throws IOException {
-//        return true;
-//    }
+    @RequestMapping(value = Controllers.LOGOUT, method = RequestMethod.POST)
+    public Boolean logout() throws IOException {
+        return true;
+    }
+
+    @RequestMapping(value = Controllers.CREATE, method = RequestMethod.POST)
+    public boolean create(@RequestBody final UserArguments user) {
+        return userService.create(user);
+
+    }
 }

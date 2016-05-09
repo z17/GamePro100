@@ -33,7 +33,6 @@ public class MyUserDetailsService implements UserDetailsService {
                 buildUserAuthority(user.getGroup().toString());
 
         return buildUserForAuthentication(user, authorities);
-
     }
 
     // Converts UserEntity userEntity to

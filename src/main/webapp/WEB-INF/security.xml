@@ -15,11 +15,15 @@
                 password-parameter="password"
                 username-parameter="login"
         />
+        <csrf disabled="true" />
 
     </http>
 
     <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="myUserDetailsService" >
+            <password-encoder ref="bcryptEncoder"/>
         </authentication-provider>
     </authentication-manager>
+
+    <beans:bean id="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 </beans:beans>
