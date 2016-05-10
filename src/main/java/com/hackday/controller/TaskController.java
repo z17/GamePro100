@@ -5,10 +5,7 @@ import com.hackday.entity.TaskEntity;
 import com.hackday.results.TaskResult;
 import com.hackday.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,23 +19,28 @@ public class TaskController {
     @Autowired
     private TaskService service;
 
-    @RequestMapping(value = Controllers.GET, method = RequestMethod.GET)
+    @RequestMapping(value = Controllers.GET, method = RequestMethod.POST)
     public TaskEntity get(@RequestParam(value = Controllers.PARAM_ID) final Long id) throws IOException {
-        return new TaskEntity();
+        return service.get(id);
     }
 
-    @RequestMapping(value = Controllers.GET_LIST, method = RequestMethod.GET)
+    @RequestMapping(value = Controllers.GET_LIST, method = RequestMethod.POST)
     public List<TaskEntity> getList(@RequestParam(value = Controllers.PARAM_LESSON_ID) final Long lessonID) throws IOException {
-        return new ArrayList<>();
+        return service.getListByLesson(lessonID);
     }
 
-    @RequestMapping(value = Controllers.TASK_SUBMIT, method = RequestMethod.GET)
+    @RequestMapping(value = Controllers.CREATE, method = RequestMethod.POST)
+    public boolean create(@RequestBody final TaskEntity task){
+        return service.create(task);
+    }
+
+    @RequestMapping(value = Controllers.TASK_SUBMIT, method = RequestMethod.POST)
     public TaskResult submit(@RequestParam(value = Controllers.PARAM_CODE) final String code,
                              @RequestParam(value = Controllers.PARAM_ID) final int taskID ) throws IOException {
         return service.submit(code, taskID);
     }
 
-    @RequestMapping(value = Controllers.GET_MAP, method = RequestMethod.GET)
+    @RequestMapping(value = Controllers.GET_MAP, method = RequestMethod.POST)
     public List<String> getMap(@RequestParam(value = Controllers.PARAM_ID) final int taskID) throws IOException {
         return service.getMap(taskID);
     }

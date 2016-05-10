@@ -1,6 +1,7 @@
 package com.hackday.dao;
 
 
+import com.hackday.tables.LessonTable;
 import com.hackday.entity.LessonEntity;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -9,33 +10,29 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("lessonDao")
-public class LessonDao extends AbstractDao {
-
-    public void create(LessonEntity lessonEntity) {
-        persist(lessonEntity);
-    }
+@Repository
+public final class LessonDao extends AbstractDao {
 
     @SuppressWarnings("unchecked")
     public List<LessonEntity> getList() {
-        Criteria criteria = getSession().createCriteria(LessonEntity.class);
+        final Criteria criteria = getSession().createCriteria(LessonEntity.class);
         return (List<LessonEntity>) criteria.list();
     }
 
-    public void delete(Long id) {
-        Query query = getSession().createSQLQuery("delete from lesson where id = :id");
-        query.setLong("id", id);
+    public void delete(final Long id) {
+        final Query query = getSession().createSQLQuery("delete from lesson where id = :id");
+        query.setLong(LessonTable.ID, id);
         query.executeUpdate();
     }
 
 
-    public LessonEntity get(Long id){
-        Criteria criteria = getSession().createCriteria(LessonEntity.class);
-        criteria.add(Restrictions.eq("id",id));
+    public LessonEntity get(final Long id){
+        final Criteria criteria = getSession().createCriteria(LessonEntity.class);
+        criteria.add(Restrictions.eq(LessonTable.ID,id));
         return (LessonEntity) criteria.uniqueResult();
     }
 
-    public void update(LessonEntity LessonEntity){
+    public void update(final LessonEntity LessonEntity){
         getSession().update(LessonEntity);
     }
 

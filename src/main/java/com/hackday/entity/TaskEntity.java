@@ -1,9 +1,11 @@
 package com.hackday.entity;
 
+import com.hackday.tables.TaskTable;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name="task")
+@Table(name = TaskTable.TABLE_NAME)
 public class TaskEntity {
 
     @Id
@@ -11,10 +13,10 @@ public class TaskEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "lesson_id", nullable = false)
+    @JoinColumn(name = TaskTable.LESSON_Id, nullable = false)
     private LessonEntity lessonEntity;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = TaskTable.NAME, nullable = false)
     private String name;
 
     public void setName(String name) {

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 
 @Service
-public class TaskLouderManager {
+public class TaskLoaderManager {
 
     public String getPathToTaskFolder(final String userCode, final String fileName, final int taskID) throws IOException {
         File file = createTmpFile(fileName, taskID);

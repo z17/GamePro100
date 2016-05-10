@@ -21,6 +21,7 @@ public final class Controllers {
     public final static String GET = "/get";
     public final static String GET_LIST = "/getList";
     public final static String CREATE = "/create";
+    public final static String UPDATE = "/update";
 
     // params
     public final static String PARAM_CODE = "code";

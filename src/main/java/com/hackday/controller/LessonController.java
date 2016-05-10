@@ -18,17 +18,17 @@ public class LessonController {
     LessonService lessonService;
 
     @RequestMapping(value = Controllers.GET, method = RequestMethod.POST)
-    public LessonEntity get(@RequestParam(value = Controllers.PARAM_ID) final Long id) throws IOException {
+    public LessonEntity get(@RequestParam(value = Controllers.PARAM_ID) final Long id) {
         return lessonService.get(id);
     }
 
     @RequestMapping(value = Controllers.GET_LIST, method = RequestMethod.POST)
-    public List<LessonEntity> getList() throws IOException {
+    public List<LessonEntity> getList() {
         return lessonService.getList();
     }
 
     @RequestMapping(value = Controllers.CREATE, method = RequestMethod.POST)
-    public boolean create(@RequestBody final LessonEntity lessonEntity) throws IOException {
+    public boolean create(@RequestBody final LessonEntity lessonEntity) {
         return lessonService.create(lessonEntity);
     }
 }

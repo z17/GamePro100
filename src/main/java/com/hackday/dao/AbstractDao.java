@@ -13,8 +13,12 @@ public abstract class AbstractDao {
         return sessionFactory.getCurrentSession();
     }
 
-    public void persist(Object entity) {
+    public void create(Object entity) {
         getSession().persist(entity);
+    }
+
+    public void update(Object entity) {
+        getSession().update(entity);
     }
 
     public void delete(Object entity) {

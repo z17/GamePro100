@@ -1,24 +1,29 @@
 package com.hackday.entity;
 
 
+import com.hackday.tables.UsersTable;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name="users")
+@Table(name = UsersTable.TABLE_NAME)
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "login", nullable = false, unique = true, length = 45)
+    @Column(name = UsersTable.LOGIN, nullable = false, unique = true, length = 45)
     private String login;
 
-    @Column(name = "password", nullable = false, length = 60)
+    @Column(name = UsersTable.PASSWORD, nullable = false, length = 60)
     private String password;
 
-    @Column(name = "group", nullable = false)
+    @Column(name = UsersTable.GROUP, nullable = false)
     @Enumerated(EnumType.STRING)
     private UserRole group;
+
+    @Column(name = UsersTable.EMAIL, nullable = false)
+    private String email;
 
     public Long getId() {
         return id;
@@ -36,6 +41,10 @@ public class UserEntity {
         return group;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void setLogin(String login) {
         this.login = login;
     }
@@ -48,6 +57,10 @@ public class UserEntity {
         this.group = group;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -56,4 +69,7 @@ public class UserEntity {
                 ", password='" + password + '\'' +
                 '}';
     }
+
+
+
 }

@@ -1,5 +1,7 @@
 package com.hackday.entity;
 
+import com.hackday.tables.LessonTable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,14 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="lesson")
+@Table(name = LessonTable.TABLE_NAME)
 public class LessonEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = LessonTable.NAME, nullable = false)
     private String name;
 
     public Long getId() {

@@ -22,28 +22,12 @@ import java.io.IOException;
 public class UserController {
 
     @Autowired
-    @Qualifier("authenticationManager")
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
     private UserService userService;
 
     @RequestMapping(value = Controllers.LOGIN, method = RequestMethod.POST)
     public boolean login(@RequestParam(value = Controllers.PARAM_LOGIN) final String login,
                          @RequestParam(value = Controllers.PARAM_PASSWORD) final String password) throws IOException {
-
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login, password);
-        UserEntity details = new UserEntity();
-        details.setLogin(login);
-        token.setDetails(details);
-
-        try {
-            Authentication auth = authenticationManager.authenticate(token);
-            SecurityContextHolder.getContext().setAuthentication(auth);
-            return auth.isAuthenticated();
-        } catch (BadCredentialsException | InternalAuthenticationServiceException e) {
-            return false;
-        }
+        return userService.login(login, password);
     }
 
     @RequestMapping(value = Controllers.LOGOUT, method = RequestMethod.POST)
@@ -55,6 +39,10 @@ public class UserController {
     @RequestMapping(value = Controllers.CREATE, method = RequestMethod.POST)
     public boolean create(@RequestBody final UserArguments user) {
         return userService.create(user);
+    }
 
+    @RequestMapping(value = Controllers.UPDATE, method = RequestMethod.POST)
+    public boolean update(@RequestBody final UserEntity user) {
+        return userService.update(user);
     }
 }

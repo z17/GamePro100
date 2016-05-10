@@ -2,7 +2,6 @@ package com.hackday.controller;
 
 import com.google.gson.Gson;
 import com.hackday.entity.LessonEntity;
-import com.hackday.requests.UserArguments;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,6 +42,7 @@ public class LessonControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andReturn();
+        System.out.println(result1.getResponse().getContentAsString());
 
         MvcResult result2 = this.mockMvc.perform(post("/services/lesson/get?id=3")
                 .accept("application/json"))
