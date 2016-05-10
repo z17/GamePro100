@@ -40,6 +40,7 @@ public class UserControllerTest {
         UserArguments user = new UserArguments();
         user.login = "qwerty";
         user.password = "qwerty";
+        user.email = "ad@asd.ye";
         Gson gson = new Gson();
         String json = gson.toJson(user);
 

@@ -24,6 +24,6 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     private UserRole group;
 
-    @Column(name = UsersTable.EMAIL, nullable = false)
+    @Column(name = UsersTable.EMAIL, nullable = false, length = 60)
     private String email;
 }

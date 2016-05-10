@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public final class TaskDao extends AbstractDao {
+public class TaskDao extends AbstractDao {
 
     public TaskEntity get(final Long id){
         final Criteria criteria = getSession().createCriteria(TaskEntity.class);

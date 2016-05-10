@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,14 +38,14 @@ public class LessonControllerTest {
 
     @Test
     public void testGet() throws Exception {
-        MvcResult result1 = this.mockMvc.perform(post("/services/lesson/get?id=1")
+        MvcResult result1 = this.mockMvc.perform(get("/services/lesson/get?id=1")
                 .accept("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andReturn();
         System.out.println(result1.getResponse().getContentAsString());
 
-        MvcResult result2 = this.mockMvc.perform(post("/services/lesson/get?id=3")
+        MvcResult result2 = this.mockMvc.perform(get("/services/lesson/get?id=3")
                 .accept("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(3)))
@@ -54,7 +55,7 @@ public class LessonControllerTest {
 
     @Test
     public void testGetList() throws Exception {
-        MvcResult result = this.mockMvc.perform(post("/services/lesson/getList")
+        MvcResult result = this.mockMvc.perform(get("/services/lesson/getList")
                 .accept("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())

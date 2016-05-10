@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public final class LessonDao extends AbstractDao {
+public class LessonDao extends AbstractDao {
 
     @SuppressWarnings("unchecked")
     public List<LessonEntity> getList() {
