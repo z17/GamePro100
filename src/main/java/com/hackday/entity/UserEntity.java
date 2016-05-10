@@ -2,9 +2,11 @@ package com.hackday.entity;
 
 
 import com.hackday.tables.UsersTable;
+import lombok.Data;
 
 import javax.persistence.*;
 
+@Data
 @Entity
 @Table(name = UsersTable.TABLE_NAME)
 public class UserEntity {
@@ -24,52 +26,4 @@ public class UserEntity {
 
     @Column(name = UsersTable.EMAIL, nullable = false)
     private String email;
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public UserRole getGroup() {
-        return group;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setGroup(UserRole group) {
-        this.group = group;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
-
-
-
 }

@@ -1,6 +1,7 @@
 package com.hackday.entity;
 
 import com.hackday.tables.LessonTable;
+import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@Data
 @Entity
 @Table(name = LessonTable.TABLE_NAME)
 public class LessonEntity {
@@ -19,28 +21,4 @@ public class LessonEntity {
 
     @Column(name = LessonTable.NAME, nullable = false)
     private String name;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "LessonEntity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }
