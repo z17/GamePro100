@@ -12,30 +12,30 @@ import java.util.List;
 @Repository("lessonDao")
 public class LessonDao extends AbstractDao {
 
-    public void saveLesson(LessonEntity lessonEntity) {
+    public void create(LessonEntity lessonEntity) {
         persist(lessonEntity);
     }
 
     @SuppressWarnings("unchecked")
-    public List<LessonEntity> findAllLessons() {
+    public List<LessonEntity> getList() {
         Criteria criteria = getSession().createCriteria(LessonEntity.class);
         return (List<LessonEntity>) criteria.list();
     }
 
-    public void deleteLessonByID(Long id) {
+    public void delete(Long id) {
         Query query = getSession().createSQLQuery("delete from lesson where id = :id");
         query.setLong("id", id);
         query.executeUpdate();
     }
 
 
-    public LessonEntity findByID(Long id){
+    public LessonEntity get(Long id){
         Criteria criteria = getSession().createCriteria(LessonEntity.class);
         criteria.add(Restrictions.eq("id",id));
         return (LessonEntity) criteria.uniqueResult();
     }
 
-    public void updateLesson(LessonEntity LessonEntity){
+    public void update(LessonEntity LessonEntity){
         getSession().update(LessonEntity);
     }
 

@@ -12,6 +12,7 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -47,7 +48,8 @@ public class UserController {
 
     @RequestMapping(value = Controllers.LOGOUT, method = RequestMethod.POST)
     public Boolean logout() throws IOException {
-        return true;
+        // todo: //
+        return false;
     }
 
     @RequestMapping(value = Controllers.CREATE, method = RequestMethod.POST)

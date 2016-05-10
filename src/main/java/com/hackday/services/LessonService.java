@@ -16,23 +16,24 @@ public class LessonService {
     @Autowired
     private LessonDao dao;
 
-    public void saveLesson(LessonEntity lessonEntity) {
-        dao.saveLesson(lessonEntity);
+    public boolean create(LessonEntity lessonEntity) {
+        dao.create(lessonEntity);
+        return true;
     }
 
-    public List<LessonEntity> findAllLesson() {
-        return dao.findAllLessons();
+    public List<LessonEntity> getList() {
+        return dao.getList();
     }
 
-    public void deleteLessonByID(Long id) {
-        dao.deleteLessonByID(id);
+    public void delete(Long id) {
+        dao.delete(id);
     }
 
-    public LessonEntity findByID(Long id) {
-        return dao.findByID(id);
+    public LessonEntity get(Long id) {
+        return dao.get(id);
     }
 
-    public void updateLesson(LessonEntity lessonEntity){
-        dao.updateLesson(lessonEntity);
+    public void update(LessonEntity lessonEntity){
+        dao.update(lessonEntity);
     }
 }

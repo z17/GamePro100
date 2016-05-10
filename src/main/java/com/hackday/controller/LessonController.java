@@ -5,13 +5,9 @@ import com.hackday.constants.Controllers;
 import com.hackday.entity.LessonEntity;
 import com.hackday.services.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,21 +17,18 @@ public class LessonController {
     @Autowired
     LessonService lessonService;
 
-    @RequestMapping(value = Controllers.GET, method = RequestMethod.GET)
+    @RequestMapping(value = Controllers.GET, method = RequestMethod.POST)
     public LessonEntity get(@RequestParam(value = Controllers.PARAM_ID) final Long id) throws IOException {
-        return new LessonEntity();
+        return lessonService.get(id);
     }
 
-    @RequestMapping(value = Controllers.GET_LIST, method = RequestMethod.GET)
+    @RequestMapping(value = Controllers.GET_LIST, method = RequestMethod.POST)
     public List<LessonEntity> getList() throws IOException {
-        return new ArrayList<>();
+        return lessonService.getList();
     }
 
-    @RequestMapping(value = Controllers.CREATE, method = RequestMethod.GET)
-    public boolean create(@RequestParam(value = Controllers.PARAM_NAME) final String name) throws IOException {
-        LessonEntity lesson1 = new LessonEntity();
-        lesson1.setName(name);
-        lessonService.saveLesson(lesson1);
-        return true;
+    @RequestMapping(value = Controllers.CREATE, method = RequestMethod.POST)
+    public boolean create(@RequestBody final LessonEntity lessonEntity) throws IOException {
+        return lessonService.create(lessonEntity);
     }
 }
