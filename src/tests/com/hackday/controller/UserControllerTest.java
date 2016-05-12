@@ -1,13 +1,17 @@
 package com.hackday.controller;
 
 import com.google.gson.Gson;
+import com.hackday.entity.UserEntity;
+import com.hackday.entity.UserRole;
 import com.hackday.requests.UserArguments;
+import com.hackday.requests.UserUpdateArguments;
 import com.hackday.special.LoggingUtility;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -38,7 +42,7 @@ public class UserControllerTest {
     @Test
     public void testCreate() throws Exception {
         UserArguments user = new UserArguments();
-        user.login = "qwerty";
+        user.login = "qwerty 1";
         user.password = "qwerty";
         user.email = "ad@asd.ye";
         Gson gson = new Gson();
@@ -50,5 +54,24 @@ public class UserControllerTest {
                 .andExpect(status().isOk());
 
         LoggingUtility.i(result);
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+        UserUpdateArguments user = new UserUpdateArguments();
+        user.id = 2L;
+        user.password ="qwerty 1";
+        user.email = "ad@asd.ye";
+
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+
+        ResultActions result = this.mockMvc.perform(post("/services/user/update")
+                .accept("application/json")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isOk());
+
+        LoggingUtility.i(result);
+
     }
 }

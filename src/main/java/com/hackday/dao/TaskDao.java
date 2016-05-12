@@ -1,5 +1,6 @@
 package com.hackday.dao;
 
+import com.hackday.entity.LessonEntity;
 import com.hackday.tables.TaskTable;
 import com.hackday.entity.TaskEntity;
 import org.hibernate.Criteria;
@@ -21,7 +22,10 @@ public class TaskDao extends AbstractDao {
     @SuppressWarnings("unchecked")
     public List<TaskEntity> getListByLesson(Long lessonID) {
         final Criteria criteria = getSession().createCriteria(TaskEntity.class);
-        criteria.add(Restrictions.eq(TaskTable.LESSON_Id, lessonID));
+        //criteria.add(Restrictions.eq(TaskTable.LESSON_Id, lessonID));
+        LessonEntity lessonEntity = new LessonEntity();
+        lessonEntity.setId(lessonID);
+        criteria.add(Restrictions.eq(TaskTable.LESSON_ENTITY, lessonEntity));
 
         return (List<TaskEntity>) criteria.list();
     }

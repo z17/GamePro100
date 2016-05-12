@@ -2,6 +2,7 @@ package com.hackday.controller;
 
 import com.hackday.constants.Controllers;
 import com.hackday.entity.TaskEntity;
+import com.hackday.requests.TaskArguments;
 import com.hackday.results.TaskResult;
 import com.hackday.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,8 @@ public class TaskController {
     }
 
     @RequestMapping(value = Controllers.CREATE, method = RequestMethod.POST)
-    public boolean create(@RequestBody final TaskEntity task){
-        return service.create(task);
+    public boolean create(@RequestBody final TaskArguments taskArgs){
+        return service.create(taskArgs);
     }
 
     @RequestMapping(value = Controllers.TASK_SUBMIT, method = RequestMethod.POST)

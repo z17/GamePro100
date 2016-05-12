@@ -3,6 +3,7 @@ package com.hackday.controller;
 import com.hackday.constants.Controllers;
 import com.hackday.entity.UserEntity;
 import com.hackday.requests.UserArguments;
+import com.hackday.requests.UserUpdateArguments;
 import com.hackday.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,8 +14,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 
 @RestController
@@ -37,12 +40,15 @@ public class UserController {
     }
 
     @RequestMapping(value = Controllers.CREATE, method = RequestMethod.POST)
-    public boolean create(@RequestBody final UserArguments user) {
-        return userService.create(user);
+    public boolean create(@RequestBody @Valid final UserArguments userArgs, BindingResult result) {
+        result.hasErrors();
+        System.out.println(result.getAllErrors());
+        System.out.println(result);
+        return userService.create(userArgs);
     }
 
     @RequestMapping(value = Controllers.UPDATE, method = RequestMethod.POST)
-    public boolean update(@RequestBody final UserEntity user) {
-        return userService.update(user);
+    public boolean update(@RequestBody final UserUpdateArguments userArgs) {
+        return userService.update(userArgs);
     }
 }

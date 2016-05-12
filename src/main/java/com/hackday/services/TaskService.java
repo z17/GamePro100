@@ -3,12 +3,15 @@ package com.hackday.services;
 import com.hackday.cmd.ExecTask;
 import com.hackday.constants.Constants;
 import com.hackday.dao.TaskDao;
+import com.hackday.entity.LessonEntity;
 import com.hackday.entity.TaskEntity;
 import com.hackday.manager.TaskLoaderManager;
+import com.hackday.requests.TaskArguments;
 import com.hackday.results.TaskResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -17,7 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public final class TaskService {
+@Transactional
+public class TaskService {
 
     @Autowired
     private TaskLoaderManager taskLouderManager;
@@ -33,7 +37,12 @@ public final class TaskService {
         return taskDao.getListByLesson(lessonID);
     }
 
-    public boolean create(final TaskEntity task) {
+    public boolean create(final TaskArguments taskArgs) {
+        TaskEntity task = new TaskEntity();
+        task.setName(taskArgs.name);
+        LessonEntity lessonTask = new LessonEntity();
+        lessonTask.setId(taskArgs.lessonID);
+        task.setLessonEntity(lessonTask);
         taskDao.create(task);
         return true;
     }

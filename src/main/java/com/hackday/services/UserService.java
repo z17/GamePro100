@@ -4,6 +4,7 @@ import com.hackday.dao.UserDao;
 import com.hackday.entity.UserEntity;
 import com.hackday.entity.UserRole;
 import com.hackday.requests.UserArguments;
+import com.hackday.requests.UserUpdateArguments;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,15 +34,20 @@ public class UserService {
     public boolean create(UserArguments userArguments) {
         UserEntity user = new UserEntity();
         user.setLogin(userArguments.login);
-        user.setPassword(bcryptEncoder.encode(userArguments.password));
+        user.setPassword(encodePassword(userArguments.password));
         user.setGroup(UserRole.USER);
+        user.setEmail(userArguments.email);
         dao.create(user);
 
         return true;
     }
 
-    public boolean update(UserEntity user) {
+    public boolean update(UserUpdateArguments userArgs) {
+        UserEntity user = dao.get(userArgs.id);
+        user.setEmail(userArgs.email);
+        user.setPassword(encodePassword(userArgs.password));
         dao.update(user);
+
         return true;
     }
 
@@ -57,5 +63,9 @@ public class UserService {
         } catch (BadCredentialsException | InternalAuthenticationServiceException e) {
             return false;
         }
+    }
+
+    private String encodePassword(final String password) {
+        return bcryptEncoder.encode(password);
     }
 }

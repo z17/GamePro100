@@ -7,5 +7,6 @@ public final class TaskTable {
 
     public static final String ID = "id";
     public static final String LESSON_Id = "lesson_id";
+    public static final String LESSON_ENTITY = "lessonEntity";
     public static final String NAME = "name";
 }

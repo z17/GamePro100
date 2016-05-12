@@ -8,7 +8,7 @@
 
 	<properties>
 		<spring.version>4.2.5.RELEASE</spring.version>
-		<hibernate.version>4.3.6.Final</hibernate.version>
+		<hibernate.version>5.1.0.Final</hibernate.version>
         <javax.servlet>3.0.1</javax.servlet>
 		<jackson.version>1.9.10</jackson.version>
 		<mysql.connector.version>5.1.31</mysql.connector.version>
@@ -92,6 +92,12 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.1.0.Final</version>
+		</dependency>
+
 		<!-- Test -->
 		<dependency>
 			<groupId>org.hamcrest</groupId>
@@ -156,6 +162,11 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
 
