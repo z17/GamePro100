@@ -14,34 +14,34 @@ import java.util.List;
 
 @RestController
 @RequestMapping(Controllers.BASE_PATH + Controllers.TASK)
-public class TaskController {
+public class TaskController extends AbstractController {
 
     @Autowired
     private TaskService service;
 
     @RequestMapping(value = Controllers.GET, method = RequestMethod.GET)
-    public TaskEntity get(@RequestParam(value = Controllers.PARAM_ID) final Long id) throws IOException {
-        return service.get(id);
+    public Result<TaskEntity> get(@RequestParam(value = Controllers.PARAM_ID) final Long id) throws IOException {
+        return run(() -> service.get(id));
     }
 
     @RequestMapping(value = Controllers.GET_LIST, method = RequestMethod.GET)
-    public List<TaskEntity> getList(@RequestParam(value = Controllers.PARAM_LESSON_ID) final Long lessonID) throws IOException {
-        return service.getListByLesson(lessonID);
+    public Result<List<TaskEntity>> getList(@RequestParam(value = Controllers.PARAM_LESSON_ID) final Long lessonID) {
+        return run(() -> service.getListByLesson(lessonID));
     }
 
     @RequestMapping(value = Controllers.CREATE, method = RequestMethod.POST)
-    public boolean create(@RequestBody final TaskArguments taskArgs){
-        return service.create(taskArgs);
+    public Result<Boolean> create(@RequestBody final TaskArguments taskArgs){
+        return run(() -> service.create(taskArgs));
     }
 
     @RequestMapping(value = Controllers.TASK_SUBMIT, method = RequestMethod.POST)
-    public TaskResult submit(@RequestParam(value = Controllers.PARAM_CODE) final String code,
-                             @RequestParam(value = Controllers.PARAM_ID) final int taskID ) throws IOException {
-        return service.submit(code, taskID);
+    public Result<TaskResult> submit(@RequestParam(value = Controllers.PARAM_CODE) final String code,
+                             @RequestParam(value = Controllers.PARAM_ID) final int taskID ){
+        return run(() -> service.submit(code, taskID));
     }
 
     @RequestMapping(value = Controllers.GET_MAP, method = RequestMethod.POST)
-    public List<String> getMap(@RequestParam(value = Controllers.PARAM_ID) final int taskID) throws IOException {
-        return service.getMap(taskID);
+    public Result<List<String>> getMap(@RequestParam(value = Controllers.PARAM_ID) final int taskID) {
+        return run(() -> service.getMap(taskID));
     }
 }

@@ -47,7 +47,7 @@ public class TaskService {
         return true;
     }
 
-    public TaskResult submit(final String code, final int taskID) throws IOException {
+    public TaskResult submit(final String code, final int taskID) {
         String fileName = "Main";
         String result = taskLouderManager.getPathToTaskFolder(code, fileName, taskID);
         return ExecTask.execTask(result, fileName);

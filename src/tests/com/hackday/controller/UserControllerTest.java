@@ -1,8 +1,6 @@
 package com.hackday.controller;
 
 import com.google.gson.Gson;
-import com.hackday.entity.UserEntity;
-import com.hackday.entity.UserRole;
 import com.hackday.requests.UserArguments;
 import com.hackday.requests.UserUpdateArguments;
 import com.hackday.special.LoggingUtility;
@@ -11,18 +9,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
+import static org.hamcrest.Matchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -48,12 +46,14 @@ public class UserControllerTest {
         Gson gson = new Gson();
         String json = gson.toJson(user);
 
-        ResultActions result = this.mockMvc.perform(post("/services/user/create")
+        MvcResult result = this.mockMvc.perform(post("/services/user/create")
                 .accept("application/json")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data", is(true)))
+                .andReturn();
 
-        LoggingUtility.i(result);
+        LoggingUtility.i(result.getResponse().getContentAsString());
     }
 
     @Test
@@ -66,12 +66,13 @@ public class UserControllerTest {
         Gson gson = new Gson();
         String json = gson.toJson(user);
 
-        ResultActions result = this.mockMvc.perform(post("/services/user/update")
+        MvcResult result = this.mockMvc.perform(post("/services/user/update")
                 .accept("application/json")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(status().isOk());
-
-        LoggingUtility.i(result);
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data", is(true)))
+                .andReturn();
+        LoggingUtility.i(result.getResponse().getContentAsString());
 
     }
 }

@@ -51,8 +51,6 @@
     <!-- Aspect -->
     <bean id="controllerProxy" class="com.hackday.special.ControllerProxy" />
 
-
-
     <!-- Handlers -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"
           id="handlerMapping">

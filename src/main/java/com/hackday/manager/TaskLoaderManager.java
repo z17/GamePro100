@@ -8,14 +8,19 @@ import java.io.*;
 @Service
 public class TaskLoaderManager {
 
-    public String getPathToTaskFolder(final String userCode, final String fileName, final int taskID) throws IOException {
-        File file = createTmpFile(fileName, taskID);
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
-            writer.write(Constants.FILE_HEADER);
-            writer.write(userCode);
-            writer.write(Constants.FILE_FLOR);
+    public String getPathToTaskFolder(final String userCode, final String fileName, final int taskID) {
+        try {
+            File file = createTmpFile(fileName, taskID);
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                writer.write(Constants.FILE_HEADER);
+                writer.write(userCode);
+                writer.write(Constants.FILE_FLOR);
+                return (file.getParent());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return (file.getParent());
+        return null;
     }
 
 

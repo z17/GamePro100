@@ -11,23 +11,23 @@ import java.util.List;
 
 @RestController
 @RequestMapping(Controllers.BASE_PATH + Controllers.LESSON)
-public class LessonController {
+public class LessonController extends AbstractController{
 
     @Autowired
     LessonService lessonService;
 
     @RequestMapping(value = Controllers.GET, method = RequestMethod.GET)
-    public LessonEntity get(@RequestParam(value = Controllers.PARAM_ID) final Long id) {
-        return lessonService.get(id);
+    public Result<LessonEntity> get(@RequestParam(value = Controllers.PARAM_ID) final Long id) {
+        return run(() -> lessonService.get(id));
     }
 
     @RequestMapping(value = Controllers.GET_LIST, method = RequestMethod.GET)
-    public List<LessonEntity> getList() {
-        return lessonService.getList();
+    public Result<List<LessonEntity>> getList() {
+        return run(() -> lessonService.getList());
     }
 
     @RequestMapping(value = Controllers.CREATE, method = RequestMethod.POST)
-    public boolean create(@RequestBody final LessonEntity lessonEntity) {
-        return lessonService.create(lessonEntity);
+    public Result<Boolean> create(@RequestBody final LessonEntity lessonEntity) {
+        return run(() -> lessonService.create(lessonEntity));
     }
 }

@@ -41,14 +41,14 @@ public class LessonControllerTest {
         MvcResult result1 = this.mockMvc.perform(get("/services/lesson/get?id=1")
                 .accept("application/json"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.data.id", is(1)))
                 .andReturn();
         System.out.println(result1.getResponse().getContentAsString());
 
         MvcResult result2 = this.mockMvc.perform(get("/services/lesson/get?id=3")
                 .accept("application/json"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(3)))
+                .andExpect(jsonPath("$.data.id", is(3)))
                 .andReturn();
         System.out.println(result2.getResponse().getContentAsString());
     }
@@ -58,7 +58,7 @@ public class LessonControllerTest {
         MvcResult result = this.mockMvc.perform(get("/services/lesson/getList")
                 .accept("application/json"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.data").isArray())
                 .andReturn();
         System.out.println(result.getResponse().getContentAsString());
     }
@@ -74,7 +74,7 @@ public class LessonControllerTest {
                 .accept("application/json")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", is(true)))
+                .andExpect(jsonPath("$.data", is(true)))
                 .andReturn();
         System.out.println(result.getResponse().getContentAsString());
     }

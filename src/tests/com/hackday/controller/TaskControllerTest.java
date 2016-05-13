@@ -1,7 +1,6 @@
 package com.hackday.controller;
 
 import com.google.gson.Gson;
-import com.hackday.entity.TaskEntity;
 import com.hackday.requests.TaskArguments;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +26,6 @@ import static org.hamcrest.Matchers.*;
 @ContextConfiguration("file:src/main/webapp/WEB-INF/test-configuration.xml")
 public class TaskControllerTest {
 
-
     @Autowired
     private WebApplicationContext wac;
 
@@ -42,7 +40,7 @@ public class TaskControllerTest {
     public void testGet() throws Exception {
         MvcResult result = this.mockMvc.perform(get("/services/task/get?id=2").accept("application/json"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(2)))
+                .andExpect(jsonPath("$.data.id", is(2)))
                 .andReturn();
         System.out.println(result.getResponse().getContentAsString());
     }
@@ -50,8 +48,8 @@ public class TaskControllerTest {
     @Test
     public void testGetList() throws Exception {
         MvcResult result = this.mockMvc.perform(get("/services/task/getList?lessonID=1").accept("application/json"))
-         //       .andExpect(status().isOk())
-         //       .andExpect(jsonPath("$").isArray())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data").isArray())
                 .andReturn();
         System.out.println(result.getResponse().getContentAsString());
     }
@@ -68,7 +66,7 @@ public class TaskControllerTest {
                 .accept("application/json")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", is(true)))
+                .andExpect(jsonPath("$.data", is(true)))
                 .andReturn();
         System.out.println(result.getResponse().getContentAsString());
     }
