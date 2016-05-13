@@ -8,6 +8,7 @@ import com.hackday.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class TaskController extends AbstractController {
     private TaskService service;
 
     @RequestMapping(value = Controllers.GET, method = RequestMethod.GET)
-    public Result<TaskEntity> get(@RequestParam(value = Controllers.PARAM_ID) final Long id) throws IOException {
+    public Result<TaskEntity> get(@RequestParam(value = Controllers.PARAM_ID) final Long id) {
         return run(() -> service.get(id));
     }
 
@@ -30,7 +31,7 @@ public class TaskController extends AbstractController {
     }
 
     @RequestMapping(value = Controllers.CREATE, method = RequestMethod.POST)
-    public Result<Boolean> create(@RequestBody final TaskArguments taskArgs){
+    public Result<Boolean> create(@RequestBody @Valid final TaskArguments taskArgs){
         return run(() -> service.create(taskArgs));
     }
 
