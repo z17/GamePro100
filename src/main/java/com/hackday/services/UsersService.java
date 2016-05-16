@@ -1,6 +1,6 @@
 package com.hackday.services;
 
-import com.hackday.dao.UserDao;
+import com.hackday.dao.UsersDao;
 import com.hackday.entity.UserEntity;
 import com.hackday.entity.UserRole;
 import com.hackday.requests.UserArguments;
@@ -20,18 +20,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class UserService {
+public class UsersService {
     @Autowired
     @Qualifier("authenticationManager")
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserDao dao;
+    private UsersDao dao;
 
     @Autowired
     private BCryptPasswordEncoder bcryptEncoder;
 
     public boolean create(UserArguments userArguments) {
+        if (dao.findByUserName(userArguments.login) != null) {
+            throw new RuntimeException("login error");
+        }
+
         UserEntity user = new UserEntity();
         user.setLogin(userArguments.login);
         user.setPassword(encodePassword(userArguments.password));

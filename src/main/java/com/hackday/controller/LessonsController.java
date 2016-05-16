@@ -3,18 +3,18 @@ package com.hackday.controller;
 
 import com.hackday.constants.Controllers;
 import com.hackday.entity.LessonEntity;
-import com.hackday.services.LessonService;
+import com.hackday.services.LessonsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(Controllers.BASE_PATH + Controllers.LESSON)
-public class LessonController extends AbstractController{
+@RequestMapping(Controllers.BASE_PATH + Controllers.LESSONS)
+public class LessonsController extends AbstractController{
 
     @Autowired
-    LessonService lessonService;
+    LessonsService lessonService;
 
     @RequestMapping(value = Controllers.GET, method = RequestMethod.GET)
     public Result<LessonEntity> get(@RequestParam(value = Controllers.PARAM_ID) final Long id) {

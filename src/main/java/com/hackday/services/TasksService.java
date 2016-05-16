@@ -2,14 +2,13 @@ package com.hackday.services;
 
 import com.hackday.cmd.ExecTask;
 import com.hackday.constants.Constants;
-import com.hackday.dao.TaskDao;
+import com.hackday.dao.TasksDao;
 import com.hackday.entity.LessonEntity;
 import com.hackday.entity.TaskEntity;
 import com.hackday.manager.TaskLoaderManager;
 import com.hackday.requests.TaskArguments;
 import com.hackday.results.TaskResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,13 +20,13 @@ import java.util.List;
 
 @Service
 @Transactional
-public class TaskService {
+public class TasksService {
 
     @Autowired
     private TaskLoaderManager taskLouderManager;
 
     @Autowired
-    private TaskDao taskDao;
+    private TasksDao taskDao;
 
     public TaskEntity get(final Long id) {
         return taskDao.get(id);

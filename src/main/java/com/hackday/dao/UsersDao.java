@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class UserDao extends AbstractDao {
+public class UsersDao extends AbstractDao {
 
     public UserEntity get(final Long id){
         final Criteria criteria = getSession().createCriteria(UserEntity.class);

@@ -4,21 +4,20 @@ import com.hackday.constants.Controllers;
 import com.hackday.entity.TaskEntity;
 import com.hackday.requests.TaskArguments;
 import com.hackday.results.TaskResult;
-import com.hackday.services.TaskService;
+import com.hackday.services.TasksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 
 
 @RestController
-@RequestMapping(Controllers.BASE_PATH + Controllers.TASK)
-public class TaskController extends AbstractController {
+@RequestMapping(Controllers.BASE_PATH + Controllers.TASKS)
+public class TasksController extends AbstractController {
 
     @Autowired
-    private TaskService service;
+    private TasksService service;
 
     @RequestMapping(value = Controllers.GET, method = RequestMethod.GET)
     public Result<TaskEntity> get(@RequestParam(value = Controllers.PARAM_ID) final Long id) {

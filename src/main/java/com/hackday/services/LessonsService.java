@@ -2,7 +2,7 @@ package com.hackday.services;
 
 import java.util.List;
 
-import com.hackday.dao.LessonDao;
+import com.hackday.dao.LessonsDao;
 import com.hackday.entity.LessonEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class LessonService {
+public class LessonsService {
 
     @Autowired
-    private LessonDao dao;
+    private LessonsDao dao;
 
     public boolean create(LessonEntity lessonEntity) {
         dao.create(lessonEntity);

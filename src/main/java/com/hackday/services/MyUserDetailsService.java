@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.hackday.dao.UserDao;
+import com.hackday.dao.UsersDao;
 import com.hackday.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,7 +21,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     //get userEntity from the database, via Hibernate
     @Autowired
-    private UserDao userDao;
+    private UsersDao userDao;
 
     @Transactional(readOnly=true)
     @Override
