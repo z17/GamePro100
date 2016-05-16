@@ -46,12 +46,6 @@ public class TasksService {
         return true;
     }
 
-    public TaskResult submit(final String code, final int taskID) {
-        String fileName = "Main";
-        String result = taskLouderManager.getPathToTaskFolder(code, fileName, taskID);
-        return ExecTask.execTask(result, fileName);
-    }
-
     public List<String> getMap(final int taskID) {
         List<String> map = new ArrayList<>();
         //StringBuilder map = new StringBuilder();

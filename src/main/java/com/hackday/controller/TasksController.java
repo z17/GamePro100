@@ -34,13 +34,7 @@ public class TasksController extends AbstractController {
         return run(() -> service.create(taskArgs));
     }
 
-    @RequestMapping(value = Controllers.TASK_SUBMIT, method = RequestMethod.POST)
-    public Result<TaskResult> submit(@RequestParam(value = Controllers.PARAM_CODE) final String code,
-                             @RequestParam(value = Controllers.PARAM_ID) final int taskID ){
-        return run(() -> service.submit(code, taskID));
-    }
-
-    @RequestMapping(value = Controllers.GET_MAP, method = RequestMethod.POST)
+    @RequestMapping(value = Controllers.GET_MAP, method = RequestMethod.GET)
     public Result<List<String>> getMap(@RequestParam(value = Controllers.PARAM_ID) final int taskID) {
         return run(() -> service.getMap(taskID));
     }

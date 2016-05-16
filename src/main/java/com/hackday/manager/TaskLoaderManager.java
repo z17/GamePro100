@@ -8,7 +8,7 @@ import java.io.*;
 @Service
 public class TaskLoaderManager {
 
-    public String getPathToTaskFolder(final String userCode, final String fileName, final int taskID) {
+    public String getPathToTaskFolder(final String userCode, final String fileName, final Long taskID) {
         try {
             File file = createTmpFile(fileName, taskID);
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
@@ -24,7 +24,7 @@ public class TaskLoaderManager {
     }
 
 
-    private File createTmpFile(final String fileName, final int taskID) throws IOException {
+    private File createTmpFile(final String fileName, final Long taskID) throws IOException {
         return new File(Constants.TASKS_FOLDER + "/" + taskID, fileName + ".java");
     }
 }

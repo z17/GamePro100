@@ -18,12 +18,11 @@ var human = new PIXI.Sprite(humanImage);
 function initLevel() {
 	var worldMap = [];
 	$.ajax({
-		url: '/services/task/getMap?id=1',
+		url: '/services/tasks/getMap?id=1',
 		async: false
 	}).done(function (data) {
-		worldMap = data;
+		worldMap = data.data;
 	});
-
 	var MAP_WIDTH = worldMap[0].length,
 		MAP_HEIGHT = worldMap.length;
 
@@ -210,10 +209,10 @@ var popup = new $.Popup();
 
 $('body').on('click', '.js-start', function () {
 	$.ajax({
-		url: '/services/task/submit/',
+		url: '/services/answers/submit/',
 		data: { code: myCodeMirror.getValue(), id: 1 }
 	}).done(function (data) {
-		var dataObject = data;
+		var dataObject = data.data;
 		if(dataObject.status === 'COMPLETED') {
 			var commands = dataObject.text.split(';');
 			var firstCommand = commands.shift();

@@ -1,6 +1,5 @@
 package com.hackday.constants;
 
-
 public final class Controllers {
     public final static String BASE_PATH = "/services";
 
@@ -16,6 +15,9 @@ public final class Controllers {
     public final static String USERS = "/users";
     public final static String LOGIN = "/login";
     public final static String LOGOUT = "/logout";
+
+    // Answers methods
+    public final static String ANSWERS = "/answers";
 
     // Other
     public final static String GET = "/get";

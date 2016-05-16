@@ -4,7 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class AbstractDao{
+public abstract class AbstractDao<T>{
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -13,15 +13,15 @@ public abstract class AbstractDao{
         return sessionFactory.getCurrentSession();
     }
 
-    public void create(Object entity) {
+    public void create(T entity) {
         getSession().persist(entity);
     }
 
-    public void update(Object entity) {
+    public void update(T entity) {
         getSession().update(entity);
     }
 
-    public void delete(Object entity) {
+    public void delete(T entity) {
         getSession().delete(entity);
     }
 }
