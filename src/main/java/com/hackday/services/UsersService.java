@@ -5,8 +5,10 @@ import com.hackday.entity.UserEntity;
 import com.hackday.entity.UserRole;
 import com.hackday.requests.UserArguments;
 import com.hackday.requests.UserUpdateArguments;
+import com.hackday.special.LoggingUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -14,9 +16,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Service
 @Transactional
@@ -57,11 +62,7 @@ public class UsersService {
 
     public boolean login(final String login, final String password) {
         final UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login, password);
-        // todo: set full details
-        final UserEntity details = new UserEntity();
-        details.setLogin(login);
-        token.setDetails(details);
-
+        token.setDetails(dao.findByUserName(login));
         try {
             final Authentication auth = authenticationManager.authenticate(token);
             SecurityContextHolder.getContext().setAuthentication(auth);
@@ -70,6 +71,15 @@ public class UsersService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public boolean logout(final HttpServletRequest request, final HttpServletResponse response) {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+            return true;
+        }
+        return false;
     }
 
     private String encodePassword(final String password) {

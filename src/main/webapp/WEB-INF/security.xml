@@ -7,19 +7,20 @@
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <http auto-config="true" use-expressions="false">
+    <http auto-config="true" use-expressions="true">
         <!--<intercept-url pattern="/services/**" access='IS_AUTHENTICATED_ANONYMOUSLY' />-->
         <!--<intercept-url pattern="/services/task/**" access="ROLE_USER" />-->
         <form-login
-                login-page='/services/user/login'
+                login-page='/services/users/login'
                 password-parameter="password"
                 username-parameter="login"
         />
+
         <csrf disabled="true" />
 
     </http>
 
-    <global-method-security secured-annotations="enabled" />
+    <global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
 
     <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="myUserDetailsService" >

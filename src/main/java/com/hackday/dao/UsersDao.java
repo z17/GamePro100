@@ -17,7 +17,7 @@ public class UsersDao extends AbstractDao<UserEntity> {
         return (UserEntity) criteria.uniqueResult();
     }
 
-    @SuppressWarnings("unchecked")
+
     public UserEntity findByUserName(String login) {
         Criteria criteria = getSession().createCriteria(UserEntity.class);
         criteria.add(Restrictions.eq(UsersTable.LOGIN, login));
