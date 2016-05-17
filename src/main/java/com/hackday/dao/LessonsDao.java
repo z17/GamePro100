@@ -20,7 +20,7 @@ public class LessonsDao extends AbstractDao<LessonEntity> {
     }
 
     public void delete(final Long id) {
-        final Query query = getSession().createSQLQuery("delete from lesson where id = :id");
+        final Query query = getSession().createSQLQuery("delete from lessons where id = :id");
         query.setLong(LessonTable.ID, id);
         query.executeUpdate();
     }

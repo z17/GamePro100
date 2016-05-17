@@ -9,7 +9,7 @@
 
     <http auto-config="true" use-expressions="false">
         <!--<intercept-url pattern="/services/**" access='IS_AUTHENTICATED_ANONYMOUSLY' />-->
-        <intercept-url pattern="/services/task/**" access="ROLE_USER" />
+        <!--<intercept-url pattern="/services/task/**" access="ROLE_USER" />-->
         <form-login
                 login-page='/services/user/login'
                 password-parameter="password"
@@ -18,6 +18,8 @@
         <csrf disabled="true" />
 
     </http>
+
+    <global-method-security secured-annotations="enabled" />
 
     <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="myUserDetailsService" >

@@ -6,6 +6,7 @@ import com.hackday.requests.TaskArguments;
 import com.hackday.results.TaskResult;
 import com.hackday.services.TasksService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,6 +30,7 @@ public class TasksController extends AbstractController {
         return run(() -> service.getListByLesson(lessonID));
     }
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = Controllers.CREATE, method = RequestMethod.POST)
     public Result<Boolean> create(@RequestBody @Valid final TaskArguments taskArgs){
         return run(() -> service.create(taskArgs));

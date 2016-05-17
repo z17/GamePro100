@@ -14,6 +14,10 @@ public class AnswerEntity {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = AnswersTable.USER_ID, nullable = false)
+    private UserEntity userEntity;
+
+    @ManyToOne
     @JoinColumn(name = AnswersTable.TASK_ID, nullable = false)
     private TaskEntity taskEntity;
 

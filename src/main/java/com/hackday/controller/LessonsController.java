@@ -5,6 +5,7 @@ import com.hackday.constants.Controllers;
 import com.hackday.entity.LessonEntity;
 import com.hackday.services.LessonsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class LessonsController extends AbstractController{
         return run(() -> lessonService.getList());
     }
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = Controllers.CREATE, method = RequestMethod.POST)
     public Result<Boolean> create(@RequestBody final LessonEntity lessonEntity) {
         return run(() -> lessonService.create(lessonEntity));

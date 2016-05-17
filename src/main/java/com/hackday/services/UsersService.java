@@ -39,7 +39,7 @@ public class UsersService {
         UserEntity user = new UserEntity();
         user.setLogin(userArguments.login);
         user.setPassword(encodePassword(userArguments.password));
-        user.setGroup(UserRole.USER);
+        user.setGroup(UserRole.ROLE_USER);
         user.setEmail(userArguments.email);
         dao.create(user);
 
@@ -57,14 +57,17 @@ public class UsersService {
 
     public boolean login(final String login, final String password) {
         final UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login, password);
+        // todo: set full details
         final UserEntity details = new UserEntity();
         details.setLogin(login);
         token.setDetails(details);
+
         try {
             final Authentication auth = authenticationManager.authenticate(token);
             SecurityContextHolder.getContext().setAuthentication(auth);
             return auth.isAuthenticated();
         } catch (BadCredentialsException | InternalAuthenticationServiceException e) {
+            e.printStackTrace();
             return false;
         }
     }
