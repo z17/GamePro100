@@ -19,14 +19,7 @@ public class LessonsDao extends AbstractDao<LessonEntity> {
         return (List<LessonEntity>) criteria.list();
     }
 
-    public void delete(final Long id) {
-        final Query query = getSession().createSQLQuery("delete from lessons where id = :id");
-        query.setLong(LessonTable.ID, id);
-        query.executeUpdate();
-    }
-
-
-    public LessonEntity get(final Long id){
+     public LessonEntity get(final Long id){
         final Criteria criteria = getSession().createCriteria(LessonEntity.class);
         criteria.add(Restrictions.eq(LessonTable.ID,id));
         return (LessonEntity) criteria.uniqueResult();

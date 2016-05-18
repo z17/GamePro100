@@ -25,8 +25,8 @@ public class LessonsService {
         return dao.getList();
     }
 
-    public void delete(Long id) {
-        dao.delete(id);
+    public void delete(LessonEntity lessonEntity) {
+        dao.delete(lessonEntity);
     }
 
     public LessonEntity get(Long id) {
