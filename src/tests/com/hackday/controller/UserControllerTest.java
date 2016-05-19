@@ -1,6 +1,7 @@
 package com.hackday.controller;
 
 import com.google.gson.Gson;
+import com.hackday.Constants;
 import com.hackday.requests.UserArguments;
 import com.hackday.requests.UserUpdateArguments;
 import com.hackday.special.LoggingUtility;
@@ -38,15 +39,45 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testCreate() throws Exception {
+    public void testCreateDuplicateLogin() throws Exception {
+        Constants.loginRoleAnonymous();
+
         UserArguments user = new UserArguments();
-        user.login = "qwerty 1";
+        user.login = "qwerty";
         user.password = "qwerty";
         user.email = "ad@asd.ye";
-        Gson gson = new Gson();
-        String json = gson.toJson(user);
+        String json = new Gson().toJson(user);
 
-        MvcResult result = this.mockMvc.perform(post("/services/user/create")
+        this.mockMvc.perform(post("/services/users/create")
+                .accept("application/json")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().is5xxServerError());
+    }
+
+    @Test
+    public void testCreateFromAlreadyLogin() throws Exception {
+        Constants.loginRoleUser();
+
+        UserArguments user = new UserArguments();
+        user.login = "qwerty23132";
+        user.password = "qwerty";
+        user.email = "ad@asd.ye";
+        String json = new Gson().toJson(user);
+
+        this.mockMvc.perform(post("/services/users/create")
+                .accept("application/json")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().is5xxServerError());
+    }
+
+    @Test
+    public void testCreate() throws Exception {
+        Constants.loginRoleAnonymous();
+
+        UserArguments user = new UserArguments(Constants.randomString(10), "qwerty", "asd@saf.ru");
+        String json = new Gson().toJson(user);
+
+        MvcResult result = this.mockMvc.perform(post("/services/users/create")
                 .accept("application/json")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk())
@@ -58,21 +89,32 @@ public class UserControllerTest {
 
     @Test
     public void testUpdate() throws Exception {
-        UserUpdateArguments user = new UserUpdateArguments();
-        user.id = 2L;
-        user.password ="qwerty 1";
-        user.email = "ad@asd.ye";
+        Constants.loginRoleUser();
+        UserUpdateArguments user = new UserUpdateArguments(Constants.ROLE_USER_ID, Constants.ROLE_USER_PASSWORD, "asv@sgvd.ru");
 
-        Gson gson = new Gson();
-        String json = gson.toJson(user);
+        String json = new Gson().toJson(user);
 
-        MvcResult result = this.mockMvc.perform(post("/services/user/update")
+        MvcResult result = this.mockMvc.perform(post("/services/users/update")
                 .accept("application/json")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data", is(true)))
                 .andReturn();
         LoggingUtility.i(result.getResponse().getContentAsString());
-
     }
+
+    @Test
+    public void testUpdateAnon() throws Exception {
+        Constants.loginRoleAnonymous();
+        UserUpdateArguments user = new UserUpdateArguments(Constants.ROLE_USER_ID, Constants.ROLE_USER_PASSWORD, "asv@sgvd.ru");
+
+        String json = new Gson().toJson(user);
+
+        MvcResult result = this.mockMvc.perform(post("/services/users/update")
+                .accept("application/json")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().is5xxServerError())
+                .andReturn();
+    }
+
 }

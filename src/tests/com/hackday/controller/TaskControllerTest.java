@@ -1,6 +1,7 @@
 package com.hackday.controller;
 
 import com.google.gson.Gson;
+import com.hackday.Constants;
 import com.hackday.requests.TaskArguments;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +39,7 @@ public class TaskControllerTest {
 
     @Test
     public void testGet() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/services/task/get?id=2").accept("application/json"))
+        MvcResult result = this.mockMvc.perform(get("/services/tasks/get?id=2").accept("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.id", is(2)))
                 .andReturn();
@@ -47,7 +48,7 @@ public class TaskControllerTest {
 
     @Test
     public void testGetList() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/services/task/getList?lessonID=1").accept("application/json"))
+        MvcResult result = this.mockMvc.perform(get("/services/tasks/getList?lessonID=1").accept("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").isArray())
                 .andReturn();
@@ -56,17 +57,37 @@ public class TaskControllerTest {
 
     @Test
     public void testCreate() throws Exception {
+        Constants.loginRoleAdmin();
+
         TaskArguments task = new TaskArguments();
         task.name ="Test Name 3";
         task.lessonID = 1L;
         Gson gson = new Gson();
         String json = gson.toJson(task);
 
-        MvcResult result = this.mockMvc.perform(post("/services/task/create")
+        MvcResult result = this.mockMvc.perform(post("/services/tasks/create")
                 .accept("application/json")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data", is(true)))
+                .andReturn();
+        System.out.println(result.getResponse().getContentAsString());
+    }
+
+    @Test
+    public void testCreateUser() throws Exception {
+        Constants.loginRoleUser();
+
+        TaskArguments task = new TaskArguments();
+        task.name ="Test Error Create";
+        task.lessonID = 1L;
+        Gson gson = new Gson();
+        String json = gson.toJson(task);
+
+        MvcResult result = this.mockMvc.perform(post("/services/tasks/create")
+                .accept("application/json")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().is5xxServerError())
                 .andReturn();
         System.out.println(result.getResponse().getContentAsString());
     }

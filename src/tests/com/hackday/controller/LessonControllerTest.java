@@ -1,12 +1,15 @@
 package com.hackday.controller;
 
 import com.google.gson.Gson;
+import com.hackday.Constants;
 import com.hackday.entity.LessonEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -38,14 +41,14 @@ public class LessonControllerTest {
 
     @Test
     public void testGet() throws Exception {
-        MvcResult result1 = this.mockMvc.perform(get("/services/lesson/get?id=1")
+        MvcResult result1 = this.mockMvc.perform(get("/services/lessons/get?id=1")
                 .accept("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.id", is(1)))
                 .andReturn();
         System.out.println(result1.getResponse().getContentAsString());
 
-        MvcResult result2 = this.mockMvc.perform(get("/services/lesson/get?id=3")
+        MvcResult result2 = this.mockMvc.perform(get("/services/lessons/get?id=3")
                 .accept("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.id", is(3)))
@@ -55,7 +58,7 @@ public class LessonControllerTest {
 
     @Test
     public void testGetList() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/services/lesson/getList")
+        MvcResult result = this.mockMvc.perform(get("/services/lessons/getList")
                 .accept("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").isArray())
@@ -65,16 +68,33 @@ public class LessonControllerTest {
 
     @Test
     public void testCreate() throws Exception {
+        Constants.loginRoleAdmin();
+
         LessonEntity lesson = new LessonEntity();
         lesson.setName("Test Name 2");
-        Gson gson = new Gson();
-        String json = gson.toJson(lesson);
+        String json = new Gson().toJson(lesson);
 
-        MvcResult result = this.mockMvc.perform(post("/services/lesson/create")
+        MvcResult result = this.mockMvc.perform(post("/services/lessons/create")
                 .accept("application/json")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data", is(true)))
+                .andReturn();
+        System.out.println(result.getResponse().getContentAsString());
+    }
+
+    @Test
+    public void testCreateUser() throws Exception {
+        Constants.loginRoleUser();
+
+        LessonEntity lesson = new LessonEntity();
+        lesson.setName("Test error create");
+        String json = new Gson().toJson(lesson);
+
+        MvcResult result = this.mockMvc.perform(post("/services/lessons/create")
+                .accept("application/json")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().is5xxServerError())
                 .andReturn();
         System.out.println(result.getResponse().getContentAsString());
     }

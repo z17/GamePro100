@@ -1,12 +1,14 @@
 package com.hackday.requests;
 
 
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@ToString
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserArguments {
     @NotNull
     @Size(min = 3, max = 15)
