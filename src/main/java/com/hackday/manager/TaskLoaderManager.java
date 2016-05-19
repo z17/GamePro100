@@ -18,9 +18,8 @@ public class TaskLoaderManager {
                 return (file.getParent());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error with create code file");
         }
-        return null;
     }
 
 
