@@ -5,10 +5,8 @@ import com.hackday.entity.UserEntity;
 import com.hackday.entity.UserRole;
 import com.hackday.requests.UserArguments;
 import com.hackday.requests.UserUpdateArguments;
-import com.hackday.special.LoggingUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -52,7 +50,11 @@ public class UsersService {
     }
 
     public boolean update(UserUpdateArguments userArgs) {
-        UserEntity user = dao.get(userArgs.id);
+        if (!getCurrentUser().getId().equals(userArgs.getId())) {
+            throw new RuntimeException("Access denied");
+        }
+
+        final UserEntity user = dao.get(userArgs.id);
         user.setEmail(userArgs.email);
         user.setPassword(encodePassword(userArgs.password));
         dao.update(user);
@@ -75,11 +77,17 @@ public class UsersService {
 
     public boolean logout(final HttpServletRequest request, final HttpServletResponse response) {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-            return true;
+
+        if (auth == null) {
+            throw new RuntimeException("Authentication not found");
         }
-        return false;
+
+        new SecurityContextLogoutHandler().logout(request, response, auth);
+        return true;
+    }
+
+    public UserEntity getCurrentUser() {
+        return (UserEntity)SecurityContextHolder.getContext().getAuthentication().getDetails();
     }
 
     private String encodePassword(final String password) {

@@ -1,5 +1,6 @@
 package com.hackday;
 
+import com.hackday.entity.UserEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -19,15 +20,21 @@ public class Constants {
     public static final String ROLE_ADMIN_PASSWORD = "qwerty";
 
     public static void loginRoleUser() {
-        SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken(Constants.ROLE_USER_LOGIN, Constants.ROLE_USER_PASSWORD)
-        );
+        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(Constants.ROLE_USER_LOGIN, Constants.ROLE_USER_PASSWORD);
+        UserEntity user = new UserEntity();
+        user.setLogin(ROLE_USER_LOGIN);
+        user.setId(ROLE_USER_ID);
+        auth.setDetails(user);
+        SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
     public static void loginRoleAdmin() {
-        SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken(Constants.ROLE_ADMIN_LOGIN, Constants.ROLE_ADMIN_PASSWORD)
-        );
+        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(Constants.ROLE_ADMIN_LOGIN, Constants.ROLE_ADMIN_PASSWORD);
+        UserEntity user = new UserEntity();
+        user.setLogin(ROLE_ADMIN_LOGIN);
+        user.setId(ROLE_ADMIN_ID);
+        auth.setDetails(user);
+        SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
     public static void loginRoleAnonymous() {

@@ -18,6 +18,7 @@ public final class Controllers {
 
     // Answers methods
     public final static String ANSWERS = "/answers";
+    public final static String GET_BY_USER_AND_TASK = "/getByUserAndTask";
 
     // Other
     public final static String GET = "/get";
@@ -25,10 +26,12 @@ public final class Controllers {
     public final static String CREATE = "/create";
     public final static String UPDATE = "/update";
 
+    // todo: move to own class
     // params
     public final static String PARAM_CODE = "code";
     public final static String PARAM_ID = "id";
     public final static String PARAM_LESSON_ID = "lessonID";
     public final static String PARAM_LOGIN = "login";
     public final static String PARAM_PASSWORD = "password";
+    public final static String PARAM_TASK_ID = "taskID";
 }
