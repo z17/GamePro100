@@ -10,4 +10,7 @@ public final class AnswersTable {
     public static final String TASK_ID = "task_id";
     public static final String ANSWER = "answer";
     public static final String CORRECT = "correct";
+
+    public static final String TASK_ENTITY = "taskEntity";
+    public static final String USER_ENTITY = "userEntity";
 }

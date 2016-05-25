@@ -2,6 +2,7 @@ package com.hackday.services;
 
 import com.hackday.cmd.ExecTask;
 import com.hackday.dao.AnswersDao;
+import com.hackday.dao.TasksDao;
 import com.hackday.entity.AnswerEntity;
 import com.hackday.entity.TaskEntity;
 import com.hackday.manager.TaskLoaderManager;
@@ -19,22 +20,23 @@ public class AnswersService {
     private AnswersDao dao;
 
     @Autowired
+    private TasksDao tasksDao;
+
+    @Autowired
     private UsersService usersService;
 
     @Autowired
     private TaskLoaderManager taskLouderManager;
 
     public TaskResult submit(final String code, final Long taskID) {
+        final TaskEntity taskEntity = tasksDao.get(taskID);
         final String fileName = "Main";
-        final String resultStr = taskLouderManager.getPathToTaskFolder(code, fileName, taskID);
+        final String resultStr = taskLouderManager.getTaskPath(code, fileName, taskEntity);
         final TaskResult result = ExecTask.execTask(resultStr, fileName);
 
         final AnswerEntity answerEntity = new AnswerEntity();
         answerEntity.setAnswer(code);
         answerEntity.setCorrect(result.status == TaskResult.Status.COMPLETED);
-
-        final TaskEntity taskEntity = new TaskEntity();
-        taskEntity.setId(taskID);
         answerEntity.setTaskEntity(taskEntity);
 
         answerEntity.setUserEntity(usersService.getCurrentUser());
