@@ -34,6 +34,7 @@ public class AnswersService {
         final UserEntity userEntity = usersService.getCurrentUser();
 
         // todo: check access user to current lesson and task
+        // todo: add all logic with task to own class
 
         final String taskPath = taskLoaderManager.getTaskPath(code, taskEntity);
         final TaskResult result = ExecTask.execTask(taskPath);

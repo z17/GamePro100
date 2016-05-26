@@ -48,6 +48,7 @@ public class TaskManager {
 
 
     private String makeFolders(final TaskEntity taskEntity) {
+        //todo: add userid to path
         final String path = Constants.TASKS_FOLDER + "\\lesson" + taskEntity.getLessonEntity().getId() + "\\task" + taskEntity.getId() + "\\";
         if (new File(path).mkdirs()) {
             return path;
