@@ -5,7 +5,8 @@ import com.hackday.dao.AnswersDao;
 import com.hackday.dao.TasksDao;
 import com.hackday.entity.AnswerEntity;
 import com.hackday.entity.TaskEntity;
-import com.hackday.manager.TaskLoaderManager;
+import com.hackday.entity.UserEntity;
+import com.hackday.manager.TaskManager;
 import com.hackday.results.TaskResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,20 +27,24 @@ public class AnswersService {
     private UsersService usersService;
 
     @Autowired
-    private TaskLoaderManager taskLouderManager;
+    private TaskManager taskLoaderManager;
 
     public TaskResult submit(final String code, final Long taskID) {
         final TaskEntity taskEntity = tasksDao.get(taskID);
-        final String fileName = "Main";
-        final String resultStr = taskLouderManager.getTaskPath(code, fileName, taskEntity);
-        final TaskResult result = ExecTask.execTask(resultStr, fileName);
+        final UserEntity userEntity = usersService.getCurrentUser();
+
+        // todo: check access user to current lesson and task
+
+        final String taskPath = taskLoaderManager.getTaskPath(code, taskEntity);
+        final TaskResult result = ExecTask.execTask(taskPath);
+        taskLoaderManager.deleteTaskPath(taskPath);
 
         final AnswerEntity answerEntity = new AnswerEntity();
         answerEntity.setAnswer(code);
         answerEntity.setCorrect(result.status == TaskResult.Status.COMPLETED);
         answerEntity.setTaskEntity(taskEntity);
 
-        answerEntity.setUserEntity(usersService.getCurrentUser());
+        answerEntity.setUserEntity(userEntity);
 
         dao.create(answerEntity);
         return result;

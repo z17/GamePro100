@@ -4,8 +4,7 @@ import com.hackday.entity.LessonEntity;
 import com.hackday.entity.TaskEntity;
 import org.junit.Test;
 
-
-public class TaskLoaderManagerTest {
+public class TaskManagerTest {
 
     @Test
     public void testGetPathToTaskFolder() throws Exception {
@@ -14,7 +13,7 @@ public class TaskLoaderManagerTest {
         final LessonEntity lessonEntity = new LessonEntity();
         lessonEntity.setId(1L);
         task.setLessonEntity(lessonEntity);
-        TaskLoaderManager taskLoaderManager = new TaskLoaderManager();
-        taskLoaderManager.getTaskPath("", "filaName", task);
+        TaskManager taskLoaderManager = new TaskManager();
+        final String path = taskLoaderManager.getTaskPath("", task);
     }
 }

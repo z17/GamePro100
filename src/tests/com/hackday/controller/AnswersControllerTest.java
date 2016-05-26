@@ -55,7 +55,7 @@ public class AnswersControllerTest {
     public void testSubmitUser() throws Exception {
         Constants.loginRoleUser();
 
-        MvcResult res = this.mockMvc.perform(get("/services/answers/submit?id=1&code=1231")
+        MvcResult res = this.mockMvc.perform(get("/services/answers/submit?id=1&code=man.moveUp();")
                 .accept("application/json")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

@@ -12,7 +12,8 @@ import java.util.List;
 
 public final class ExecTask {
 
-    public static TaskResult execTask(final String path, final String name) {
+    public static TaskResult execTask(final String path) {
+        final String name = "Main";
         final TaskResult result = new TaskResult();
         try {
             final List<String> commands = new ArrayList<String>() {{
