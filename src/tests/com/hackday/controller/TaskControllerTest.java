@@ -62,6 +62,7 @@ public class TaskControllerTest {
         TaskArguments task = new TaskArguments();
         task.name ="Test Name 3";
         task.lessonID = 1L;
+        task.description = "desc";
         Gson gson = new Gson();
         String json = gson.toJson(task);
 
@@ -75,7 +76,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    public void testCreateUser() throws Exception {
+    public void testCreateByUser() throws Exception {
         Constants.loginRoleUser();
 
         TaskArguments task = new TaskArguments();

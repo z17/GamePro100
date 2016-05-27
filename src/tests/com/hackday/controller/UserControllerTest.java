@@ -74,7 +74,7 @@ public class UserControllerTest {
     public void testCreate() throws Exception {
         Constants.loginRoleAnonymous();
 
-        UserArguments user = new UserArguments(Constants.randomString(10), "qwerty", "asd@saf.ru");
+        UserArguments user = new UserArguments(Constants.randomString(10), "qwerty", "asd@saf.ru", "my name");
         String json = new Gson().toJson(user);
 
         MvcResult result = this.mockMvc.perform(post("/services/users/create")
@@ -90,7 +90,7 @@ public class UserControllerTest {
     @Test
     public void testUpdate() throws Exception {
         Constants.loginRoleUser();
-        UserUpdateArguments user = new UserUpdateArguments(Constants.ROLE_USER_ID, Constants.ROLE_USER_PASSWORD, "asv@sgvd.ru");
+        UserUpdateArguments user = new UserUpdateArguments(Constants.ROLE_USER_ID, Constants.ROLE_USER_PASSWORD, "asv@sgvd.ru", "my name");
 
         String json = new Gson().toJson(user);
 
@@ -106,7 +106,7 @@ public class UserControllerTest {
     @Test
     public void testUpdateAnon() throws Exception {
         Constants.loginRoleAnonymous();
-        UserUpdateArguments user = new UserUpdateArguments(Constants.ROLE_USER_ID, Constants.ROLE_USER_PASSWORD, "asv@sgvd.ru");
+        UserUpdateArguments user = new UserUpdateArguments(Constants.ROLE_USER_ID, Constants.ROLE_USER_PASSWORD, "asv@sgvd.ru", "my name");
 
         String json = new Gson().toJson(user);
 
