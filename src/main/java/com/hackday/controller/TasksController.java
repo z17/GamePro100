@@ -1,6 +1,7 @@
 package com.hackday.controller;
 
 import com.hackday.constants.Controllers;
+import com.hackday.constants.Params;
 import com.hackday.entity.TaskEntity;
 import com.hackday.requests.TaskArguments;
 import com.hackday.results.TaskResult;
@@ -21,12 +22,12 @@ public class TasksController extends AbstractController {
     private TasksService service;
 
     @RequestMapping(value = Controllers.GET, method = RequestMethod.GET)
-    public Result<TaskEntity> get(@RequestParam(value = Controllers.PARAM_ID) final Long id) {
+    public Result<TaskEntity> get(@RequestParam(value = Params.ID) final Long id) {
         return run(() -> service.get(id));
     }
 
     @RequestMapping(value = Controllers.GET_LIST, method = RequestMethod.GET)
-    public Result<List<TaskEntity>> getList(@RequestParam(value = Controllers.PARAM_LESSON_ID) final Long lessonID) {
+    public Result<List<TaskEntity>> getList(@RequestParam(value = Params.LESSON_ID) final Long lessonID) {
         return run(() -> service.getListByLesson(lessonID));
     }
 
@@ -36,8 +37,11 @@ public class TasksController extends AbstractController {
         return run(() -> service.create(taskArgs));
     }
 
+
+    // todo: delete this method, path to map will be in TaskEntity,and return to frontend from get method
+    @Deprecated
     @RequestMapping(value = Controllers.GET_MAP, method = RequestMethod.GET)
-    public Result<List<String>> getMap(@RequestParam(value = Controllers.PARAM_ID) final int taskID) {
+    public Result<List<String>> getMap(@RequestParam(value = Params.ID) final Long taskID) {
         return run(() -> service.getMap(taskID));
     }
 }

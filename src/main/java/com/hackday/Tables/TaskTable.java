@@ -9,4 +9,6 @@ public final class TaskTable {
     public static final String LESSON_Id = "lesson_id";
     public static final String LESSON_ENTITY = "lessonEntity";
     public static final String NAME = "name";
+    public static final String DESCRIPTION = "description";
+    public static final String MAP_PATH = "map_path";
 }

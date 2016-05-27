@@ -44,6 +44,7 @@ public class UsersService {
         user.setPassword(encodePassword(userArguments.password));
         user.setGroup(UserRole.ROLE_USER);
         user.setEmail(userArguments.email);
+        user.setName(userArguments.name);
         dao.create(user);
 
         return true;
@@ -57,6 +58,7 @@ public class UsersService {
         final UserEntity user = dao.get(userArgs.id);
         user.setEmail(userArgs.email);
         user.setPassword(encodePassword(userArgs.password));
+        user.setName(userArgs.name);
         dao.update(user);
 
         return true;

@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = TaskTable.TABLE_NAME)
 public class TaskEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,4 +19,10 @@ public class TaskEntity {
 
     @Column(name = TaskTable.NAME, nullable = false)
     private String name;
+
+    @Column(name = TaskTable.DESCRIPTION, nullable = false)
+    private String description;
+
+    @Column(name = TaskTable.MAP_PATH, nullable = false)
+    private String mapPath;
 }

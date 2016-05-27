@@ -29,4 +29,11 @@ public class TasksDao extends AbstractDao<TaskEntity> {
 
         return (List<TaskEntity>) criteria.list();
     }
+
+    @Deprecated
+    public String getMapPath(final Long id) {
+        final Criteria criteria = getSession().createCriteria(TaskEntity.class);
+        criteria.add(Restrictions.eq(TaskTable.ID, id));
+        return ((TaskEntity)criteria.uniqueResult()).getMapPath();
+    }
 }

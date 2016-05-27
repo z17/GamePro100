@@ -1,6 +1,5 @@
 package com.hackday.services;
 
-import com.hackday.cmd.ExecTask;
 import com.hackday.dao.AnswersDao;
 import com.hackday.dao.TasksDao;
 import com.hackday.entity.AnswerEntity;

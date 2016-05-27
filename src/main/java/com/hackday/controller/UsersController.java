@@ -1,6 +1,7 @@
 package com.hackday.controller;
 
 import com.hackday.constants.Controllers;
+import com.hackday.constants.Params;
 import com.hackday.requests.UserArguments;
 import com.hackday.requests.UserUpdateArguments;
 import com.hackday.services.UsersService;
@@ -23,8 +24,8 @@ public class UsersController extends AbstractController {
 
     @Secured("ROLE_ANONYMOUS")
     @RequestMapping(value = Controllers.LOGIN, method = RequestMethod.GET)
-    public Result<Boolean> login(@RequestParam(value = Controllers.PARAM_LOGIN) final String login,
-                         @RequestParam(value = Controllers.PARAM_PASSWORD) final String password) {
+    public Result<Boolean> login(@RequestParam(value = Params.LOGIN) final String login,
+                         @RequestParam(value = Params.PASSWORD) final String password) {
         return run(() -> userService.login(login, password));
     }
 

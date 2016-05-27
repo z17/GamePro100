@@ -21,9 +21,6 @@ import java.util.List;
 public class TasksService {
 
     @Autowired
-    private TaskManager taskLouderManager;
-
-    @Autowired
     private TasksDao taskDao;
 
     public TaskEntity get(final Long id) {
@@ -35,29 +32,29 @@ public class TasksService {
     }
 
     public boolean create(final TaskArguments taskArgs) {
-        TaskEntity task = new TaskEntity();
+        final TaskEntity task = new TaskEntity();
         task.setName(taskArgs.name);
-        LessonEntity lessonTask = new LessonEntity();
+        task.setDescription(taskArgs.description);
+        final LessonEntity lessonTask = new LessonEntity();
         lessonTask.setId(taskArgs.lessonID);
         task.setLessonEntity(lessonTask);
         taskDao.create(task);
         return true;
     }
 
-    public List<String> getMap(final int taskID) {
-        List<String> map = new ArrayList<>();
-        //StringBuilder map = new StringBuilder();
+    @Deprecated
+    public List<String> getMap(final Long taskID) {
+        final String mapPath = taskDao.getMapPath(taskID);
+        final List<String> map = new ArrayList<>();
         try {
-            BufferedReader br = new BufferedReader(new FileReader(Constants.MAP_TASK_1));
+            final BufferedReader br = new BufferedReader(new FileReader(Constants.MAP_TASK_1));
 
             String sCurrentLine;
             while ((sCurrentLine = br.readLine()) != null) {
                 map.add(sCurrentLine);
-//                map.append(sCurrentLine);
-//                map.append(System.getProperty("line.separator"));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("map not found");
         }
         return map;
     }

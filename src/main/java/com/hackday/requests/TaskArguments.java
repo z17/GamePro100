@@ -13,4 +13,7 @@ public class TaskArguments {
 
     @NotNull
     public Long lessonID;
+
+    @NotNull
+    public String description;
 }

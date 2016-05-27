@@ -2,6 +2,7 @@ package com.hackday.controller;
 
 
 import com.hackday.constants.Controllers;
+import com.hackday.constants.Params;
 import com.hackday.entity.LessonEntity;
 import com.hackday.services.LessonsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class LessonsController extends AbstractController{
     LessonsService lessonService;
 
     @RequestMapping(value = Controllers.GET, method = RequestMethod.GET)
-    public Result<LessonEntity> get(@RequestParam(value = Controllers.PARAM_ID) final Long id) {
+    public Result<LessonEntity> get(@RequestParam(value = Params.ID) final Long id) {
         return run(() -> lessonService.get(id));
     }
 

@@ -21,4 +21,8 @@ public class UserUpdateArguments {
 
     @NotNull
     public String email;
+
+    @NotNull
+    @Size(min = 3, max = 20)
+    public String name;
 }

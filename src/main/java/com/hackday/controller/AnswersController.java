@@ -1,6 +1,7 @@
 package com.hackday.controller;
 
 import com.hackday.constants.Controllers;
+import com.hackday.constants.Params;
 import com.hackday.entity.AnswerEntity;
 import com.hackday.results.TaskResult;
 import com.hackday.services.AnswersService;
@@ -22,14 +23,14 @@ public class AnswersController extends AbstractController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = Controllers.TASK_SUBMIT, method = RequestMethod.GET)
-    public Result<TaskResult> submit(@RequestParam(value = Controllers.PARAM_CODE) final String code,
-                                     @RequestParam(value = Controllers.PARAM_ID) final Long taskID ){
+    public Result<TaskResult> submit(@RequestParam(value = Params.CODE) final String code,
+                                     @RequestParam(value = Params.ID) final Long taskID ){
         return run(() -> service.submit(code, taskID));
     }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = Controllers.GET_BY_USER_AND_TASK, method = RequestMethod.GET)
-    public Result<List<AnswerEntity>> getByUserAndTask(@RequestParam(value = Controllers.PARAM_TASK_ID) final Long taskID) {
+    public Result<List<AnswerEntity>> getByUserAndTask(@RequestParam(value = Params.TASK_ID) final Long taskID) {
         return run(() -> service.getByUserAndTask(taskID));
     }
 }
