@@ -13,6 +13,7 @@ import java.util.List;
 public final class ExecTask {
 
     public static TaskResult execTask(final String path) {
+        // todo: do it it new Thread
         final String name = "Main";
         final TaskResult result = new TaskResult();
         try {

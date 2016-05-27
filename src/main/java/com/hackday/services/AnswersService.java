@@ -27,25 +27,19 @@ public class AnswersService {
     private UsersService usersService;
 
     @Autowired
-    private TaskManager taskLoaderManager;
+    private TaskManager taskManager;
 
     public TaskResult submit(final String code, final Long taskID) {
         final TaskEntity taskEntity = tasksDao.get(taskID);
         final UserEntity userEntity = usersService.getCurrentUser();
-
         // todo: check access user to current lesson and task
-        // todo: add all logic with task to own class
-
-        final String taskPath = taskLoaderManager.getTaskPath(code, taskEntity);
-        final TaskResult result = ExecTask.execTask(taskPath);
-        taskLoaderManager.deleteTaskPath(taskPath);
 
         final AnswerEntity answerEntity = new AnswerEntity();
         answerEntity.setAnswer(code);
-        answerEntity.setCorrect(result.status == TaskResult.Status.COMPLETED);
         answerEntity.setTaskEntity(taskEntity);
-
         answerEntity.setUserEntity(userEntity);
+        final TaskResult result = taskManager.run(answerEntity);
+        answerEntity.setCorrect(result.status == TaskResult.Status.COMPLETED);
 
         dao.create(answerEntity);
         return result;

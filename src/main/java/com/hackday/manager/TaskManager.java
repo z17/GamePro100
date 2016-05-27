@@ -1,7 +1,10 @@
 package com.hackday.manager;
 
+import com.hackday.cmd.ExecTask;
 import com.hackday.constants.Constants;
+import com.hackday.entity.AnswerEntity;
 import com.hackday.entity.TaskEntity;
+import com.hackday.results.TaskResult;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +17,21 @@ import java.nio.file.StandardCopyOption;
 @Service
 public class TaskManager {
 
-    public String getTaskPath(final String userCode, final TaskEntity task) {
+    public TaskResult run(final AnswerEntity answerEntity) {
+        final String taskPath = getTaskPath(answerEntity.getAnswer(), answerEntity.getTaskEntity(), answerEntity.getUserEntity().getId());
+        final TaskResult result = ExecTask.execTask(taskPath);
+        deleteTaskPath(taskPath);
+        return result;
+    }
 
-        final String folderPath = makeFolders(task);
+    private String getTaskPath(final String userCode, final TaskEntity task, final Long userID) {
+
+        final String folderPath = makeFolders(task, userID);
         loadTask(folderPath, task, userCode);
         return folderPath;
     }
 
-    public void deleteTaskPath(final String path) {
+    private void deleteTaskPath(final String path) {
         try {
             FileUtils.deleteDirectory(new File(path));
         } catch (IOException e) {
@@ -47,9 +57,9 @@ public class TaskManager {
     }
 
 
-    private String makeFolders(final TaskEntity taskEntity) {
+    private String makeFolders(final TaskEntity taskEntity, final Long userID) {
         //todo: add userid to path
-        final String path = Constants.TASKS_FOLDER + "\\lesson" + taskEntity.getLessonEntity().getId() + "\\task" + taskEntity.getId() + "\\";
+        final String path = Constants.TASKS_FOLDER + "\\lesson" + taskEntity.getLessonEntity().getId() + "\\task" + taskEntity.getId() + "\\user" + userID + "\\";
         if (new File(path).mkdirs()) {
             return path;
         } else {
