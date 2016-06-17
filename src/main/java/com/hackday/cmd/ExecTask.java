@@ -12,42 +12,43 @@ import java.util.List;
 
 public final class ExecTask {
 
-    public static TaskResult execTask(final String path, final String name) {
-        TaskResult result = new TaskResult();
+    public static TaskResult execTask(final String path) {
+        // todo: do it it new Thread
+        final String name = "Main";
+        final TaskResult result = new TaskResult();
         try {
-            StringBuilder buffer = new StringBuilder();
-            List<String> commands = new ArrayList<String>() {{
+            final List<String> commands = new ArrayList<String>() {{
                 add("cd " + path);
-                add("javac -cp . "+name+".java");
-                add("java -cp "+path+". "+name );
+                add("javac -cp "+path+"\\. "+path+"\\"+name+".java");
+                add("java -cp "+path+"\\. "+name );
             }};
-            Process p = Runtime.getRuntime().exec("cmd /c " + String.join(" & ", commands));
+            final Process p = Runtime.getRuntime().exec("cmd /c " + String.join(" & ", commands));
             p.waitFor();
 
             result.text = getFromStream(p.getInputStream());
-
             result.status = TaskResult.Status.COMPLETED;
 
-            String stringError = getErrorsFromStream(p.getErrorStream());
+            final String stringError = getErrorsFromStream(p.getErrorStream());
             if (stringError.length() > 0) {
                 result.text = stringError;
                 result.status = TaskResult.Status.ERROR;
             }
 
             p.destroy();
-        } catch (IOException | InterruptedException ignored) {
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException("error create task");
         }
         return result;
     }
 
 
-    private static String getFromStream(InputStream inputStream) throws IOException {
+    private static String getFromStream(final InputStream inputStream) throws IOException {
 
-        BufferedReader reader = new BufferedReader(
+        final BufferedReader reader = new BufferedReader(
                 new InputStreamReader(inputStream)
         );
 
-        StringBuilder buffer = new StringBuilder();
+        final StringBuilder buffer = new StringBuilder();
         String line;
         while ((line = reader.readLine()) != null) {
             buffer.append(line);
@@ -55,12 +56,12 @@ public final class ExecTask {
         return buffer.toString();
     }
 
-    private static String getErrorsFromStream(InputStream inputStream) throws IOException {
+    private static String getErrorsFromStream(final InputStream inputStream) throws IOException {
 
-        BufferedReader reader = new BufferedReader(
+        final BufferedReader reader = new BufferedReader(
                 new InputStreamReader(inputStream)
         );
-        StringBuilder buffer = new StringBuilder();
+        final StringBuilder buffer = new StringBuilder();
         String line;
         while ((line = reader.readLine()) != null) {
             buffer.append(line);

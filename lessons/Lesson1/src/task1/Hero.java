@@ -1,5 +1,3 @@
-package task1;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +52,7 @@ public class Hero {
     private void readFile() {
         map = new ArrayList<>();
         try {
-            BufferedReader br = new BufferedReader(new FileReader("D:\\GamePro100\\lessons\\Lesson1\\src\\task1\\map"));
+            BufferedReader br = new BufferedReader(new FileReader("map"));
 
             String sCurrentLine;
             while ((sCurrentLine = br.readLine()) != null) {
