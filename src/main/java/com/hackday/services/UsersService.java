@@ -1,12 +1,11 @@
 package com.hackday.services;
 
-import com.hackday.dao.UsersDao;
 import com.hackday.entity.UserEntity;
 import com.hackday.entity.UserRole;
+import com.hackday.repository.UserRepository;
 import com.hackday.requests.UserArguments;
 import com.hackday.requests.UserUpdateArguments;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -25,17 +24,17 @@ import javax.servlet.http.HttpServletResponse;
 @Transactional
 public class UsersService {
     @Autowired
-    @Qualifier("authenticationManager")
+//    @Qualifier("authenticationManager")
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UsersDao dao;
+    private UserRepository userRepository;
 
     @Autowired
     private BCryptPasswordEncoder bcryptEncoder;
 
     public boolean create(UserArguments userArguments) {
-        if (dao.findByUserName(userArguments.login) != null) {
+        if (userRepository.findByLogin(userArguments.login) != null) {
             throw new RuntimeException("login error");
         }
 
@@ -45,7 +44,7 @@ public class UsersService {
         user.setGroup(UserRole.ROLE_USER);
         user.setEmail(userArguments.email);
         user.setName(userArguments.name);
-        dao.create(user);
+        userRepository.save(user);
 
         return true;
     }
@@ -55,18 +54,18 @@ public class UsersService {
             throw new RuntimeException("Access denied");
         }
 
-        final UserEntity user = dao.get(userArgs.id);
+        final UserEntity user = userRepository.findOne(userArgs.id);
         user.setEmail(userArgs.email);
         user.setPassword(encodePassword(userArgs.password));
         user.setName(userArgs.name);
-        dao.update(user);
+        userRepository.save(user);
 
         return true;
     }
 
     public boolean login(final String login, final String password) {
         final UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login, password);
-        token.setDetails(dao.findByUserName(login));
+        token.setDetails(userRepository.findByLogin(login));
         try {
             final Authentication auth = authenticationManager.authenticate(token);
             SecurityContextHolder.getContext().setAuthentication(auth);

@@ -1,0 +1,73 @@
+buildscript {
+    ext {
+        springBootVersion = '1.4.1.RELEASE'
+        liquibaseCoreVersion = '3.5.1'
+    }
+    repositories {
+        jcenter()
+        maven { url 'http://repo.spring.io/plugins-release' }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.liquibase:liquibase-core:${liquibaseCoreVersion}")
+        classpath('org.springframework.build.gradle:propdeps-plugin:0.0.7')
+    }
+}
+
+plugins {
+    id 'java'
+    id 'war'
+    id 'io.franzbecker.gradle-lombok' version '1.6'
+    id 'org.liquibase.gradle' version '1.2.1'
+}
+apply plugin: 'spring-boot'
+apply plugin: 'propdeps'
+apply plugin: 'propdeps-idea'
+
+defaultTasks 'bootRun'
+
+bootRun {
+    addResources = true
+}
+
+springBoot {
+    mainClass 'com.hackday.AppConfig'
+}
+
+bootRepackage {
+    mainClass 'com.hackday.AppConfig'
+    executable = true
+    excludeDevtools = true
+}
+
+
+lombok {
+    version = '1.16.8'
+    sha256 = "fe32b29b7b33eb2b19866cbc5345c59c9984a6036cc396856a04c0d09f99ea68"
+}
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile('org.codehaus.groovy:groovy-all')
+    compile('com.google.code.gson:gson:2.6.2')
+    compile('com.jayway.jsonpath:json-path:2.2.0')
+    compile("org.liquibase:liquibase-core:${liquibaseCoreVersion}")
+    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.4'
+
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-security')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('com.fasterxml.jackson.datatype:jackson-datatype-hibernate4')
+
+    compile('commons-io:commons-io:2.5')
+    // Spring Test, JUnit, Hamcrest and Mockito
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+}

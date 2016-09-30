@@ -2,11 +2,13 @@ package com.hackday.cmd;
 
 
 import com.hackday.results.TaskResult;
+import lombok.val;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,11 +18,12 @@ public final class ExecTask {
         // todo: do it it new Thread
         final String name = "Main";
         final TaskResult result = new TaskResult();
+        val absolutePath = Paths.get("").toAbsolutePath() + "\\" + path;
         try {
             final List<String> commands = new ArrayList<String>() {{
-                add("cd " + path);
-                add("javac -cp "+path+"\\. "+path+"\\"+name+".java");
-                add("java -cp "+path+"\\. "+name );
+                add("cd " + absolutePath);
+                add("javac -cp " + absolutePath + "\\. " + absolutePath + "\\" + name + ".java");
+                add("java -cp " + absolutePath + "\\. " + name);
             }};
             final Process p = Runtime.getRuntime().exec("cmd /c " + String.join(" & ", commands));
             p.waitFor();
