@@ -2,10 +2,12 @@ package lesson.controller;
 
 
 import lesson.entity.LessonEntity;
+import lesson.request.LessonCreation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import lesson.service.LessonsService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -27,7 +29,12 @@ public class LessonController extends AbstractController{
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Result<Boolean> add(@RequestBody final LessonEntity lessonEntity) {
-        return run(() -> lessonService.add(lessonEntity));
+    public Result<LessonEntity> add(@RequestBody @Valid final LessonCreation lesson) {
+        return run(() -> lessonService.add(lesson));
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public Result<LessonEntity> update(@RequestBody final LessonEntity lesson) {
+        return run(() -> lessonService.update(lesson));
     }
 }

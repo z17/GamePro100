@@ -2,7 +2,9 @@ package lesson.controller;
 
 import com.google.gson.Gson;
 import lesson.App;
-import lesson.request.TaskArguments;
+import lesson.entity.LessonEntity;
+import lesson.request.LessonCreation;
+import lombok.val;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +27,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = App.class)
 @Transactional
-public class TaskControllerTest {
+public class LessonControllerTest {
 
     @Autowired
     private WebApplicationContext wac;
@@ -39,54 +41,32 @@ public class TaskControllerTest {
 
     @Test
     public void testGet() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/task/?id=1").accept("application/json"))
+         this.mockMvc.perform(get("/lesson/1")
+                .accept("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.id", is(1)))
                 .andReturn();
-        System.out.println(result.getResponse().getContentAsString());
     }
 
     @Test
     public void testGetList() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/task/getByLesson?id=1").accept("application/json"))
+        this.mockMvc.perform(get("/lesson/")
+                .accept("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").isArray())
                 .andReturn();
-        System.out.println(result.getResponse().getContentAsString());
     }
 
     @Test
     public void testCreate() throws Exception {
-        TaskArguments task = new TaskArguments();
-        task.name ="Test Name 3";
-        task.lessonID = 1L;
-        task.description = "desc";
+        val lesson = new LessonCreation("Test Name 2", "desc");
+        val json = new Gson().toJson(lesson);
 
-        Gson gson = new Gson();
-        String json = gson.toJson(task);
-
-        MvcResult result = this.mockMvc.perform(post("/task/add")
+        this.mockMvc.perform(post("/lesson/add")
                 .accept("application/json")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data", is(true)))
+                .andExpect(jsonPath("$.data").isMap())
                 .andReturn();
-        System.out.println(result.getResponse().getContentAsString());
-    }
-
-    @Test
-    public void testCreateByUser() throws Exception {
-        TaskArguments task = new TaskArguments();
-        task.name ="Test Error Create";
-        task.lessonID = 1L;
-        Gson gson = new Gson();
-        String json = gson.toJson(task);
-
-        MvcResult result = this.mockMvc.perform(post("/task/create")
-                .accept("application/json")
-                .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(status().is5xxServerError())
-                .andReturn();
-        System.out.println(result.getResponse().getContentAsString());
     }
 }

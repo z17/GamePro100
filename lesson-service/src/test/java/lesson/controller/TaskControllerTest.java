@@ -2,7 +2,7 @@ package lesson.controller;
 
 import com.google.gson.Gson;
 import lesson.App;
-import lesson.entity.LessonEntity;
+import lesson.request.TaskCreation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = App.class)
 @Transactional
-public class LessonControllerTest {
+public class TaskControllerTest {
 
     @Autowired
     private WebApplicationContext wac;
@@ -39,33 +39,39 @@ public class LessonControllerTest {
 
     @Test
     public void testGet() throws Exception {
-         this.mockMvc.perform(get("/lesson/?id=1")
-                .accept("application/json"))
+        MvcResult result = this.mockMvc.perform(get("/task/1").accept("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.id", is(1)))
                 .andReturn();
+        System.out.println(result.getResponse().getContentAsString());
     }
 
     @Test
     public void testGetList() throws Exception {
-        this.mockMvc.perform(get("/lesson/")
-                .accept("application/json"))
+        MvcResult result = this.mockMvc.perform(get("/task/getByLesson/1").accept("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").isArray())
                 .andReturn();
+        System.out.println(result.getResponse().getContentAsString());
     }
 
     @Test
     public void testCreate() throws Exception {
-        LessonEntity lesson = new LessonEntity();
-        lesson.setName("Test Name 2");
-        String json = new Gson().toJson(lesson);
+        TaskCreation task = new TaskCreation();
+        task.name ="Test Name 3";
+        task.lessonID = 1L;
+        task.description = "desc";
+        task.mapPath = "path to map";
 
-        this.mockMvc.perform(post("/lesson/add")
+        Gson gson = new Gson();
+        String json = gson.toJson(task);
+
+        MvcResult result = this.mockMvc.perform(post("/task/add")
                 .accept("application/json")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data", is(true)))
                 .andReturn();
+        System.out.println(result.getResponse().getContentAsString());
     }
 }

@@ -3,7 +3,7 @@ package lesson.controller;
 import lesson.entity.TaskEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import lesson.request.TaskArguments;
+import lesson.request.TaskCreation;
 import lesson.service.TasksService;
 
 import javax.validation.Valid;
@@ -28,7 +28,7 @@ public class TaskController extends AbstractController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Result<Boolean> add(@RequestBody @Valid final TaskArguments taskArgs){
+    public Result<Boolean> add(@RequestBody @Valid final TaskCreation taskArgs){
         return run(() -> service.add(taskArgs));
     }
 }

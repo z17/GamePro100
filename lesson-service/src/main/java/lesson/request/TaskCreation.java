@@ -3,7 +3,7 @@ package lesson.request;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class TaskArguments {
+public class TaskCreation {
     @NotNull
     @Size(min = 1, max = 45)
     public String name;
@@ -13,4 +13,7 @@ public class TaskArguments {
 
     @NotNull
     public String description;
+
+    @NotNull
+    public String mapPath;
 }

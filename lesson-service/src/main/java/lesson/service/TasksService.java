@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lesson.repository.TaskRepository;
-import lesson.request.TaskArguments;
+import lesson.request.TaskCreation;
 
 import java.util.List;
 
@@ -25,10 +25,11 @@ public class TasksService {
         return taskRepository.getListByLessonId(lessonID);
     }
 
-    public boolean add(final TaskArguments taskArgs) {
+    public boolean add(final TaskCreation taskArgs) {
         final TaskEntity task = new TaskEntity();
         task.setName(taskArgs.name);
         task.setDescription(taskArgs.description);
+        task.setMapPath(taskArgs.mapPath);     // todo: save map as a file? or something else
         final LessonEntity lessonTask = new LessonEntity();
         lessonTask.setId(taskArgs.lessonID);
         task.setLesson(lessonTask);

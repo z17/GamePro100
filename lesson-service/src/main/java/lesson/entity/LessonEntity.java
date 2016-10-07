@@ -1,8 +1,8 @@
 package lesson.entity;
 
 
-import lombok.Data;
 import lesson.table.LessonTable;
+import lombok.Data;
 
 import javax.persistence.*;
 
@@ -17,4 +17,7 @@ public class LessonEntity {
 
     @Column(name = LessonTable.NAME, nullable = false)
     private String name;
+
+    @Column(name = LessonTable.DESCRIPTION, nullable = false)
+    private String description;
 }
