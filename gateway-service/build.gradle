@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+    id 'war'
+    id 'io.franzbecker.gradle-lombok' version '1.6'
+}
+
+defaultTasks 'bootRun'
+
+springBoot {
+    mainClass 'gateway.App'
+}
+
+dependencies {
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-zuul', version: '1.2.0.RELEASE'
+    compile('org.springframework.boot:spring-boot-starter-web')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
