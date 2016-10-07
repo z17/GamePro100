@@ -2,8 +2,8 @@ package user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import user.request.UserArguments;
-import user.request.UserUpdateArguments;
+import user.entity.UserEntity;
+import user.request.UserCreation;
 import user.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,12 +29,12 @@ public class UserController extends AbstractController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Result<Boolean> add(@Valid @RequestBody final UserArguments userArgs) {
-        return run(() -> userService.add(userArgs));
+    public Result<UserEntity> add(@Valid @RequestBody final UserCreation user) {
+        return run(() -> userService.add(user));
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public Result<Boolean> update(@RequestBody @Valid final UserUpdateArguments userArgs) {
-        return run(() -> userService.update(userArgs));
+    public Result<UserEntity> update(@RequestBody final UserEntity user) {
+        return run(() -> userService.update(user));
     }
 }

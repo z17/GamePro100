@@ -1,18 +1,17 @@
 package user.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserUpdateArguments {
-
+public class UserCreation {
     @NotNull
-    public Long id;
+    @Size(min = 3, max = 15)
+    public String login;
 
     @NotNull
     @Size(min = 6, max = 45)

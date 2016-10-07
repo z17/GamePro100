@@ -1,8 +1,8 @@
 package user.controller;
 
 import com.google.gson.Gson;
+import lombok.val;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import user.App;
 import user.Utils;
-import user.request.UserArguments;
-import user.request.UserUpdateArguments;
-import static org.hamcrest.Matchers.is;
+import user.entity.UserEntity;
+import user.entity.UserRole;
+import user.request.UserCreation;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -39,7 +40,7 @@ public class UserControllerTest {
 
     @Test
     public void testAddDuplicateLogin() throws Exception {
-        UserArguments user = new UserArguments();
+        UserCreation user = new UserCreation();
         user.login = "test_user";
         user.password = "qwerty";
         user.email = "ad@asd.ye";
@@ -53,20 +54,25 @@ public class UserControllerTest {
 
     @Test
     public void testAdd() throws Exception {
-        UserArguments user = new UserArguments(Utils.randomString(10), "qwerty", "asd@saf.ru", "my name");
+        UserCreation user = new UserCreation(Utils.randomString(10), "qwerty", "asd@saf.ru", "my name");
         String json = new Gson().toJson(user);
 
         this.mockMvc.perform(post("/add")
                 .accept("application/json")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data", is(true)))
+                .andExpect(jsonPath("$.data").isMap())
                 .andReturn();
     }
 
     @Test
     public void testUpdate() throws Exception {
-        UserUpdateArguments user = new UserUpdateArguments(1L, "qwerty", "asv@sgvd.ru", "my name");
+        val user = new UserEntity();
+        user.setId(1L);
+        user.setName("test");
+        user.setPassword("test");
+        user.setEmail("test@test.test");
+        user.setGroup(UserRole.ROLE_USER);
 
         String json = new Gson().toJson(user);
 
@@ -74,7 +80,7 @@ public class UserControllerTest {
                 .accept("application/json")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data", is(true)))
+                .andExpect(jsonPath("$.data").isMap())
                 .andReturn();
     }
 }

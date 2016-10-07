@@ -1,5 +1,6 @@
 package user.service;
 
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -7,8 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import user.entity.UserEntity;
 import user.entity.UserRole;
 import user.repository.UserRepository;
-import user.request.UserArguments;
-import user.request.UserUpdateArguments;
+import user.request.UserCreation;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,30 +23,22 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder bcryptEncoder;
 
-    public boolean add(UserArguments userArguments) {
-        if (userRepository.findByLogin(userArguments.login) != null) {
+    public UserEntity add(final UserCreation userCreation) {
+        if (userRepository.findByLogin(userCreation.login) != null) {
             throw new RuntimeException("login error");
         }
 
-        UserEntity user = new UserEntity();
-        user.setLogin(userArguments.login);
-        user.setPassword(encodePassword(userArguments.password));
+        val user = new UserEntity();
+        user.setLogin(userCreation.login);
+        user.setPassword(encodePassword(userCreation.password));
         user.setGroup(UserRole.ROLE_USER);
-        user.setEmail(userArguments.email);
-        user.setName(userArguments.name);
-        userRepository.save(user);
-
-        return true;
+        user.setEmail(userCreation.email);
+        user.setName(userCreation.name);
+        return userRepository.save(user);
     }
 
-    public boolean update(UserUpdateArguments userArgs) {
-        final UserEntity user = userRepository.findOne(userArgs.id);
-        user.setEmail(userArgs.email);
-        user.setPassword(encodePassword(userArgs.password));
-        user.setName(userArgs.name);
-        userRepository.save(user);
-
-        return true;
+    public UserEntity update(final UserEntity userEntity) {
+        return userRepository.save(userEntity);
     }
 
     // todo: implement!
