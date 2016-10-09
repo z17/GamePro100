@@ -7,10 +7,6 @@ plugins {
 
 defaultTasks 'bootRun'
 
-bootRun {
-    addResources = true
-}
-
 springBoot {
     mainClass 'user.App'
 }

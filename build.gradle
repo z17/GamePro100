@@ -4,8 +4,7 @@ buildscript {
         liquibaseCoreVersion = '3.5.1'
     }
     repositories {
-        jcenter()
-        maven { url 'http://repo.spring.io/plugins-release' }
+        mavenCentral()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -22,6 +21,6 @@ subprojects {
     }
 
     repositories {
-        jcenter()
+        mavenCentral()
     }
 }
