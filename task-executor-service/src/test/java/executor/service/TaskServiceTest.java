@@ -22,16 +22,25 @@ public class TaskServiceTest extends AbstractTest {
 
     @Test
     public void submitTest() {
-        val code = "man.moveUp()";
+        val code = "man.moveUp();";
         val taskId = 1L;
 
         final TaskResult result = taskService.submit(taskId, code);
-        assertThat(result.getStatus(), is(TaskResult.Status.ERROR));
+        assertThat(result.getStatus(), is(TaskResult.Status.FAIL));
+    }
+
+    @Test
+    public void syntaxErrorTest() {
+        val code = "man.moveUp()";
+        val taskId = 1L;
+        val result = taskService.submit(taskId, code);
+        assertThat(result.getStatus(), is(TaskResult.Status.COMPILE_ERROR));
+        assertThat(result.getText(), containsString("error: ';' expected"));
     }
 
     @Test
     public void tempTaskFolderRemoved() {
-        val code = "man.moveUp()";
+        val code = "man.moveUp();";
         val taskId = 1L;
 
         taskService.submit(taskId, code);
@@ -49,7 +58,7 @@ public class TaskServiceTest extends AbstractTest {
         val taskId = 1L;
 
         final TaskResult result = taskService.submit(taskId, code);
-        assertThat(result.getStatus(), is(TaskResult.Status.COMPLETED));
+        assertThat(result.getStatus(), is(TaskResult.Status.SUCCESS));
     }
 
     @Test
