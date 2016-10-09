@@ -2,17 +2,16 @@ plugins {
     id 'java'
     id 'war'
     id 'io.franzbecker.gradle-lombok' version '1.6'
-    id 'org.liquibase.gradle' version '1.2.1'
 }
 
 defaultTasks 'bootRun'
 
 springBoot {
-    mainClass 'user.App'
+    mainClass 'executor.App'
 }
 
 bootRepackage {
-    mainClass 'user.App'
+    mainClass 'executor.App'
     executable = true
     excludeDevtools = true
 }

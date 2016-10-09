@@ -2,6 +2,7 @@ package executor.service;
 
 import executor.executor.ExecutorResult;
 import executor.executor.TaskExecutor;
+import executor.request.SubmitRequest;
 import lombok.val;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,8 @@ public class TaskService {
     public static final String JAVA_EXTENSION = ".java";
     public static final String ERROR_TASK_RESULT = "FAIL";
 
-    public TaskResult submit(final long taskId, final String code) {
-        val path = prepareTask(taskId, code);
+    public TaskResult submit(final SubmitRequest request) {
+        val path = prepareTask(request.getTaskId(), request.getCode());
         val taskExecutor = new TaskExecutor(path);
         val resultExec = taskExecutor.execTask();
         removeTaskFolder(path);

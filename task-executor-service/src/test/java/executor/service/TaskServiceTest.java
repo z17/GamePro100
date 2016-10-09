@@ -1,6 +1,7 @@
 package executor.service;
 
 import executor.AbstractTest;
+import executor.request.SubmitRequest;
 import lombok.val;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,28 +23,25 @@ public class TaskServiceTest extends AbstractTest {
 
     @Test
     public void submitTest() {
-        val code = "man.moveUp();";
-        val taskId = 1L;
+        val submit = new SubmitRequest(1L, "man.moveUp();");
 
-        final TaskResult result = taskService.submit(taskId, code);
+        final TaskResult result = taskService.submit(submit);
         assertThat(result.getStatus(), is(TaskResult.Status.FAIL));
     }
 
     @Test
     public void syntaxErrorTest() {
-        val code = "man.moveUp()";
-        val taskId = 1L;
-        val result = taskService.submit(taskId, code);
+        val submit = new SubmitRequest(1L, "man.moveUp()");
+        val result = taskService.submit(submit);
         assertThat(result.getStatus(), is(TaskResult.Status.COMPILE_ERROR));
         assertThat(result.getText(), containsString("error: ';' expected"));
     }
 
     @Test
     public void tempTaskFolderRemoved() {
-        val code = "man.moveUp();";
         val taskId = 1L;
-
-        taskService.submit(taskId, code);
+        val submit = new SubmitRequest(taskId, "man.moveUp();");
+        taskService.submit(submit);
         val tempTaskFolder = Paths.get("answer").resolve("task"+taskId);
         assertFalse(Files.exists(tempTaskFolder));
     }
@@ -55,9 +53,8 @@ public class TaskServiceTest extends AbstractTest {
                 "man.moveUp();" +
                 "man.moveRight();" +
                 "man.moveRight();";
-        val taskId = 1L;
-
-        final TaskResult result = taskService.submit(taskId, code);
+        val submit = new SubmitRequest(1L, code);
+        final TaskResult result = taskService.submit(submit);
         assertThat(result.getStatus(), is(TaskResult.Status.SUCCESS));
     }
 

@@ -1,4 +1,4 @@
-package user.controller;
+package executor.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +14,6 @@ public abstract class AbstractController {
         final T result = function.get();
         return Result.success(result);
     }
-
-
 
     public final static class Result<T> {
         public final String message;
