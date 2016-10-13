@@ -1,0 +1,26 @@
+buildscript {
+    ext {
+        springBootVersion = '1.4.1.RELEASE'
+        liquibaseCoreVersion = '3.5.1'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.liquibase:liquibase-core:${liquibaseCoreVersion}")
+    }
+}
+
+subprojects {
+    apply plugin: 'spring-boot'
+
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    repositories {
+        mavenCentral()
+    }
+}

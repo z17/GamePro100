@@ -1,12 +1,12 @@
 package com.hackday.services;
 
-import java.util.List;
-
-import com.hackday.dao.LessonsDao;
 import com.hackday.entity.LessonEntity;
+import com.hackday.repository.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 @Service
@@ -14,26 +14,26 @@ import org.springframework.transaction.annotation.Transactional;
 public class LessonsService {
 
     @Autowired
-    private LessonsDao dao;
+    private LessonRepository lessonRepository;
 
-    public boolean create(LessonEntity lessonEntity) {
-        dao.create(lessonEntity);
+    public boolean create(final LessonEntity lessonEntity) {
+        lessonRepository.save(lessonEntity);
         return true;
     }
 
     public List<LessonEntity> getList() {
-        return dao.getList();
+        return (List<LessonEntity>) lessonRepository.findAll();
     }
 
     public void delete(LessonEntity lessonEntity) {
-        dao.delete(lessonEntity);
+        lessonRepository.delete(lessonEntity);
     }
 
     public LessonEntity get(Long id) {
-        return dao.get(id);
+        return lessonRepository.findOne(id);
     }
 
     public void update(LessonEntity lessonEntity){
-        dao.update(lessonEntity);
+        lessonRepository.save(lessonEntity);
     }
 }

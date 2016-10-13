@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+    id 'war'
+    id 'io.franzbecker.gradle-lombok' version '1.6'
+}
+
+defaultTasks 'bootRun'
+
+springBoot {
+    mainClass 'executor.App'
+}
+
+bootRepackage {
+    mainClass 'executor.App'
+    executable = true
+    excludeDevtools = true
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('commons-io:commons-io:2.5')
+    compile project(':service-client')
+
+    testCompile ('com.google.code.gson:gson:2.6.2')
+    testCompile ('org.springframework.boot:spring-boot-starter-test')
+}

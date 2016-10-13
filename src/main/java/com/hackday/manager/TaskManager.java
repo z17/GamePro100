@@ -5,28 +5,30 @@ import com.hackday.constants.Constants;
 import com.hackday.entity.AnswerEntity;
 import com.hackday.entity.TaskEntity;
 import com.hackday.results.TaskResult;
+import lombok.val;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 @Service
 public class TaskManager {
 
     public TaskResult run(final AnswerEntity answerEntity) {
-        final String taskPath = getTaskPath(answerEntity.getAnswer(), answerEntity.getTaskEntity(), answerEntity.getUserEntity().getId());
-        final TaskResult result = ExecTask.execTask(taskPath);
+        val taskPath = getTaskPath(answerEntity.getAnswer(), answerEntity.getTask(), answerEntity.getUser().getId());
+        val result = ExecTask.execTask(taskPath);
         deleteTaskPath(taskPath);
         return result;
     }
 
     private String getTaskPath(final String userCode, final TaskEntity task, final Long userID) {
 
-        final String folderPath = makeFolders(task, userID);
+        val folderPath = makeFolders(task, userID);
         loadTask(folderPath, task, userCode);
         return folderPath;
     }
@@ -40,7 +42,7 @@ public class TaskManager {
     }
 
     private void loadTask(final String path, final TaskEntity taskEntity, final String code) {
-        final String taskFolder = Constants.PROJECT_ROOT + "\\lessons\\Lesson" + taskEntity.getLessonEntity().getId() + "\\src\\task" + taskEntity.getId();
+        val taskFolder = "lessons\\Lesson" + taskEntity.getLesson().getId() + "\\src\\task" + taskEntity.getId();
         try {
             Files.walk(Paths.get(taskFolder)).forEach(filePath -> {
                 if (Files.isRegularFile(filePath)) {
@@ -58,13 +60,11 @@ public class TaskManager {
 
 
     private String makeFolders(final TaskEntity taskEntity, final Long userID) {
-        //todo: add userid to path
-        final String path = Constants.TASKS_FOLDER + "\\lesson" + taskEntity.getLessonEntity().getId() + "\\task" + taskEntity.getId() + "\\user" + userID + "\\";
-        if (new File(path).mkdirs()) {
+        val path = Constants.TASKS_FOLDER + "\\lesson" + taskEntity.getLesson().getId() + "\\task" + taskEntity.getId() + "\\user" + userID + "\\";
+        if (new File(path).mkdirs())
             return path;
-        } else {
-            throw new RuntimeException("Error creating files");
-        }
+
+        throw new RuntimeException("Error creating files");
     }
 
     private void copyFile(final Path filePath, final String folder) {
@@ -86,9 +86,4 @@ public class TaskManager {
             throw new RuntimeException("Error creating files");
         }
     }
-
-    private File makeFile(final String folder) {
-        return new File(folder, "Main.java");
-    }
-
 }

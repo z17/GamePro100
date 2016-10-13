@@ -15,7 +15,7 @@ public class TaskEntity {
 
     @ManyToOne
     @JoinColumn(name = TaskTable.LESSON_Id, nullable = false)
-    private LessonEntity lessonEntity;
+    private LessonEntity lesson;
 
     @Column(name = TaskTable.NAME, nullable = false)
     private String name;

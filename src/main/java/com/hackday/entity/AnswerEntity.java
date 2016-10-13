@@ -15,11 +15,11 @@ public class AnswerEntity {
 
     @ManyToOne
     @JoinColumn(name = AnswersTable.USER_ID, nullable = false)
-    private UserEntity userEntity;
+    private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = AnswersTable.TASK_ID, nullable = false)
-    private TaskEntity taskEntity;
+    private TaskEntity task;
 
     @Column(name = AnswersTable.ANSWER, nullable = false)
     private String answer;

@@ -1,8 +1,5 @@
 package com.hackday.special;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-
 // todo: configure LOG4J2 and use it
 public final class LoggingUtility {
 
