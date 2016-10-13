@@ -30,6 +30,8 @@ dependencies {
     compile('com.fasterxml.jackson.datatype:jackson-datatype-hibernate4')
     compile('commons-io:commons-io:2.5')
 
+    compile project(':service-client')
+
     testCompile ('com.google.code.gson:gson:2.6.2')
     testCompile ('org.springframework.boot:spring-boot-starter-test')
 }

@@ -3,4 +3,5 @@ include 'lesson-service'
 include 'user-service'
 include 'gateway-service'
 include 'task-executor-service'
+include 'service-client'
 
