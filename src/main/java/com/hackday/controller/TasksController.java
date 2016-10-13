@@ -4,7 +4,6 @@ import com.hackday.constants.Controllers;
 import com.hackday.constants.Params;
 import com.hackday.entity.TaskEntity;
 import com.hackday.requests.TaskArguments;
-import com.hackday.results.TaskResult;
 import com.hackday.services.TasksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;

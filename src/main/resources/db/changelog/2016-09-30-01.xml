@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="Maksim Iliukovich" id="1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <insert tableName="lessons">
+            <column name="name" value="Тестовый урок"/>
+        </insert>
+        <insert tableName="tasks">
+            <column name="lesson_id" value="1"/>
+            <column name="name" value="Первый урок"/>
+            <column name="description" value="Тест"/>
+            <column name="map_path" value="123"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
