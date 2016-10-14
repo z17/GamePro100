@@ -54,4 +54,8 @@ public class UserService {
     private String encodePassword(final String password) {
         return bcryptEncoder.encode(password);
     }
+
+    public UserEntity get(Long id) {
+        return userRepository.findOne(id);
+    }
 }

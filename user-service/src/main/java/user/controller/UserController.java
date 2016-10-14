@@ -37,4 +37,9 @@ public class UserController extends AbstractController {
     public Result<UserEntity> update(@RequestBody final UserEntity user) {
         return run(() -> userService.update(user));
     }
+
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    public Result<UserEntity> get(@PathVariable final Long id) {
+        return run(() -> userService.get(id));
+    }
 }
