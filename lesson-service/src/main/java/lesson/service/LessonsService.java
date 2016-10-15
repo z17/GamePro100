@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lesson.repository.LessonRepository;
+import service_client.data.Lesson;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -18,26 +20,29 @@ public class LessonsService {
     @Autowired
     private LessonRepository lessonRepository;
 
-    public LessonEntity add(final LessonCreation lesson) {
+    public Lesson add(final LessonCreation lesson) {
         val lessonEntity = new LessonEntity();
         lessonEntity.setName(lesson.getName());
         lessonEntity.setDescription(lesson.getDescription());
-        return lessonRepository.save(lessonEntity);
+        return lessonRepository.save(lessonEntity).toDto();
     }
 
-    public List<LessonEntity> getList() {
-        return (List<LessonEntity>) lessonRepository.findAll();
+    public List<Lesson> getList() {
+        return ((List<LessonEntity>) lessonRepository.findAll())
+                .stream()
+                .map(LessonEntity::toDto)
+                .collect(Collectors.toList());
     }
 
     public void delete(final LessonEntity lessonEntity) {
         lessonRepository.delete(lessonEntity);
     }
 
-    public LessonEntity get(final Long id) {
-        return lessonRepository.findOne(id);
+    public Lesson get(final Long id) {
+        return lessonRepository.findOne(id).toDto();
     }
 
-    public LessonEntity update(final LessonEntity lessonEntity){
-        return lessonRepository.save(lessonEntity);
+    public Lesson update(final LessonEntity lessonEntity){
+        return lessonRepository.save(lessonEntity).toDto();
     }
 }

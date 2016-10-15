@@ -1,7 +1,7 @@
 package executor.controller;
 
-import executor.request.SubmitRequest;
-import executor.service.TaskResult;
+import service_client.data.request.SubmitRequest;
+import service_client.data.TaskResult;
 import executor.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -2,10 +2,11 @@ package executor.service;
 
 import executor.executor.ExecutorResult;
 import executor.executor.TaskExecutor;
-import executor.request.SubmitRequest;
+import service_client.data.request.SubmitRequest;
 import lombok.val;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
+import service_client.data.TaskResult;
 
 import java.io.IOException;
 import java.nio.file.Files;

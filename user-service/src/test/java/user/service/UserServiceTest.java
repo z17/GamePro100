@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import user.AbstractTest;
-import user.request.UserCreation;
+import service_client.data.request.UserCreation;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;

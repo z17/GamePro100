@@ -1,10 +1,10 @@
 package lesson.controller;
 
-import lesson.entity.TaskEntity;
+import lesson.service.TasksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import lesson.request.TaskCreation;
-import lesson.service.TasksService;
+import service_client.data.Task;
+import service_client.data.request.TaskCreation;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -18,17 +18,22 @@ public class TaskController extends AbstractController {
     private TasksService service;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Result<TaskEntity> get(@PathVariable final Long id) {
+    public Result<Task> get(@PathVariable final Long id) {
         return run(() -> service.get(id));
     }
 
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public Result<List<Task>> getList() {
+        return run(() -> service.getList());
+    }
+
     @RequestMapping(value = "/getByLesson/{id}", method = RequestMethod.GET)
-    public Result<List<TaskEntity>> getList(@PathVariable final Long id) {
+    public Result<List<Task>> getListByLesson(@PathVariable final Long id) {
         return run(() -> service.getListByLesson(id));
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Result<Boolean> add(@RequestBody @Valid final TaskCreation taskArgs){
+    public Result<Task> add(@RequestBody @Valid final TaskCreation taskArgs){
         return run(() -> service.add(taskArgs));
     }
 }

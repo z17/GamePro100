@@ -2,6 +2,8 @@ package user.entity;
 
 
 import lombok.Data;
+import service_client.data.User;
+import service_client.data.UserRole;
 import user.table.UserTable;
 
 import javax.persistence.*;
@@ -29,4 +31,8 @@ public class UserEntity {
 
     @Column(name = UserTable.NAME, nullable = false)
     private String name;
+
+    public User toDto() {
+        return new User(id, login, group, email, name);
+    }
 }

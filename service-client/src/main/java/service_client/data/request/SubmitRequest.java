@@ -1,4 +1,4 @@
-package executor.request;
+package service_client.data.request;
 
 import lombok.Data;
 

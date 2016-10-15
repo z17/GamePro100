@@ -2,7 +2,7 @@ package lesson.controller;
 
 import com.google.gson.Gson;
 import lesson.App;
-import lesson.request.TaskCreation;
+import service_client.data.request.TaskCreation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,11 +57,7 @@ public class TaskControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        TaskCreation task = new TaskCreation();
-        task.name ="Test Name 3";
-        task.lessonID = 1L;
-        task.description = "desc";
-        task.mapPath = "path to map";
+        TaskCreation task = new TaskCreation("Test Name 3", 1L, "desc", "path to map");
 
         Gson gson = new Gson();
         String json = gson.toJson(task);

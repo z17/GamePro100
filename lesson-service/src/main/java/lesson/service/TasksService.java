@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lesson.repository.TaskRepository;
-import lesson.request.TaskCreation;
+import service_client.data.Task;
+import service_client.data.request.TaskCreation;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -17,23 +19,33 @@ public class TasksService {
     @Autowired
     private TaskRepository taskRepository;
 
-    public TaskEntity get(final Long id) {
-        return taskRepository.findOne(id);
+    public Task get(final Long id) {
+        return taskRepository.findOne(id).toDto();
     }
 
-    public List<TaskEntity> getListByLesson(final Long lessonID) {
-        return taskRepository.getListByLessonId(lessonID);
+    public List<Task> getListByLesson(final Long lessonID) {
+        return taskRepository.findByLessonId(lessonID)
+                .stream()
+                .map(TaskEntity::toDto)
+                .collect(Collectors.toList());
     }
 
-    public boolean add(final TaskCreation taskArgs) {
+    public List<Task>getList() {
+        return ((List<TaskEntity>)taskRepository.findAll())
+                .stream()
+                .map(TaskEntity::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public Task add(final TaskCreation taskArgs) {
         final TaskEntity task = new TaskEntity();
-        task.setName(taskArgs.name);
-        task.setDescription(taskArgs.description);
-        task.setMapPath(taskArgs.mapPath);     // todo: save map as a file? or something else
+        task.setName(taskArgs.getName());
+        task.setDescription(taskArgs.getDescription());
+        task.setMapPath(taskArgs.getMapPath());     // todo: save map as a file? or something else
         final LessonEntity lessonTask = new LessonEntity();
-        lessonTask.setId(taskArgs.lessonID);
+        lessonTask.setId(taskArgs.getLessonID());
         task.setLesson(lessonTask);
-        taskRepository.save(task);
-        return true;
+        return taskRepository.save(task).toDto();
     }
+
 }

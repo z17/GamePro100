@@ -3,6 +3,7 @@ package lesson.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lesson.table.TaskTable;
+import service_client.data.Task;
 
 import javax.persistence.*;
 
@@ -30,4 +31,8 @@ public class TaskEntity {
 
     @Column(name = TaskTable.MAP_PATH, nullable = false)
     private String mapPath;
+
+    public Task toDto() {
+        return new Task(id, lessonId, name, description, mapPath);
+    }
 }

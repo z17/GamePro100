@@ -15,8 +15,8 @@ import org.springframework.web.context.WebApplicationContext;
 import user.App;
 import user.Utils;
 import user.entity.UserEntity;
-import user.entity.UserRole;
-import user.request.UserCreation;
+import service_client.data.UserRole;
+import service_client.data.request.UserCreation;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;

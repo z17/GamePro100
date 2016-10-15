@@ -1,9 +1,9 @@
-package service_client.clients;
+package service_client.client;
 
 import lombok.val;
 import org.junit.Test;
 import service_client.data.Lesson;
-import service_client.data.LessonCreation;
+import service_client.data.request.LessonCreation;
 
 import java.util.List;
 import java.util.Random;
@@ -16,13 +16,13 @@ public class LessonClientTest {
     private LessonClient client = new LessonClient();
 
     @Test
-    public void getLesson() throws Exception {
-        Lesson lesson = client.getLesson(1L);
+    public void get() throws Exception {
+        Lesson lesson = client.get(1L);
         assertNotNull(lesson);
     }
 
     @Test
-    public void getLessonList() throws Exception {
+    public void getList() throws Exception {
         List<Lesson> lessons = client.getList();
         assertNotNull(lessons);
         assertThat(lessons.isEmpty(), is(false));
@@ -40,7 +40,7 @@ public class LessonClientTest {
     @Test
     public void update() throws Exception {
         val newName = "sdASdsgsdgsdg" + new Random().nextInt();
-        val lesson = client.getLesson(1L);
+        val lesson = client.get(1L);
         lesson.setName(newName);
         val updatedLesson = client.update(lesson);
         assertThat(updatedLesson.getName(), is(newName));

@@ -2,8 +2,9 @@ package user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import service_client.data.User;
 import user.entity.UserEntity;
-import user.request.UserCreation;
+import service_client.data.request.UserCreation;
 import user.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,17 +30,17 @@ public class UserController extends AbstractController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Result<UserEntity> add(@Valid @RequestBody final UserCreation user) {
+    public Result<User> add(@RequestBody final UserCreation user) {
         return run(() -> userService.add(user));
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public Result<UserEntity> update(@RequestBody final UserEntity user) {
+    public Result<User> update(@RequestBody final User user) {
         return run(() -> userService.update(user));
     }
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    public Result<UserEntity> get(@PathVariable final Long id) {
+    public Result<User> get(@PathVariable final Long id) {
         return run(() -> userService.get(id));
     }
 }

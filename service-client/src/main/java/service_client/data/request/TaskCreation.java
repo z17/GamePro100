@@ -1,15 +1,13 @@
-package service_client.data;
+package service_client.data.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.ToString;
 
-@Data
 @AllArgsConstructor
-public class Lesson {
-    private Long id;
-
+@Data
+public class TaskCreation {
     private String name;
-
+    private Long lessonID;
     private String description;
+    private String mapPath;
 }

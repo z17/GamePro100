@@ -5,10 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import service_client.data.User;
 import user.entity.UserEntity;
-import user.entity.UserRole;
+import service_client.data.UserRole;
 import user.repository.UserRepository;
-import user.request.UserCreation;
+import service_client.data.request.UserCreation;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +24,7 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder bcryptEncoder;
 
-    public UserEntity add(final UserCreation userCreation) {
+    public User add(final UserCreation userCreation) {
         if (userRepository.findByLogin(userCreation.login) != null) {
             throw new RuntimeException("login error");
         }
@@ -34,11 +35,15 @@ public class UserService {
         user.setGroup(UserRole.ROLE_USER);
         user.setEmail(userCreation.email);
         user.setName(userCreation.name);
-        return userRepository.save(user);
+        return userRepository.save(user).toDto();
     }
 
-    public UserEntity update(final UserEntity userEntity) {
-        return userRepository.save(userEntity);
+    public User update(final User user) {
+        val userEntity = userRepository.findOne(user.getId());
+        userEntity.setLogin(user.getLogin());
+        userEntity.setName(user.getName());
+        userEntity.setEmail(user.getEmail());
+        return userRepository.save(userEntity).toDto();
     }
 
     // todo: implement!
@@ -55,7 +60,7 @@ public class UserService {
         return bcryptEncoder.encode(password);
     }
 
-    public UserEntity get(Long id) {
-        return userRepository.findOne(id);
+    public User get(Long id) {
+        return userRepository.findOne(id).toDto();
     }
 }

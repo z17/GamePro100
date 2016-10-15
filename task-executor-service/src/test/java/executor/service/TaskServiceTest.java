@@ -1,10 +1,11 @@
 package executor.service;
 
 import executor.AbstractTest;
-import executor.request.SubmitRequest;
+import service_client.data.request.SubmitRequest;
 import lombok.val;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import service_client.data.TaskResult;
 
 import java.io.IOException;
 import java.nio.file.Files;

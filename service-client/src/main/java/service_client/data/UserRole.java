@@ -1,4 +1,4 @@
-package user.entity;
+package service_client.data;
 
 public enum UserRole {
     ROLE_USER,

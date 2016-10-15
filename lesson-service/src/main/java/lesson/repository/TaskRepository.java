@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface TaskRepository extends CrudRepository<TaskEntity, Long> {
     List<TaskEntity> getListByLesson(LessonEntity lesson);
-    List<TaskEntity> getListByLessonId(Long lessonId);
+    List<TaskEntity> findByLessonId(Long lessonId);
 }

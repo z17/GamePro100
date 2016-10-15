@@ -1,16 +1,13 @@
-package executor.service;
+package service_client.data;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class TaskResult {
     private final Status status;
     private final String text;
-
-    private TaskResult(final Status status, final String text) {
-        this.status = status;
-        this.text = text;
-    }
 
     public static TaskResult SuccessResult(final String text) {
         return new TaskResult(Status.SUCCESS, text);

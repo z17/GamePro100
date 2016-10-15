@@ -3,6 +3,7 @@ package lesson.entity;
 
 import lesson.table.LessonTable;
 import lombok.Data;
+import service_client.data.Lesson;
 
 import javax.persistence.*;
 
@@ -20,4 +21,8 @@ public class LessonEntity {
 
     @Column(name = LessonTable.DESCRIPTION, nullable = false)
     private String description;
+
+    public Lesson toDto() {
+        return new Lesson(id, name, description);
+    }
 }
