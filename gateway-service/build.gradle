@@ -4,7 +4,7 @@ plugins {
     id 'io.franzbecker.gradle-lombok' version '1.6'
 }
 
-defaultTasks 'bootRun'
+apply plugin: 'spring-boot'
 
 springBoot {
     mainClass 'gateway.App'

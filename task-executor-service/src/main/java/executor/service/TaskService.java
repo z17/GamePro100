@@ -29,7 +29,7 @@ public class TaskService {
         val path = prepareTask(request.getTaskId(), request.getCode());
         val taskExecutor = new TaskExecutor(path);
         val resultExec = taskExecutor.execTask();
-        //removeTaskFolder(path);
+        removeTaskFolder(path);
         return parseResult(resultExec);
     }
 
@@ -66,7 +66,8 @@ public class TaskService {
         try {
             FileUtils.deleteDirectory(path.toFile());
         } catch (IOException e) {
-            throw new RuntimeException("Error delete temp task folder", e);
+            // todo: log this
+            System.out.println("Error delete temp task folder");
         }
     }
 

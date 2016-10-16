@@ -4,16 +4,10 @@ plugins {
     id 'io.franzbecker.gradle-lombok' version '1.6'
 }
 
-defaultTasks 'bootRun'
+apply plugin: 'spring-boot'
 
 springBoot {
     mainClass 'executor.App'
-}
-
-bootRepackage {
-    mainClass 'executor.App'
-    executable = true
-    excludeDevtools = true
 }
 
 dependencies {
