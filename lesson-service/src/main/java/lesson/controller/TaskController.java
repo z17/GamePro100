@@ -5,14 +5,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import service_client.data.Task;
 import service_client.data.request.TaskCreation;
+import service_client.result.Result;
 
 import javax.validation.Valid;
 import java.util.List;
 
+import static service_client.result.Result.run;
+
 
 @RestController
 @RequestMapping("/task")
-public class TaskController extends AbstractController {
+public class TaskController {
 
     @Autowired
     private TasksService service;

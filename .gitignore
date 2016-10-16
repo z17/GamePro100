@@ -13,3 +13,4 @@
 /task-executor-service/build
 /task-executor-service/answers
 /user-service/build
+application-prod.properties

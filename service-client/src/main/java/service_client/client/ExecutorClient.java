@@ -7,7 +7,7 @@ import service_client.result.TaskResultResponse;
 public class ExecutorClient extends Client {
     private static final String SERVICE_PATH = "/task-executor-service";
 
-    ExecutorClient() {
+    public ExecutorClient() {
         super(SERVICE_PATH);
     }
 

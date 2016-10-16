@@ -1,12 +1,11 @@
 package service_client.result;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 import service_client.data.Lesson;
 
-@ToString
-@Data
-@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 public class LessonResult extends Result<Lesson> {
+    public LessonResult(String message, Lesson data) {
+        super(message, data);
+    }
 }

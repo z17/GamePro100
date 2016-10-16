@@ -2,7 +2,7 @@
 Gateway to API:
 `http://localhost:8080/services/`
 
-Path to API url = `GatewayUrl` + `Service Path` + `Method Path`
+Path to API url = `Gateway Url` + `Service Path` + `Method Path`
 
 ### Lessons & tasks:
 Path to service: `/lesson-service`
@@ -23,3 +23,9 @@ Path to service: `/user-service`
 * get one user: `/{id}` `GET`
 * update user: `/update/` `POST`
 * create user: `/add/` `POST`
+
+### Results:
+Path to service: `/result-service`
+
+* submit: `/submit/` `POST`
+* get task results: `/getByTask/{id}` `GET`

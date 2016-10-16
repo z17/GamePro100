@@ -70,4 +70,11 @@ public class TaskServiceTest extends AbstractTest {
         val content = new String(Files.readAllBytes(mainFile));
         assertThat(content, containsString(code));
     }
+
+    @Test
+    public void getMap() throws IOException {
+        val map = taskService.getMap(1L);
+        System.out.println(map);
+        assertThat(map.isEmpty(), is(false));
+    }
 }

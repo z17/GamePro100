@@ -10,7 +10,7 @@ import java.util.List;
 public class TaskClient extends Client {
     private static final String SERVICE_PATH = "/lesson-service/task/";
 
-    TaskClient() {
+    public TaskClient() {
         super(SERVICE_PATH);
     }
 

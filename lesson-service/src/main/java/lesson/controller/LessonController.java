@@ -7,14 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import lesson.service.LessonsService;
 import service_client.data.Lesson;
+import service_client.result.Result;
 
 import javax.validation.Valid;
 import java.util.List;
 
+import static service_client.result.Result.run;
+
 
 @RestController
 @RequestMapping("/lesson")
-public class LessonController extends AbstractController {
+public class LessonController {
 
     @Autowired
     private LessonsService lessonService;

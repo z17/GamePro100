@@ -3,24 +3,25 @@ package user.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import service_client.data.User;
-import user.entity.UserEntity;
 import service_client.data.request.UserCreation;
+import service_client.result.Result;
 import user.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
+
+import static service_client.result.Result.run;
 
 @RestController
 @RequestMapping
-public class UserController extends AbstractController {
+public class UserController {
 
     @Autowired
     private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Result<Boolean> login(@RequestParam(value = "login") final String login,
-                         @RequestParam(value = "password") final String password) {
+                                 @RequestParam(value = "password") final String password) {
         return run(() -> userService.login(login, password));
     }
 

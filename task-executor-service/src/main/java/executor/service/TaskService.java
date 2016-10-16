@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Service
 public class TaskService {
@@ -28,7 +29,7 @@ public class TaskService {
         val path = prepareTask(request.getTaskId(), request.getCode());
         val taskExecutor = new TaskExecutor(path);
         val resultExec = taskExecutor.execTask();
-        removeTaskFolder(path);
+        //removeTaskFolder(path);
         return parseResult(resultExec);
     }
 
@@ -77,5 +78,14 @@ public class TaskService {
             return TaskResult.FailResult(resultExec.getOut());
 
         return TaskResult.SuccessResult(resultExec.getOut());
+    }
+
+    @Deprecated
+    public List<String> getMap(final Long taskID) {
+        try {
+            return Files.readAllLines(Paths.get("lessons\\task1\\map"));
+        } catch (IOException e) {
+            throw new RuntimeException("map not found");
+        }
     }
 }

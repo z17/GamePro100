@@ -18,7 +18,7 @@ var human = new PIXI.Sprite(humanImage);
 function initLevel() {
 	var worldMap = [];
 	$.ajax({
-		url: '/services/tasks/getMap?id=1',
+		url: '/services/task-executor-service/getMap/1',
 		async: false
 	}).done(function (data) {
 		worldMap = data.data;
@@ -209,11 +209,17 @@ var popup = new $.Popup();
 
 $('body').on('click', '.js-start', function () {
 	$.ajax({
-		url: '/services/answers/submit/',
-		data: { code: myCodeMirror.getValue(), id: 1 }
+		url: '/services/result-service/submit/',
+		method: 'POST',
+		contentType:"application/json",
+		dataType: "json",
+		data: JSON.stringify({
+			code: myCodeMirror.getValue(),
+			taskId: 1
+		})
 	}).done(function (data) {
 		var dataObject = data.data;
-		if(dataObject.status === 'COMPLETED') {
+		if(dataObject.status === 'SUCCESS') {
 			var commands = dataObject.text.split(';');
 			var firstCommand = commands.shift();
 

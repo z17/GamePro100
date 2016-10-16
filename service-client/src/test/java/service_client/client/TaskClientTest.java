@@ -17,6 +17,7 @@ public class TaskClientTest {
     public void testGet() throws Exception {
         val task = client.get(1L);
         assertNotNull(task);
+        System.out.println(task);
     }
 
     @Test

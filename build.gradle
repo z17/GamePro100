@@ -24,3 +24,12 @@ subprojects {
         mavenCentral()
     }
 }
+
+task runAll {
+}
+
+runAll.dependsOn ':gateway-service:bootRun'
+runAll.dependsOn ':lesson-service:bootRun'
+runAll.dependsOn ':user-service:bootRun'
+runAll.dependsOn ':task-executor-service:bootRun'
+runAll.dependsOn ':result-service:bootRun'

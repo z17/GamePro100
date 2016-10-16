@@ -7,7 +7,7 @@ import service_client.result.UserResult;
 public class UserClient extends Client {
     private static final String SERVICE_PATH = "/user-service";
 
-    UserClient() {
+    public UserClient() {
         super(SERVICE_PATH);
     }
 
