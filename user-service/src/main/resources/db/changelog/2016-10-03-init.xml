@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="Maksim Iliukovich" id="0" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="id" type="INT UNSIGNED">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="login" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="group" type="ENUM('ROLE_USER', 'ROLE_ADMIN')">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="users">
+            <column name="login" value="test_admin"/>
+            <column name="password" value="$2a$10$Y5/WkHqERKQztQvvikWn1ux9o9A6JyuL7pDAI53QjvZKq65z9GkIG"/>
+            <column name="group" value="ROLE_ADMIN"/>
+            <column name="email" value="admin@google.com"/>
+            <column name="name" value="Иван"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="login" value="test_user"/>
+            <column name="password" value="$2a$10$keDYSroxPLepO9twWl21veMy8DhnKp.CYgBol0Yo94XkMYFZWiVpa"/>
+            <column name="group" value="ROLE_USER"/>
+            <column name="email" value="user@user.com"/>
+            <column name="name" value="Иван"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

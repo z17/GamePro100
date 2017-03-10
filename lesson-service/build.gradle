@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+    id 'war'
+    id 'io.franzbecker.gradle-lombok' version '1.6'
+    id 'org.liquibase.gradle' version '1.2.1'
+}
+
+apply plugin: 'spring-boot'
+
+springBoot {
+    mainClass 'lesson.App'
+}
+
+dependencies {
+    compile ("org.liquibase:liquibase-core:${liquibaseCoreVersion}")
+    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.4'
+
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('com.fasterxml.jackson.datatype:jackson-datatype-hibernate4')
+    compile('commons-io:commons-io:2.5')
+
+    compile project(':service-client')
+
+    testCompile ('com.google.code.gson:gson:2.6.2')
+    testCompile ('org.springframework.boot:spring-boot-starter-test')
+}

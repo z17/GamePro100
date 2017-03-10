@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="Maksim Iliukovich" id="0" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+
+        <createTable tableName="lessons">
+            <column autoIncrement="true" name="id" type="INT UNSIGNED">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="tasks">
+            <column autoIncrement="true" name="id" type="INT UNSIGNED">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="lesson_id" type="INT UNSIGNED">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="map_path" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex indexName="tasks_ibfk_1" tableName="tasks">
+            <column name="lesson_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="lesson_id" baseTableName="tasks" constraintName="tasks_ibfk_1"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="lessons"/>
+
+        <insert tableName="lessons">
+            <column name="name" value="Тестовый урок"/>
+        </insert>
+
+        <insert tableName="tasks">
+            <column name="lesson_id" value="1"/>
+            <column name="name" value="Первый урок"/>
+            <column name="description" value="Тест"/>
+            <column name="map_path" value="123"/>
+        </insert>
+
+    </changeSet>
+</databaseChangeLog>

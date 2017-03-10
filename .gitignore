@@ -6,3 +6,11 @@
 /lessons/*/out/
 /tmp/
 /target/
+/classes/
+/build/
+/gateway-service/build
+/lesson-service/build
+/task-executor-service/build
+/task-executor-service/answers
+/user-service/build
+application-prod.properties
