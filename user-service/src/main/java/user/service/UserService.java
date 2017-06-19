@@ -63,4 +63,8 @@ public class UserService {
     public User get(Long id) {
         return userRepository.findOne(id).toDto();
     }
+
+    public UserEntity getByLogin(String login) {
+        return userRepository.findByLogin(login);
+    }
 }

@@ -29,3 +29,6 @@ Path to service: `/result-service`
 
 * submit: `/submit/` `POST`
 * get task results: `/getByTask/{id}` `GET`
+
+***
+Information about services you can read [here](services.md)

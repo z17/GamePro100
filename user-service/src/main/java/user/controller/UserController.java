@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import static service_client.result.Result.run;
 
 @RestController
-@RequestMapping
+@RequestMapping(value = "/rest")
 public class UserController {
 
     @Autowired
