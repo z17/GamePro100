@@ -2,7 +2,14 @@ package user.service;
 
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service_client.data.User;
@@ -17,6 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 @Transactional
 public class UserService {
+
+    @Autowired
+    private GetTokenService getTokenService;
 
     @Autowired
     private UserRepository userRepository;
@@ -46,12 +56,14 @@ public class UserService {
         return userRepository.save(userEntity).toDto();
     }
 
-    // todo: implement!
-    public boolean login(final String login, final String password) {
-        throw new UnsupportedOperationException("implement this");
+    public String login(final String login, final String password) {
+        UserEntity user = userRepository.findByLogin(login);
+        if (user != null && bcryptEncoder.matches(password, user.getPassword())) {
+            return getTokenService.getToken(user);
+        }
+        throw new RuntimeException("error");
     }
 
-    // todo: implement!
     public boolean logout(final HttpServletRequest request, final HttpServletResponse response) {
         throw new UnsupportedOperationException("implement this");
     }

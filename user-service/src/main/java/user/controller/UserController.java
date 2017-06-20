@@ -20,7 +20,7 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Result<Boolean> login(@RequestParam(value = "login") final String login,
+    public Result<String> login(@RequestParam(value = "login") final String login,
                                  @RequestParam(value = "password") final String password) {
         return run(() -> userService.login(login, password));
     }

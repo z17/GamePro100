@@ -27,30 +27,17 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                     .disable()
-                .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
-                .and()
-                .logout()
-                    .permitAll()
-                .and()
-//                .addFilterAfter(restTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(restTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                     .antMatchers("/rest/get/1").permitAll()
+                    .antMatchers("/rest/login").permitAll()
                     .antMatchers("/rest/**").authenticated();
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER");
+    @Bean(name = "restTokenAuthenticationFilter")
+    public TokenAuthenticationFilter restTokenAuthenticationFilter() {
+        TokenAuthenticationFilter restTokenAuthenticationFilter = new TokenAuthenticationFilter();
+        restTokenAuthenticationFilter.setAuthenticationManager(tokenAuthenticationManager);
+        return restTokenAuthenticationFilter;
     }
-
-//    @Bean(name = "restTokenAuthenticationFilter")
-//    public TokenAuthenticationFilter restTokenAuthenticationFilter() {
-//        TokenAuthenticationFilter restTokenAuthenticationFilter = new TokenAuthenticationFilter();
-//        restTokenAuthenticationFilter.setAuthenticationManager(tokenAuthenticationManager);
-//        return restTokenAuthenticationFilter;
-//    }
 }

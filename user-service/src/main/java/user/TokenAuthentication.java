@@ -15,14 +15,12 @@ import java.util.Map;
 
 public class TokenAuthentication implements Authentication {
     private String token;
-    private User details;
     private Collection<? extends GrantedAuthority> authorities;
     private boolean isAuthenticated;
     private UserEntity principal;
 
-    public TokenAuthentication(String token, User user) {
+    public TokenAuthentication(String token) {
         this.token = token;
-        this.details = user;
     }
 
     public TokenAuthentication(String token, boolean isAuthenticated,
@@ -45,7 +43,7 @@ public class TokenAuthentication implements Authentication {
 
     @Override
     public Object getDetails() {
-        return details;
+        return null;
     }
 
     @Override
