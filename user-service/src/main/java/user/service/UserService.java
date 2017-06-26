@@ -1,15 +1,12 @@
 package user.service;
 
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service_client.data.User;
@@ -18,15 +15,20 @@ import service_client.data.UserRole;
 import user.repository.UserRepository;
 import service_client.data.request.UserCreation;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @Transactional
 public class UserService {
 
-    @Autowired
-    private GetTokenService getTokenService;
+    @Value("${token.alive}")
+    private int tokenDaysAlive;
+
+    @Value("${token.key}")
+    private String key;
 
     @Autowired
     private UserRepository userRepository;
@@ -59,13 +61,9 @@ public class UserService {
     public String login(final String login, final String password) {
         UserEntity user = userRepository.findByLogin(login);
         if (user != null && bcryptEncoder.matches(password, user.getPassword())) {
-            return getTokenService.getToken(user);
+            return getToken(user);
         }
-        throw new RuntimeException("error");
-    }
-
-    public boolean logout(final HttpServletRequest request, final HttpServletResponse response) {
-        throw new UnsupportedOperationException("implement this");
+        throw new RuntimeException("Error");
     }
 
     private String encodePassword(final String password) {
@@ -79,4 +77,20 @@ public class UserService {
     public UserEntity getByLogin(String login) {
         return userRepository.findByLogin(login);
     }
+
+    private String getToken(final UserEntity user) {
+        final Map<String, Object> tokenData = new HashMap<>();
+        tokenData.put(TokenField.ID.getValue(), user.getId());
+        tokenData.put(TokenField.LOGIN.getValue(), user.getLogin());
+        tokenData.put(TokenField.GROUP.getValue(), user.getGroup());
+        tokenData.put(TokenField.CREATE_DATE.getValue(), new Date().getTime());
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, tokenDaysAlive);
+        tokenData.put(TokenField.EXPIRATION_DATE.getValue(), calendar.getTime());
+        JwtBuilder jwtBuilder = Jwts.builder();
+        jwtBuilder.setExpiration(calendar.getTime());
+        jwtBuilder.setClaims(tokenData);
+        return jwtBuilder.signWith(SignatureAlgorithm.HS512, key).compact();
+    }
+
 }
