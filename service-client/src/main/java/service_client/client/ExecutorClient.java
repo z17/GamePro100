@@ -11,7 +11,7 @@ public class ExecutorClient extends Client {
         super(SERVICE_PATH);
     }
 
-    public TaskResult submit(final SubmitRequest request) {
-        return post("/submit", request, TaskResultResponse.class).getData();
+    public TaskResult submit(final SubmitRequest request, final String token) {
+        return post("/submit", request, TaskResultResponse.class, token).getData();
     }
 }

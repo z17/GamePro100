@@ -12,7 +12,7 @@ springBoot {
 }
 
 dependencies {
-    compile ("org.liquibase:liquibase-core:${liquibaseCoreVersion}")
+    compile("org.liquibase:liquibase-core:${liquibaseCoreVersion}")
     compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.4'
 
     compile('org.springframework.boot:spring-boot-starter-web')
@@ -20,9 +20,10 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('com.fasterxml.jackson.datatype:jackson-datatype-hibernate4')
     compile('commons-io:commons-io:2.5')
+    compile ('io.jsonwebtoken:jjwt:0.7.0')
 
     compile project(':service-client')
 
-    testCompile ('com.google.code.gson:gson:2.6.2')
-    testCompile ('org.springframework.boot:spring-boot-starter-test')
+    testCompile('com.google.code.gson:gson:2.6.2')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }

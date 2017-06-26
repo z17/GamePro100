@@ -22,11 +22,11 @@ public class LessonClient extends Client {
         return get("", LessonListResult.class).getData();
     }
 
-    public Lesson add(final LessonCreation lessonCreation) {
-        return post( "/add", lessonCreation, LessonResult.class).getData();
+    public Lesson add(final LessonCreation lessonCreation, final String token) {
+        return post( "/add", lessonCreation, LessonResult.class, token).getData();
     }
 
-    public Lesson update(final Lesson lesson) {
-        return post("/update", lesson, LessonResult.class).getData();
+    public Lesson update(final Lesson lesson, final String token) {
+        return post("/update", lesson, LessonResult.class, token).getData();
     }
 }
