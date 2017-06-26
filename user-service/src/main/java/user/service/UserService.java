@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service_client.data.User;
+import service_client.security.TokenData;
 import user.entity.UserEntity;
 import service_client.data.UserRole;
 import user.repository.UserRepository;
@@ -74,19 +75,19 @@ public class UserService {
         return userRepository.findOne(id).toDto();
     }
 
-    public UserEntity getByLogin(String login) {
+    public UserEntity getByLogin(final String login) {
         return userRepository.findByLogin(login);
     }
 
     private String getToken(final UserEntity user) {
         final Map<String, Object> tokenData = new HashMap<>();
-        tokenData.put(TokenField.ID.getValue(), user.getId());
-        tokenData.put(TokenField.LOGIN.getValue(), user.getLogin());
-        tokenData.put(TokenField.GROUP.getValue(), user.getGroup());
-        tokenData.put(TokenField.CREATE_DATE.getValue(), new Date().getTime());
+        tokenData.put(TokenData.ID.getValue(), user.getId());
+        tokenData.put(TokenData.LOGIN.getValue(), user.getLogin());
+        tokenData.put(TokenData.GROUP.getValue(), user.getGroup());
+        tokenData.put(TokenData.CREATE_DATE.getValue(), new Date().getTime());
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, tokenDaysAlive);
-        tokenData.put(TokenField.EXPIRATION_DATE.getValue(), calendar.getTime());
+        tokenData.put(TokenData.EXPIRATION_DATE.getValue(), calendar.getTime());
         JwtBuilder jwtBuilder = Jwts.builder();
         jwtBuilder.setExpiration(calendar.getTime());
         jwtBuilder.setClaims(tokenData);

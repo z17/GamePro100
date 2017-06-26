@@ -1,9 +1,8 @@
-package user;
+package service_client.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import user.service.TokenUser;
 
 import java.util.Collection;
 import java.util.Collections;

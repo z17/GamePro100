@@ -12,6 +12,7 @@ springBoot {
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-security')
     compile('commons-io:commons-io:2.5')
     compile project(':service-client')
 

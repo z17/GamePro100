@@ -1,28 +1,19 @@
-package user.service;
+package service_client.security;
 
-import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClaims;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.stereotype.Service;
-import user.TokenAuthentication;
-import user.entity.UserEntity;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
-@Service
 public class TokenService {
 
-    @Value("${token.key}")
     private String key;
 
-    @Value("${token.alive}")
-    private int tokenDaysAlive;
+    public void setKey(String key) {
+        this.key = key;
+    }
+
 
     public TokenAuthentication parseAndCheckToken(final String token) {
         DefaultClaims claims;
@@ -32,18 +23,18 @@ public class TokenService {
             throw new AuthenticationServiceException("Token corrupted");
         }
 
-        if (claims.get(TokenField.EXPIRATION_DATE.getValue(), Long.class) == null) {
+        if (claims.get(TokenData.EXPIRATION_DATE.getValue(), Long.class) == null) {
             throw new AuthenticationServiceException("Invalid token");
         }
 
-        Date expiredDate = new Date(claims.get(TokenField.EXPIRATION_DATE.getValue(), Long.class));
+        Date expiredDate = new Date(claims.get(TokenData.EXPIRATION_DATE.getValue(), Long.class));
         if (!expiredDate.after(new Date())) {
             throw new AuthenticationServiceException("Token expired date error");
         }
 
-        Long id = claims.get(TokenField.ID.getValue(), Number.class).longValue();
-        String login = claims.get(TokenField.LOGIN.getValue(), String.class);
-        String group = claims.get(TokenField.GROUP.getValue(), String.class);
+        Long id = claims.get(TokenData.ID.getValue(), Number.class).longValue();
+        String login = claims.get(TokenData.LOGIN.getValue(), String.class);
+        String group = claims.get(TokenData.GROUP.getValue(), String.class);
 
         TokenUser user = new TokenUser(id, login, group);
 

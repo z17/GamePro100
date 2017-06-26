@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import service_client.data.User;
 import service_client.data.request.UserCreation;
 import service_client.result.Result;
+import service_client.security.TokenData;
 import user.service.UserService;
 
 import static service_client.result.Result.run;

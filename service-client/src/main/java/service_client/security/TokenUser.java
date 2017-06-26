@@ -1,4 +1,4 @@
-package user.service;
+package service_client.security;
 
 public final class TokenUser {
     private final Long id;

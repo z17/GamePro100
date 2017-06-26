@@ -1,10 +1,7 @@
-package user.filter;
+package service_client.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
-import user.service.TokenService;
-import user.TokenAuthentication;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -15,12 +12,15 @@ import java.io.IOException;
 
 public class TokenAuthenticationFilter extends GenericFilterBean {
 
-    @Autowired
-    private TokenService tokenService;
+    private final TokenService tokenService;
+
+    public TokenAuthenticationFilter(final TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        final String token = ((HttpServletRequest) request).getHeader("token");
+        final String token = ((HttpServletRequest) request).getHeader(TokenData.TOKEN.getValue());
         if (token == null) {
             chain.doFilter(request, response);
             return;

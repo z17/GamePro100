@@ -1,5 +1,6 @@
 package user;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import user.filter.TokenAuthenticationFilter;
+import service_client.security.TokenAuthenticationFilter;
+import service_client.security.TokenService;
 
 
 @SpringBootApplication
@@ -22,6 +24,10 @@ import user.filter.TokenAuthenticationFilter;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled=true)
 public class App extends WebSecurityConfigurerAdapter {
+
+    @Value("${token.key}")
+    private String tokenKey;
+
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
     }
@@ -38,11 +44,18 @@ public class App extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .disable()
-                .addFilterAfter(restTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterAfter(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-    @Bean(name = "restTokenAuthenticationFilter")
-    public TokenAuthenticationFilter restTokenAuthenticationFilter() {
-        return new TokenAuthenticationFilter();
+    @Bean(name = "tokenAuthenticationFilter")
+    public TokenAuthenticationFilter tokenAuthenticationFilter() {
+        return new TokenAuthenticationFilter(tokenService());
+    }
+
+    @Bean(name = "tokenService")
+    public TokenService tokenService() {
+        TokenService tokenService = new TokenService();
+        tokenService.setKey(tokenKey);
+        return tokenService;
     }
 }

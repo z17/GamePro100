@@ -17,6 +17,7 @@ dependencies {
 
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-security')
     compile('com.fasterxml.jackson.datatype:jackson-datatype-hibernate4')
     compile('commons-io:commons-io:2.5')
 

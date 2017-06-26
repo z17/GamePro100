@@ -4,6 +4,7 @@ package lesson.controller;
 import lesson.entity.LessonEntity;
 import lesson.request.LessonCreation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import lesson.service.LessonsService;
 import service_client.data.Lesson;
@@ -32,11 +33,13 @@ public class LessonController {
         return run(() -> lessonService.getList());
     }
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Result<Lesson> add(@RequestBody @Valid final LessonCreation lesson) {
         return run(() -> lessonService.add(lesson));
     }
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public Result<Lesson> update(@RequestBody final LessonEntity lesson) {
         return run(() -> lessonService.update(lesson));

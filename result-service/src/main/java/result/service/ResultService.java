@@ -31,16 +31,16 @@ public class ResultService {
     @Autowired
     private ExecutorClient executorClient;
 
-    public TaskResult submit(final SubmitRequest submit) {
+    public TaskResult submit(final SubmitRequest submit, final String token) {
 
         val task = taskClient.get(submit.getTaskId());
         if (task == null)
             throw new RuntimeException("Invalid task id");
 
-        val user = userClient.get(getCurrentUser());
+        val user = userClient.get(getCurrentUser(), token);
         // todo: check access user to current lesson and task
 
-        val result = executorClient.submit(submit);
+        val result = executorClient.submit(submit, token);
 
         val answerEntity = new AnswerEntity();
         answerEntity.setAnswer(submit.getCode());

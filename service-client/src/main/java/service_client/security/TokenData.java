@@ -1,6 +1,7 @@
-package user.service;
+package service_client.security;
 
-public enum TokenField {
+public enum TokenData {
+    TOKEN("token"),
     ID("id"),
     LOGIN("login"),
     GROUP("group"),
@@ -9,7 +10,7 @@ public enum TokenField {
 
     private final String value;
 
-    TokenField(final String value) {
+    TokenData(final String value) {
         this.value = value;
     }
 
