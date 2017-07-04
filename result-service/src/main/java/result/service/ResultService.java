@@ -2,7 +2,7 @@ package result.service;
 
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.task.TaskExecutor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import result.entity.AnswerEntity;
@@ -12,6 +12,7 @@ import service_client.client.TaskClient;
 import service_client.client.UserClient;
 import service_client.data.TaskResult;
 import service_client.data.request.SubmitRequest;
+import service_client.security.TokenUser;
 
 import java.util.List;
 
@@ -57,7 +58,6 @@ public class ResultService {
     }
 
     private long getCurrentUser() {
-        // todo: implement this
-        return 1L;
+        return ((TokenUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
     }
 }
